@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <EditText 
+        xmlns:android="http://schemas.android.com/apk/res/android"
+       android:hint="请在此输入昵称"
+       android:layout_marginTop="10dp"
+         style="@style/DialogText" 
+       android:id="@+id/nickname_edit_aty_editor"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:maxLength="20"
+       android:lines="1"
+       />

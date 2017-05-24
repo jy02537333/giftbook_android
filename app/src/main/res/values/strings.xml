@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">礼薄</string>
+    <string name="landing_phone">手机号码</string>
+    <string name="landing_passworld">输入密码</string>
+    <string name="unit"></string>
+    <string name="error_a">数据输入错了！</string>
+    <string name="error_b">数据输入错了！</string>
+    <string name="error_c">你能认真点不？</string>
+    <string name="error_d">又输入错了!刷牙去吧...</string>
+</resources>

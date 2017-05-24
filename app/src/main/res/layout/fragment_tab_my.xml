@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:fillViewport="true" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="vertical" >
+        <pri.zxw.library.view.TitleBar
+            xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/fragment_my_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            titleBarStyle:text="我的"/>
+
+        <include layout="@layout/fragment_my" ></include>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+    </LinearLayout>
+</ScrollView>

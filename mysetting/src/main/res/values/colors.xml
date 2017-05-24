@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="module_color" >@color/module_color_utils</color>
+    <color name="my_gray" >#969696</color>
+    <color name="my_white" >#ffffff</color>
+    <color name="dialog_transparent">#89000000</color>
+    <color name="module_color_utils" >#f16252</color>
+    <color name="utils_white">#ffffffff</color>
+    <color name="utils_gray">#9e9e9e</color>
+</resources>

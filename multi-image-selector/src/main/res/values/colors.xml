@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mis_actionbar_color">#21282C</color>
+    <!-- 顶部view的背景颜色 -->
+    <color name="mis_view_top_layout_bg">#e84d4e</color>
+</resources>

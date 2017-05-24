@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- dialog的选择项 -->
+    <color name="dialog_line">#c6c6c6</color>
+    <color name="dialog_blue">#037BFF</color>
+    <color name="dialog_red">#FD4A2E</color>
+    <color name="dialog_black">#000000</color>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <pri.zxw.library.view.TitleBar
+        xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/act_group_member_list_title_bar"
+        titleBarStyle:text="成员"
+        titleBarStyle:left_visibility="visible"
+        titleBarStyle:right_text="添加"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/act_group_member_list_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <com.zxw.giftbook.view.ListViewEmptyView
+        android:id="@+id/act_group_member_list_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

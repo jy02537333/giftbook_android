@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <pri.zxw.library.view.TitleBar
+        xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/act_gift_money_add_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        titleBarStyle:left_visibility="visible"
+        titleBarStyle:text="记一笔" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/act_gift_money_add_name_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@android:drawable/edit_text"
+            android:hint="收礼人"
+            android:textColorHint="@color/com_hint_font_gray_color"
+            android:inputType="text"
+            android:maxLength="10" />
+            <TextView
+                android:id="@+id/act_gift_money_add_member_add_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_bg_app_btn"
+                android:layout_marginRight="10dp"
+                android:padding="3dp"
+                android:textColor="@color/com_base_btn_color"
+                android:visibility="gone"
+                android:text="选择收礼人"/>
+        </RelativeLayout>
+        <EditText
+            android:id="@+id/act_gift_money_add_money_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@android:drawable/edit_text"
+            android:hint="礼金金额"
+            android:textColorHint="@color/com_hint_font_gray_color"
+            android:inputType="numberDecimal"
+            android:maxLength="10" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@android:drawable/edit_text">
+            <TextView
+                android:id="@+id/act_gift_money_add_type_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="90dp"
+                android:gravity="center_vertical"
+                android:textSize="18sp"
+                android:textColorHint="@color/com_hint_font_gray_color"
+                android:hint="选择送礼类型" />
+
+            <TextView
+                android:id="@+id/act_gift_money_add_type_add_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/shape_bg_app_btn"
+                android:layout_marginRight="1dp"
+                android:padding="3dp"
+                android:textColor="@color/com_base_btn_color"
+                android:text="添加送礼类型" />
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/act_gift_money_add_type_add_tv"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/drop_down"/>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/act_gift_money_add_submit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/select_shape_bg_btn"
+            android:textColor="@color/font_btn_bg_color"
+            android:text="保存"/>
+    </LinearLayout>
+</LinearLayout>

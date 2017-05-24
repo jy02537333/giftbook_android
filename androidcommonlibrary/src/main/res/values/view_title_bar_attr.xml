@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="titleBarStyle">
+        <attr name="text" format="string"/>
+        <attr name="right_text" format="string"/>
+        <attr name="right_backgroup" format="integer"/>
+        <attr name="left_visibility" format="enum">
+            <enum name="visible" value="0x00000000" />
+            <enum name="invisible" value="0x00000004" />
+            <enum name="gone" value="0x00000008" />
+        </attr>
+    </declare-styleable>
+</resources>

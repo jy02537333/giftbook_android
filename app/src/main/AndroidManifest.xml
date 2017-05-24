@@ -1,0 +1,118 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zxw.giftbook">
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_CHECKIN_PROPERTIES" />
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE"   />
+
+
+
+    <!-- 友盟推送权限 开始 -->
+    <uses-permission android:name="android.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_REPLACED" />
+    <!--【必选】用以设置前台是否显示通知-->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <!-- 友盟推送权限 结束 -->
+    <!-- 在SDCard中创建与删除文件权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 往SDCard写入数据权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 震动权限 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 调用本地相机 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 清除应用缓存 -->
+    <uses-permission android:name="android.permission.CLEAR_APP_CACH" />
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_ADDED" />
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_CHANGED" />
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_INSTALL" />
+    <!--     <uses-permission android:name="android.permission.SEND_SMS" /> -->
+    <!--     <uses-permission android:name="android.permission.RECEIVE_SMS" /> -->
+    <!--     <uses-permission android:name="android.permission.READ_SMS" /> -->
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE"/>
+
+
+
+
+
+
+    <application
+        android:name=".FtpApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/logo"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Welcome"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+
+        <activity android:name=".MainAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.login.LoginAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.SettingAct"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".Activity.GiftMoneyAddAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.GiftMoneyAddNewAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.GroupMemberAddAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.GroupMemberAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.AffairEditAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.contact.ContactListActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.contact.ContactListSelectActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="me.nereo.multi_image_selector.utils.choosepic.BitmapCache"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="me.nereo.multi_image_selector.utils.choosepic.GalleryActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <!--    -->
+        <activity android:name=".view.time_picker.DatePickerWindow"
+            android:screenOrientation="portrait">
+        </activity>
+        <!-- -->
+        <activity android:name=".Test33Act"
+            android:screenOrientation="portrait">
+        </activity>
+    </application>
+
+</manifest>

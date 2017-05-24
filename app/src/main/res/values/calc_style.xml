@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <style name="calc_style" >
+            <item name="android:layout_width">0dp</item>
+            <item name="android:layout_height">wrap_content</item>
+            <item name="android:layout_weight">1</item>
+            <item name="android:layout_margin">3dp</item>
+            <item name="android:background">@drawable/select_shape_btn_calc_bg</item>
+            <item name="android:textStyle">bold</item>
+            <item name="android:textSize">20sp</item>
+        </style>
+    <style name="calc_style_2" >
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:background">@drawable/select_shape_btn_calc_bg</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+</resources>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+<RelativeLayout 
+    android:id="@+id/item_list_contact_select_lay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!-- 首字母 -->
+
+    <TextView
+        android:id="@+id/item_list_contact_select_alpha_tv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#f5f5f5"
+        android:paddingLeft="10dip"
+        android:textColor="#555555"
+        android:visibility="gone" />
+
+ 
+    <CheckBox 
+         android:id="@+id/item_list_contact_select_cbk"
+         android:layout_marginLeft="5dp"
+         android:gravity="center"
+           android:layout_below="@+id/item_list_contact_select_alpha_tv"
+          style="@style/CustomCheckbox40Theme"
+             android:layout_alignParentLeft="true"
+              android:layout_marginBottom="10dip"
+        android:layout_marginTop="3dip"
+           android:layout_width="30dip"
+        android:layout_height="55dip"
+       />
+   <!-- 联系人信息 -->
+    <ImageView
+        android:id="@+id/item_list_contact_select_head_qcb"
+        android:layout_width="55dip"
+        android:layout_height="55dip"
+            android:layout_below="@+id/item_list_contact_select_alpha_tv"
+        android:layout_toRightOf="@+id/item_list_contact_select_cbk"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="10dip"
+        android:layout_marginTop="3dip"
+        android:src="@mipmap/user_default" />
+
+    <TextView
+        android:id="@+id/item_list_contact_select_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5.0dip"
+        android:layout_toRightOf="@+id/item_list_contact_select_head_qcb"
+        android:singleLine="true"
+        android:textColor="#555555"
+        android:textSize="16dp" 
+        android:text="名字"/>
+
+    <TextView
+        android:id="@+id/item_list_contact_select_phone_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5.0dip"
+       android:paddingTop="35dp"
+       android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/item_list_contact_select_head_qcb"
+        android:singleLine="true"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="#999999" 
+        android:text="电话"/>
+     <TextView     
+         android:layout_width="match_parent"
+        android:layout_height="10dp"
+         android:layout_below="@+id/item_list_contact_select_cbk"
+         />
+</RelativeLayout>
+
+</RelativeLayout>

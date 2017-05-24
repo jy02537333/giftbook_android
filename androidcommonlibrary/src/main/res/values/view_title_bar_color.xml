@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 顶部view的背景颜色 -->
+    <color name="view_top_layout_bg">#e84d4e</color>
+    <color name="gray_transparent">#22000000</color>
+    <color name="title_color">#515151</color>
+    <color name="title_right_color">#ffffff</color>
+</resources>

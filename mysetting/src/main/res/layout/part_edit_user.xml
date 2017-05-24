@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eaeaea"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/p_edit_user_head_lay"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#fff"
+            android:layout_marginTop="1dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="头像"
+                android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="6">
+                <pri.zxw.utils.view.CircleImageView
+                android:id="@+id/p_edit_user_head_img"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@mipmap/not_headimg"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="3dp"
+                    android:drawableRight="@mipmap/arrows"
+                    android:gravity="right|center_vertical"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#eaeaea"/>
+        <ListView
+            android:id="@+id/p_edit_user_lv"
+            android:layout_width="match_parent"
+            android:layout_height="224dp">
+        </ListView>
+
+        <LinearLayout
+            android:id="@+id/p_edit_user_desc_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff"
+            android:layout_marginTop="1dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="简介"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/p_edit_user_desc_edit"
+                android:background="@drawable/selector_user_desc_border"
+                android:padding="5dp"
+                android:gravity="left|top"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_weight="6" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/p_edit_logout_btn"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="#fff"
+            android:gravity="center"
+            android:text="退出"
+            android:textColor="#d04949" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#eaeaea"/>
+    </LinearLayout>
+
+</LinearLayout>

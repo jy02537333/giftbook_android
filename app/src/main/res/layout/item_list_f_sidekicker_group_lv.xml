@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        style="@style/f_sidekicker_group_item_lay_style"
+        >
+        <ImageView
+            style="@style/f_sidekicker_group_item_icon_style"/>
+        <TextView
+            android:id="@+id/item_list_sidekicker_group_item_title_tv"
+            style="@style/f_sidekicker_group_item_title_style"
+            android:text="朋友"/>
+        <TextView
+            android:id="@+id/item_list_sidekicker_group_item_num_tv"
+            style="@style/f_sidekicker_group_item_num_style"
+            android:text="29" />
+        <ImageView
+            style="@style/f_sidekicker_group_item_more_style"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <pri.zxw.library.view.TitleBar
+        android:id="@+id/lay_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/act_text_project_details_title"
+                android:layout_margin="10dp"
+                android:textSize="22dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#333"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1亿元善款捐助2万贫困生"/>
+
+            <View  android:layout_height="3px"
+                android:layout_width="match_parent"
+                android:background="#EDEDED"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RelativeLayout
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="100dp"
+                    android:layout_height="90dp"
+                    android:id="@+id/webMainLayout"  >
+
+                    <ImageView
+                        android:id="@+id/act_img_project_details_project"
+                        android:layout_width="100dp"
+                        android:layout_height="90dp"
+                        android:layout_weight="8"
+                        android:scaleType="fitXY"
+                        android:background="@mipmap/temp_img" />
+
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:background="@mipmap/project_time"/>
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:textSize="12dp"
+                            android:lines="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:ellipsize="end"
+                            android:textColor="#999"
+                            android:text="起始时间"/>
+                        <TextView
+                            android:id="@+id/act_text_project_details_time"
+                            android:layout_marginTop="5dp"
+                            android:lines="1"
+                            android:textSize="12dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:ellipsize="end"
+                            android:textColor="#999"
+                            android:text="12-06-08"/>
+                    </LinearLayout>
+                    <View  android:layout_height="2px"
+                        android:layout_width="match_parent"
+                        android:background="#EDEDED"/>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:background="@mipmap/project_loding"/>
+                        <TextView
+                            android:layout_marginTop="5dp"
+                            android:lines="1"
+                            android:textSize="12dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:ellipsize="end"
+                            android:textColor="#999"
+                            android:text="当前进度"/>
+                        <TextView
+                            android:id="@+id/act_text_project_details_plan"
+                            android:layout_marginTop="5dp"
+                            android:lines="1"
+                            android:textSize="12dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:ellipsize="end"
+                            android:textColor="#F5372E"
+                            android:text="75%"/>
+                    </LinearLayout>
+                    <View  android:layout_height="2px"
+                        android:layout_width="match_parent"
+                        android:background="#EDEDED"/>
+                    <FrameLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="bottom|center_vertical">
+
+
+                        <LinearLayout
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:background="@mipmap/project_about"/>
+                            <TextView
+                                android:id="@+id/act_text_project_details_content"
+                                android:lines="3"
+                                android:layout_marginTop="3dp"
+                                android:textSize="11dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="呼吁其他国家都要遵守裁决并维护关系。”"
+                                android:textColor="#BBBBBB"
+                                android:layout_gravity="left|center_vertical" />
+
+                        </LinearLayout>
+
+
+                    </FrameLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+            <View  android:layout_height="10px"
+                android:layout_width="match_parent"
+                android:background="#EDEDED"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp">
+                <TextView
+
+                    android:textSize="18dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="项目详情"
+                    android:textColor="#FF6600"
+                    android:layout_marginLeft="5dp"/>
+
+            </FrameLayout>
+            <WebView
+                android:id="@+id/ProjectWebView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#999"
+                ></WebView>
+            <View  android:layout_height="20px"
+                android:layout_width="match_parent"
+                android:background="#EDEDED"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp">
+                <TextView
+                    android:id="@+id/act_text_project_details_AllComment"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="全部评论(200)"
+                    android:textColor="#FF6600"
+                    android:layout_marginLeft="5dp"/>
+
+            </FrameLayout>
+            <View  android:layout_height="2px"
+                android:layout_width="match_parent"
+                android:background="#EDEDED"/>
+
+            <!--评论列表-->
+            <ListView
+                android:layout_weight="1"
+                android:id="@+id/act_list_project_details_commentList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+            </ListView>
+            <View  android:layout_height="2px"
+                android:layout_width="match_parent"
+                android:background="#EDEDED"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        >
+        <!--评论-->
+
+        <EditText
+            android:id="@+id/act_edit_project_details_InputComment"
+            android:padding="5dp"
+            android:layout_marginLeft="15dp"
+            android:hint="请输入评论"
+            android:textColor="#333"
+            android:layout_width="260dp"
+            android:layout_height="52dp"
+            android:background="@drawable/shap_dialog_edit_bg"
+            />
+        <ImageButton
+            android:layout_margin="10dp"
+            android:background="@mipmap/biaoqing"
+            android:layout_width="35dp"
+            android:layout_height="35dp" />
+        <Button
+            android:id="@+id/act_btn_project_details_comment"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+
+            android:background="@drawable/layer_index_btn_send_bg"
+            android:textColor="#ffffff"
+            android:text="发表"
+            />
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">MySetting</string>
+    <!-- 我的 设置 -->
+    <string name="my_setting_login_title">我</string>
+    <string name="my_setting_login_alert_str">登录新发现体验更多功能</string>
+    <string name="my_setting_cur_ver">当前版本</string>
+    <string name="my_setting_about">关于 点线资讯</string>
+    <string name="my_setting_feedback">意见反馈</string>
+    <string name="my_setting_more">更多设置</string>
+    <string name="my_setting_clear_cache">清除缓存</string>
+    <string name="my_setting_collect">我的收藏</string>
+    <string name="my_setting_publish">我的爆料</string>
+    <string name="my_setting_find">发现</string>
+    <string name="my_setting_comment">我的评论</string>
+    <string name="my_setting_manager">账号管理</string>
+    <string name="my_setting_info">我的消息</string>
+    <!-- 我的 设置 -->
+</resources>

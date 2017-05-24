@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <pri.zxw.library.view.TitleBar
+        xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/f_financial_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        titleBarStyle:text="金融超市"
+        titleBarStyle:left_visibility="gone" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/f_financial_SwipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+            <WebView
+                android:id="@+id/f_financial_wv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></WebView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>

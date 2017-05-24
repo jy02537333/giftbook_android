@@ -1,0 +1,13 @@
+<resources>
+
+    <style name="mis_PopupAnimation" mce_bogus="1" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/mis_a_publish_translate_in</item>
+        <item name="android:windowExitAnimation">@anim/mis_a_publish_translate_out</item>
+    </style>
+	
+	<style name="mis_PopupAnimation1" parent="android:Animation" mce_bogus="1">
+        <item name="android:windowEnterAnimation">@anim/mis_popup_enter</item>
+        <item name="android:windowExitAnimation">@anim/mis_popup_exit</item>
+    </style> 
+    
+</resources>

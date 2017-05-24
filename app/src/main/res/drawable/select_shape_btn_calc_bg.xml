@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:drawable="@drawable/shape_btn_calc_bg_p"></item>
+    <item android:state_selected="false" android:drawable="@drawable/shape_btn_calc_bg"></item>
+    <item android:drawable="@drawable/shape_btn_calc_bg_p" android:state_checked="true"/>
+    <item android:drawable="@drawable/shape_btn_calc_bg"  android:state_checked="false"/>
+    <item android:state_focused="true" android:drawable="@drawable/shape_btn_calc_bg_p"></item>
+    <item android:state_focused="false" android:drawable="@drawable/shape_btn_calc_bg"></item>
+</selector>

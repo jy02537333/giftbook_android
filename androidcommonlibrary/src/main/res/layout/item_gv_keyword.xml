@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="horizontal" >
+   
+    <TextView 
+        android:id="@+id/item_keyword_tv"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_text_redius"
+        android:layout_margin="5dp"
+        android:singleLine="true"
+        android:padding="5dp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text="关键字"
+        android:textSize="14sp"/>
+
+</LinearLayout>

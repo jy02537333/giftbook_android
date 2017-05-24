@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mis_none_color">#00000000</color>
+    <color name="mis_albumback">#E1E0DE</color>
+    <color name="mis_plugin_camera_black">#000000</color>
+    <color name="mis_style_red">#ff4c41</color>
+    <color name="mis_style_divider_color">#C9C7CD</color>
+</resources>

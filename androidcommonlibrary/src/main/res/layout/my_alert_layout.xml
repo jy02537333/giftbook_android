@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:minWidth="280dip"
+    android:background="#ffffff"
+    android:layout_height="wrap_content">
+ 
+  
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:gravity="center"
+        android:background="@color/com_color1"
+        android:layout_height="50dp">
+  
+        <TextView
+            style="@style/DialogText.whiteTitle"
+ 			android:text="content"
+            android:id="@+id/my_alert_layout_title_tv"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingRight="8dip"
+            android:paddingLeft="8dip"
+            android:layout_width="wrap_content"
+ 
+            android:layout_height="wrap_content"/>
+  
+    </LinearLayout>
+  
+    <LinearLayout
+        android:id="@+id/alert_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+  
+        <EditText
+            style="@style/DialogText"
+            android:id="@+id/message"
+            android:background="#ffffff"
+            android:padding="5dip"
+            android:textColor="#000000"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+  
+    <LinearLayout
+        android:orientation="horizontal"
+ 		android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <Button
+            android:id="@+id/positiveButton"
+            android:layout_marginTop="3dip"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shape_bg_app_btn"
+            android:textColor="#fff"
+            android:singleLine="true"/>
+    
+        <Button
+            android:id="@+id/negativeButton"
+  			android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dip"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+              android:background="@drawable/shape_bg_gray_btn"
+            android:textColor="#fff"
+            android:singleLine="true"/>
+ 
+
+  
+    </LinearLayout>
+  
+</LinearLayout>

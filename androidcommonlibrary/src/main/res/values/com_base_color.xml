@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主色调1 -->
+    <color name="com_color1">#ef5453</color>
+    <color name="com_base_btn_color">#ffffff</color>
+</resources>

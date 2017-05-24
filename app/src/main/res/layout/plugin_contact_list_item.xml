@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- 首字母 -->
+
+    <TextView
+        android:id="@+id/p_contact_list_item_alpha"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#f5f5f5"
+        android:paddingLeft="10dip"
+        android:textColor="#555555"
+        android:visibility="gone" />
+
+    <!-- 联系人信息 -->
+
+    <ImageView
+        android:id="@+id/p_contact_list_item_head_img"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/p_contact_list_item_alpha"
+        android:layout_margin="5dp"
+        android:src="@mipmap/user_default" />
+
+    <TextView
+        android:id="@+id/p_contact_list_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/p_contact_list_item_number"
+        android:layout_alignTop="@+id/p_contact_list_item_head_img"
+        android:singleLine="true"
+        android:text="wodejia"
+        android:layout_marginTop="2dp"
+        android:textColor="#555555"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/p_contact_list_item_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/p_contact_list_item_name"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/p_contact_list_item_head_img"
+        android:singleLine="true"
+        android:text="adsfa"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="#999999" />
+
+    <ImageView
+        android:id="@+id/p_contact_list_item_call_img"
+        android:layout_width="22dip"
+        android:layout_marginTop="-8dp"
+        android:layout_height="22dip"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/p_contact_list_item_name"
+        android:layout_marginRight="19dp"
+        android:src="@mipmap/content_call" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/p_contact_list_item_head_img"
+        android:layout_toRightOf="@+id/p_contact_list_item_head_img"
+        android:background="#ffffff" />
+
+</RelativeLayout>

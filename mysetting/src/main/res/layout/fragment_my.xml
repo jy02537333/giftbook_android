@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#eaeaea" />
+
+    <LinearLayout
+        android:id="@+id/f_my_head_lay"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/selector_mysetting_bg_white_btn"
+        android:gravity="center"
+        android:orientation="horizontal" >
+        <pri.zxw.library.view.CircleImageView
+            android:id="@+id/f_my_user_head_img"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="10dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/not_headimg" />
+        <ImageView
+            android:id="@+id/f_my_user_gender_img"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="5dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/not_headimg" />
+        <TextView
+            android:id="@+id/f_my_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="@string/my_setting_login_alert_str"
+            android:textColor="@color/my_gray" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableRight="@mipmap/arrows"
+            android:gravity="right"
+            android:textSize="18sp"
+            android:textStyle="normal"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#eaeaea" />
+    <!-- 账号管理 -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#eaeaea" />
+<ListView
+    android:id="@+id/f_my_lv"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"></ListView>
+
+
+</LinearLayout>

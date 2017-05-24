@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    提示 -->
+        <string name="prompt">提示</string>
+    <string name="check_connection">无可用网络连接，请检查网络设置！</string>
+    <string name="check_sdcard">请检查内存卡！</string>
+    <string name="menu_settings">设置</string>
+    <string name="close">关闭</string>
+    <string name="exit">退出</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="net_error">网络异常</string>  
+    <string name="net_PK_error">操作数据重复！</string>
+    <string name="net_fail">操作失败！ </string>
+    <string name="net_ok">操作成功！</string>
+    <string name="paging_last_show_content">已经是最后一页了</string>
+    <string name="paging_search_show_empty_content">没有查询到信息！</string>
+    <string name="not_connected_to_the_internet">连接超时！请使用一个信号好的网络！</string>
+</resources>

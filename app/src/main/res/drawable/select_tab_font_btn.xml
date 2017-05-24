@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<item android:drawable="@color/com_color1" android:state_checked="true"/>-->
+    <!--<item android:drawable="@color/com_tab_font_gray2"  android:state_checked="false"/>-->
+    <item android:state_selected="true" android:color="@color/com_color1"></item>
+    <item android:state_selected="false" android:color="@color/com_tab_font_gray"></item>
+    <item android:color="@color/com_color1" android:state_checked="true"/>
+    <item android:color="@color/com_tab_font_gray"  android:state_checked="false"/>
+    <item android:state_focused="true" android:color="@color/com_color1"></item>
+    <item android:state_focused="false" android:color="@color/com_tab_font_gray"></item>
+
+
+    <!--<item android:state_selected="true" android:color="@color/com_color1"></item>-->
+    <!--<item android:state_selected="false" android:color="@color/com_tab_font_gray"></item>-->
+    <!--<item android:color="@color/com_color1" android:state_checked="true"/>-->
+    <!--<item android:color="@color/com_tab_font_gray"  android:state_checked="false"/>-->
+</selector>

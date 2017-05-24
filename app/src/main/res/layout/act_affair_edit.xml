@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/a_affair_edit_root_lay"
+    android:background="#ffffff"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical" >
+    <pri.zxw.library.view.TitleBar
+        xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/act_gift_money_add_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        titleBarStyle:left_visibility="visible"
+        titleBarStyle:text="发请帖"
+        titleBarStyle:right_text="  发布  " />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:background="#ffffff"
+            android:fitsSystemWindows="true" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="类  型：" />
+                        <RadioGroup
+                            android:id="@+id/a_affair_edit_rbog"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/a_affair_edit_wedding_rbo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="婚礼"/>
+
+                            <RadioButton
+                                android:id="@+id/a_affair_edit_hundredth_rbo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="百日宴"/>
+                        </RadioGroup>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+
+                            android:text="邀  请  人：" />
+
+                        <EditText
+                            android:id="@+id/a_affair_edit_inviter_edit"
+                            style="@style/et_style_commonal_single"
+                            android:layout_width="0dp"
+                            android:hint="邀请人姓名"
+                            android:maxLength="10"
+                            android:layout_weight="3" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+
+                            android:text="选择亲友：" />
+
+                        <TextView
+                            android:id="@+id/a_affair_edit_select_tv"
+                            style="@style/et_style_commonal_single"
+                            android:layout_width="0dp"
+                             android:hint="请选择亲友"
+                            android:layout_weight="3" />
+                    </LinearLayout>
+
+
+     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="宴席时间：" />
+
+                        <TextView
+                            android:id="@+id/a_affair_edit_date_tv"
+                            style="@style/et_style_commonal_single"
+                            android:layout_width="0dp"
+                            android:text="2020-01-01"
+                            android:layout_weight="1" />
+                         <TextView
+                             android:id="@+id/a_affair_edit_time_tv"
+                             android:layout_marginLeft="10dp"
+                             style="@style/et_style_commonal_single"
+                             android:layout_width="0dp"
+                             android:text="18:00"
+                             android:layout_weight="1" />
+                         <TextView
+                             android:layout_width="0dp"
+                             android:layout_height="wrap_content"
+                             android:layout_weight="1" />
+                    </LinearLayout>
+
+
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/com_line_color" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="项目封面：" />
+                        <TextView
+                            android:id="@+id/a_affair_edit_cover_tv"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:gravity="center"
+                            android:textSize="40sp"
+                            android:background="@mipmap/icon_addpic_unfocused"/>
+                        <ImageView
+                            android:id="@+id/a_affair_edit_cover_img"
+                            android:visibility="gone"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/icon_addpic_unfocused" />
+
+                        <!--<ImageView-->
+                            <!--android:id="@+id/a_affair_edit_cover_add_img"-->
+                            <!--android:layout_width="80dp"-->
+                            <!--android:layout_height="80dp"-->
+                            <!--android:layout_marginLeft="5dp"-->
+                            <!--android:src="@drawable/shape_btn_addpoor" />-->
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="2" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical"
+                        android:text="宴席地址：" />
+
+                    <!--android:focusable="true"-->
+                    <!--android:focusableInTouchMode="true"-->
+                    <EditText
+                        android:id="@+id/a_affair_edit_tfDetails_edit"
+                        style="@style/et_style_commonal_multiple"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:hint="这里输入宴席地址"
+                        android:maxLength="100"
+                        android:minLines="3" />
+                </LinearLayout>
+
+                <GridView
+                android:id="@+id/a_affair_edit_noScrollgridview"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:horizontalSpacing="3dp"
+                android:numColumns="4"
+                android:scrollbars="none"
+                android:verticalSpacing="5dp" />
+
+                <Button
+                    android:id="@+id/a_affair_edit_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="确定发布"
+                    android:visibility="gone"
+                    android:background="@color/submit_btn_color"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <!--<pri.zxw.library.view.TitleBar-->
+        <!--android:id="@+id/a_affair_edit_title_bar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+
+</LinearLayout>

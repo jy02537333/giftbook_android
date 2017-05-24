@@ -1,0 +1,109 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--</style>-->
+    <!--<style name="AppTheme" parent="AppTheme">-->
+        <!-- Customize your theme here. -->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--</style>-->
+    <style name="bg_line">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <style name="f_sidekicker_group_item_lay_style">
+        <item name="android:background">#ffffff</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="f_sidekicker_group_item_icon_style">
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginTop">7.5dp</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:src">@mipmap/f_sidekicker_group_item</item>
+    </style>
+    <style name="f_sidekicker_group_item_title_style">
+        <item name="android:layout_weight">5</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:layout_marginLeft">10dp</item>
+    </style>
+    <style name="f_sidekicker_group_item_num_style">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor"> #2D95EF</item>
+    </style>
+    <style name="f_sidekicker_group_item_more_style">
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginTop">7.5dp</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:src">@mipmap/aboutmore</item>
+    </style>
+    <!--  记账 按钮 边框 -->
+    <style name="f_gift_member_add_btn_border">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/select_shape_btn_calc_bg</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+    <!-- 单行输入框的公共样式 -->
+    <style name="et_style_commonal_single">
+        <item name="android:paddingLeft">3dp</item>
+        <item name="android:paddingRight">3dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@drawable/select_bg_edittext</item>
+        <item name="android:textColorHint">@color/com_hint_font_gray_color</item>
+        <item name="android:layout_height">34dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textSize">@dimen/h6</item>
+    </style>
+
+    <!-- 单行输入框的公共样式 -->
+    <style name="et_style_commonal_single_height_30">
+        <item name="android:paddingLeft">3dp</item>
+        <item name="android:paddingRight">3dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:background">@drawable/select_bg_edittext</item>
+        <item name="android:textColorHint">@color/com_hint_font_gray_color</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textSize">@dimen/h6</item>
+    </style>
+
+    <!-- 多行输入框的公共样式 -->
+    <style name="et_style_commonal_multiple">
+        <item name="android:padding">6dp</item>
+        <item name="android:background">@drawable/select_bg_edittext</item>
+        <item name="android:textColorHint">@color/com_hint_font_gray_color</item>
+        <item name="android:textSize">@dimen/h6</item>
+        <item name="android:gravity">left|top</item>
+    </style>
+</resources>

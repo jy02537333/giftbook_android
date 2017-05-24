@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#ff646464</color>
+    <color name="app_bg">#eeeeee</color>
+    <color name="gray">#969696</color>
+    <color name="white">#ffffffff</color>
+    <color name="tab_item_default">#fafafa</color>
+    <color name="tab_item_selected">#f0f1f2</color>
+    <color name="tab_text_selected">#f8597c</color>
+    <color name="tab_text_default">#bbbbbb</color>
+    <color name="background_color">#fbfbfb</color>
+    <color name="title_text_color">#ffffff</color>
+    <color name="com_font_money_red">#f7655f</color>
+    <color name="com_font_black">#616161</color>
+    <color name="red">#ee82ee</color>
+    <!-- 透明色 -->
+    <color name="fuxk_settle_black_mark">#1A000000</color>
+        <!-- 分割线 -->
+    <color name="fuxk_base_divide_line_color">#dcdcdc</color>
+    <color name="trans">#00000000</color>
+</resources>

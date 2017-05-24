@@ -1,0 +1,1 @@
+include ':app', ':librarystore', ':androidcommonlibrary', ':android-pulltorefresh-library', ':mysetting', ':multi-image-selector', ':qiniu_library'

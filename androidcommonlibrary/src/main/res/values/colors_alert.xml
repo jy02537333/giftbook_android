@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <!--dialog  -->
+      <color name="dialog_transparent">#89000000</color>  
+   	<color name ="dialog_White">#e0000000</color>  
+       <!--dialog end  --> 
+</resources>
