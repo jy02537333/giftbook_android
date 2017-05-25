@@ -125,7 +125,8 @@ public class ReceivesInvitationAct extends MyPullToRefreshBaseActivity {
                 position=position-1;
                 ReceivesInvitationEntity invitationEntity= adapter.getItem(position);
                 Intent intent= new Intent(ReceivesInvitationAct.this,ReceivesInvitationDetailAct.class);
-                intent.putExtra("invitationid",invitationEntity.getId());
+                intent.putExtra("invitationId",invitationEntity.getId());
+                intent.putExtra("inviterId",invitationEntity.getInvitationlistEntityList().get(0).getId());
                 startActivity(intent);
             }
         });

@@ -74,18 +74,18 @@ public class ReceivesInvitationDetailAct extends MyBaseActivity {
     {
         titleBar=(TitleBar) view.findViewById(R.id.a_invitation_detail_title_bar);
         wv=(WebView)view.findViewById(R.id.a_invitation_detail_wv);
-        Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
-        top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
-        titleBar.setRightDrawable(top_edit,null,null,null);
+       String invitationId= getIntent().getStringExtra("invitationId");
+      String  inviterId=  getIntent().getStringExtra("inviterId");
+        wv.loadUrl("apiInvitationController.do?=====&invitationId="+invitationId+"&inviterId="+inviterId);
+//        Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
+//        top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
+//        titleBar.setRightDrawable(top_edit,null,null,null);
 
 
     }
     void initTool()
     {
         mServicesTool=new AppServerTool(NetworkConfig.api_url,this,mHandler);
-        adapter=new ReceivesInvitationAdapter(this);
-        listView.setAdapter(adapter);
-        this.initListener(listView,adapter);
 
     }
     public void initListener()
@@ -96,34 +96,7 @@ public class ReceivesInvitationDetailAct extends MyBaseActivity {
                 onBackPressed();
             }
         });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                fawfew
-            }
-        });
-//        titleBar.setRightClickListener(new TitleOnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent=new Intent(this, GiftMoneyAddNewAct.class);
-//                startActivityForResult(intent,GET_ADD_CODE);
-//            }
-//        });
     }
 
 
-    @Override
-    public void getWebData() {
-        Map<String,String> params= ComParamsAddTool.getPageParam(this);
-        params.put("userid", FtpApplication.getInstance().getUser().getId());
-        mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==GET_ADD_CODE&&resultCode==1)
-        {
-            listView.setRefreshing(true);
-        }
-    }
 }
