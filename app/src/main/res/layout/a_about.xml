@@ -8,10 +8,12 @@
     android:background="#fff"
     android:orientation="vertical" >
     <pri.zxw.library.view.TitleBar
+        xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
         android:id="@+id/a_about_title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ></pri.zxw.library.view.TitleBar>
+        titleBarStyle:left_visibility="visible"
+        />
     
  <!-- 分离 -->
        <WebView     android:layout_width="match_parent"
@@ -19,6 +21,6 @@
      android:id="@+id/a_about_wv" />
       <TextView
              android:layout_width="match_parent"
-            android:layout_height="100dp" />
+            android:layout_height="5dp" />
 </LinearLayout>
 </ScrollView>

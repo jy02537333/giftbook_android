@@ -2,14 +2,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-<ImageView
+<RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="250dp">
+    <ImageView
+        android:id="@+id/img_test222"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:src="@mipmap/home"/>
+    <LinearLayout
+        android:id="@+id/lay_test222"
+        android:layout_below="@+id/img_test222"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="gaewgaewgaewg噶饿我噶额外噶we噶饿阿尔瓦各位各位阿尔瓦噶饿阿尔瓦额外"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="gaewgaewgaewg噶饿我噶额外噶we噶饿阿尔瓦各位各位阿尔瓦噶饿阿尔瓦额外"/>
+    </LinearLayout>
+<ImageView
+    android:layout_marginBottom="45dp"
+    android:layout_marginLeft="20dp"
+    android:layout_alignParentBottom="true"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
     android:src="@mipmap/big_user_default"/>
-    <TextView
+</RelativeLayout>
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:text="1111"/>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="250dp">
+        <ImageView
+            android:id="@+id/img_test2221"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:src="@mipmap/home"/>
+        <LinearLayout
+            android:id="@+id/lay_test2221"
+            android:layout_below="@+id/img_test2221"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="gaewgaewgaewg噶饿我噶额外噶we噶饿阿尔瓦各位各位阿尔瓦噶饿阿尔瓦额外"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="gaewgaewgaewg噶饿我噶额外噶we噶饿阿尔瓦各位各位阿尔瓦噶饿阿尔瓦额外"/>
+        </LinearLayout>
+        <ImageView
+            android:layout_marginBottom="45dp"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/big_user_default"/>
+    </RelativeLayout>
 </LinearLayout>

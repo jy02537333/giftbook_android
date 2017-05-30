@@ -55,6 +55,7 @@ public class User extends BaseEntity implements Cloneable {
      * 登录密码
      */
     private String loginpassword;
+    private String oldPwd;
     /**
      * 电子邮箱
      */
@@ -295,6 +296,14 @@ public class User extends BaseEntity implements Cloneable {
      */
     public String getLoginpassword() {
         return this.loginpassword;
+    }
+
+    public String getOldPwd() {
+        return oldPwd;
+    }
+
+    public void setOldPwd(String oldPwd) {
+        this.oldPwd = oldPwd;
     }
 
     /**
@@ -630,6 +639,39 @@ public class User extends BaseEntity implements Cloneable {
         this.updateName = updateName;
     }
 
+    public String pwdEncryption(String pwd)
+    {
+        pwd=Base64Tools.getBase64(pwd);
+        return pwd;
+    }
+
+    public String toUpdateSignString(Context context,User newUser) {
+        MD5EncodeTool md5EncodeTool = new MD5EncodeTool();
+        String signStr = null;
+        try {
+            // String pwdStr = md5EncodeTool.encryption(loginpassword, MD5EncodeTool.ENCRYPT_KEY);
+            if(!isExists())
+                return null;
+            String pwdStr = pwdEncryption(newUser.getLoginpassword());
+            StringBuilder sb = new StringBuilder("{\"loginname\":\"");
+            sb.append(newUser.getLoginname());
+            sb.append("\",\"loginpassword\":\"");
+            sb.append(pwdStr);
+            sb.append("\",\"timestamp\":\"");
+            sb.append(System.currentTimeMillis());
+            sb.append("\",\"oldPwd\":\"");
+            sb.append(pwdEncryption(newUser.getOldPwd()));
+            sb.append("\",\"decvices\":\"");
+            sb.append(DeviceTool.getDeviceId(context) + "\"}");
+
+            signStr=Base64Tools.getBase64(sb.toString());
+            //   signStr = md5EncodeTool.encryption(signStr, MD5EncodeTool.LOGIN_ENCRYPT_KEY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return signStr;
+    }
+
     public String toSignString(Context context) {
         MD5EncodeTool md5EncodeTool = new MD5EncodeTool();
         String signStr = null;
@@ -637,7 +679,7 @@ public class User extends BaseEntity implements Cloneable {
            // String pwdStr = md5EncodeTool.encryption(loginpassword, MD5EncodeTool.ENCRYPT_KEY);
             if(!isExists())
                 return null;
-            String pwdStr = Base64Tools.getBase64(loginpassword);
+            String pwdStr = pwdEncryption(loginpassword);
             StringBuilder sb = new StringBuilder("{\"loginname\":\"");
             sb.append(loginname);
             sb.append("\",\"loginpassword\":\"");
@@ -736,7 +778,7 @@ public class User extends BaseEntity implements Cloneable {
         return null;
     }
 
-    public Object clone() {
+    public User clone() {
         User o = null;
         try {
             o = (User) super.clone();

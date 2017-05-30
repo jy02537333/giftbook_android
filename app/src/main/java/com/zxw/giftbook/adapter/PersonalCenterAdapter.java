@@ -12,9 +12,15 @@ import android.widget.TextView;
 import com.zxw.giftbook.Activity.AffairEditAct;
 import com.zxw.giftbook.Activity.GroupMemberAct;
 import pri.zxw.library.entity.NameImgEntity;
+
+import com.zxw.giftbook.Activity.ReceivesInvitationAct;
 import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
+import com.zxw.giftbook.Activity.login.AboutAct;
+import com.zxw.giftbook.Activity.login.PersonalInfoAct;
+import com.zxw.giftbook.Activity.login.UpdatePwdAct;
 import com.zxw.giftbook.Activity.menu.PersonalCenterFragment;
 import com.zxw.giftbook.R;
+import com.zxw.giftbook.Test33Act;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +37,7 @@ public class PersonalCenterAdapter extends MyBaseAdapter {
     private List<NameImgEntity> comLists;
     private LayoutInflater inflater = null;
     /**grid列数*/
-    public static final int COL_NUM=4;
+    public static final int COL_NUM=3;
     @Override
     public void addDataAll(List infos) {
         comLists.addAll(infos);
@@ -47,12 +53,12 @@ public class PersonalCenterAdapter extends MyBaseAdapter {
         this.mContext = context;
         inflater= LayoutInflater.from(context.getActivity());
         comLists=new ArrayList<NameImgEntity>();
-        comLists.add(new NameImgEntity("个人中心",R.mipmap.personal_center,AffairEditAct.class));
-        comLists.add(new NameImgEntity("收到的请帖",R.mipmap.receive_invitation,AffairEditAct.class));
+        comLists.add(new NameImgEntity("个人中心",R.mipmap.personal_center,PersonalInfoAct.class));
+        comLists.add(new NameImgEntity("收到的请帖",R.mipmap.receive_invitation,ReceivesInvitationAct.class));
         comLists.add(new NameImgEntity("发送的请帖",R.mipmap.invitation,AffairEditAct.class));
-        comLists.add(new NameImgEntity("推荐给好友",R.mipmap.recommend,AffairEditAct.class));
-        comLists.add(new NameImgEntity("修改密码",R.mipmap.edit_pwd,AffairEditAct.class));
-        comLists.add(new NameImgEntity("关于",R.mipmap.about,AffairEditAct.class));
+        comLists.add(new NameImgEntity("推荐给好友",R.mipmap.recommend,Test33Act.class));
+        comLists.add(new NameImgEntity("修改密码",R.mipmap.edit_pwd,UpdatePwdAct.class));
+        comLists.add(new NameImgEntity("关于",R.mipmap.about,AboutAct.class));
         comLists.add(new NameImgEntity("意见反馈",R.mipmap.feedback,AffairEditAct.class));
         comLists.add(new NameImgEntity("退出",R.mipmap.exit,AffairEditAct.class));
     }

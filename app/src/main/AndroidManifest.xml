@@ -92,6 +92,23 @@
         </activity>
         <activity android:name=".Activity.AffairEditAct"
             android:screenOrientation="portrait">
+            </activity>
+        <activity android:name=".Activity.ReceivesInvitationAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.login.UpdatePwdAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.ReceivesInvitationDetailAct"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".Activity.login.AboutAct"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity android:name=".Activity.login.PersonalInfoAct"
+            android:screenOrientation="portrait">
         </activity>
         <activity android:name=".Activity.contact.ContactListActivity"
             android:screenOrientation="portrait">

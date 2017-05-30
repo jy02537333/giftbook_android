@@ -44,7 +44,6 @@ public class ReceivesInvitationDetailAct extends MyBaseActivity {
     }
     TitleBar titleBar;
     View view;
-    AppServerTool mServicesTool;
     WebView wv;
     public static final String ADD_URL="apiInvitationController.do?doAdd";
     public static final String GET_DATA_URL="apiInvitationController.do?getList";
@@ -76,7 +75,7 @@ public class ReceivesInvitationDetailAct extends MyBaseActivity {
         wv=(WebView)view.findViewById(R.id.a_invitation_detail_wv);
        String invitationId= getIntent().getStringExtra("invitationId");
       String  inviterId=  getIntent().getStringExtra("inviterId");
-        wv.loadUrl("apiInvitationController.do?=====&invitationId="+invitationId+"&inviterId="+inviterId);
+        wv.loadUrl(NetworkConfig.api_url+"apiViewInvitationController.do?invitationDetail&invitationid="+invitationId);
 //        Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
 //        top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
 //        titleBar.setRightDrawable(top_edit,null,null,null);
@@ -85,7 +84,6 @@ public class ReceivesInvitationDetailAct extends MyBaseActivity {
     }
     void initTool()
     {
-        mServicesTool=new AppServerTool(NetworkConfig.api_url,this,mHandler);
 
     }
     public void initListener()
