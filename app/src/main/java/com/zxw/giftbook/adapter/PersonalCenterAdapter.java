@@ -1,5 +1,7 @@
 package com.zxw.giftbook.adapter;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,22 +12,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zxw.giftbook.Activity.AffairEditAct;
-import com.zxw.giftbook.Activity.GroupMemberAct;
+
 import pri.zxw.library.entity.NameImgEntity;
 
 import com.zxw.giftbook.Activity.ReceivesInvitationAct;
-import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
 import com.zxw.giftbook.Activity.login.AboutAct;
+import com.zxw.giftbook.Activity.login.LoginAct;
 import com.zxw.giftbook.Activity.login.PersonalInfoAct;
+import com.zxw.giftbook.Activity.login.RecommendAct;
 import com.zxw.giftbook.Activity.login.UpdatePwdAct;
 import com.zxw.giftbook.Activity.menu.PersonalCenterFragment;
+import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
-import com.zxw.giftbook.Test33Act;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import pri.zxw.library.base.MyBaseAdapter;
+import pri.zxw.library.entity.User;
 import pri.zxw.library.tool.ImgLoad.ImgLoadMipmapTool;
 
 /**
@@ -56,11 +60,11 @@ public class PersonalCenterAdapter extends MyBaseAdapter {
         comLists.add(new NameImgEntity("个人中心",R.mipmap.personal_center,PersonalInfoAct.class));
         comLists.add(new NameImgEntity("收到的请帖",R.mipmap.receive_invitation,ReceivesInvitationAct.class));
         comLists.add(new NameImgEntity("发送的请帖",R.mipmap.invitation,AffairEditAct.class));
-        comLists.add(new NameImgEntity("推荐给好友",R.mipmap.recommend,Test33Act.class));
+        comLists.add(new NameImgEntity("推荐给好友",R.mipmap.recommend,RecommendAct.class));
         comLists.add(new NameImgEntity("修改密码",R.mipmap.edit_pwd,UpdatePwdAct.class));
         comLists.add(new NameImgEntity("关于",R.mipmap.about,AboutAct.class));
         comLists.add(new NameImgEntity("意见反馈",R.mipmap.feedback,AffairEditAct.class));
-        comLists.add(new NameImgEntity("退出",R.mipmap.exit,AffairEditAct.class));
+        comLists.add(new NameImgEntity("退出",R.mipmap.exit,User.class));
     }
 
     @Override
@@ -101,6 +105,31 @@ public class PersonalCenterAdapter extends MyBaseAdapter {
         mHolder.lay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(comInfo.getClassName().equals(User.class)){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext.getActivity());
+                    builder.setMessage("确定要注销当前帐号吗?");
+                    builder.setTitle("提示");
+                    builder.setPositiveButton("确认",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (null != FtpApplication.getInstance().getUser()) {
+                                        Intent intent=new Intent(mContext.getActivity(), LoginAct.class);
+                                        FtpApplication.getInstance().getUser().clearUser();
+                                        mContext.startActivity(intent);
+                                        mContext.getActivity().finish();
+                                    }
+                                }
+                            });
+                    builder.setNegativeButton("取消",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.create().show();
+                } else
                 mContext.startActivity(new Intent(mContext.getActivity(), comInfo.getClassName()));
             }
         });

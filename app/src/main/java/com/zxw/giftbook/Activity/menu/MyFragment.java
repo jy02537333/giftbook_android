@@ -113,7 +113,7 @@ public class MyFragment extends Fragment implements
 //        infos.add(createInfocation());
 
         infos.add(createSetting());
-        infos.add(createLogout());
+       // infos.add(createLogout());
         mysettingAdapter=new MysettingAdapter(getActivity(),infos);
         lv.setAdapter(mysettingAdapter);
     }

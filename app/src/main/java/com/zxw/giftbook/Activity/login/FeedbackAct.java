@@ -21,7 +21,7 @@ public class FeedbackAct extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.a_about);
+        setContentView(R.layout.a_feedback);
         initView();
         initTool();
         initListener();
@@ -33,9 +33,9 @@ public class FeedbackAct extends MyBaseActivity {
 
     /** 初始化布局 */
     private void initView() {
-        titleTv = (TitleBar) findViewById(R.id.a_about_title_bar);
-        wv=(WebView) findViewById(R.id.a_about_wv);
-        wv.loadUrl(NetworkConfig.api_url+"");
+        titleTv = (TitleBar) findViewById(R.id.a_feedback_title_bar);
+        wv=(WebView) findViewById(R.id.a_feedback_wv);
+        wv.loadUrl(NetworkConfig.api_url+"apiFeedbackCtrl.do?feedback");
     }
 
     private void initListener() {

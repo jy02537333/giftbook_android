@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <pri.zxw.library.view.TitleBar
+        xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/a_recommend_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        titleBarStyle:left_visibility="visible"
+        titleBarStyle:text="分享二维码"
+        />
+    <ImageView
+        android:id="@+id/a_recommend_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+</LinearLayout>

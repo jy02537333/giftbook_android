@@ -381,7 +381,8 @@ public abstract class ServicesTool {
 	private boolean notNetword(String responseBody, Message msg, String key) {
 
 		if (responseBody.indexOf("can't resolve host") != -1
-				|| responseBody.indexOf("Network is unreachable") != -1) {
+				|| responseBody.indexOf("Network is unreachable") != -1
+				|| responseBody.indexOf("Failed to connect to" )!=-1) {
 			isAlreadyReturnMsg = true;
 			msg.arg1 = 0;
 			msg.arg2 = AppConstantError.NOT_NETWORK;

@@ -106,7 +106,12 @@
         <activity android:name=".Activity.login.AboutAct"
             android:screenOrientation="portrait">
         </activity>
-
+        <activity android:name=".Activity.login.FeedbackAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.login.RecommendAct"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".Activity.login.PersonalInfoAct"
             android:screenOrientation="portrait">
         </activity>

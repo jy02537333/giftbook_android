@@ -35,7 +35,7 @@ public class AboutAct extends MyBaseActivity {
     private void initView() {
         titleTv = (TitleBar) findViewById(R.id.a_about_title_bar);
         wv=(WebView) findViewById(R.id.a_about_wv);
-        wv.loadUrl(NetworkConfig.api_url+"");
+        wv.loadUrl(NetworkConfig.api_url+"apiFeedbackCtrl.do?about");
     }
 
     private void initListener() {
