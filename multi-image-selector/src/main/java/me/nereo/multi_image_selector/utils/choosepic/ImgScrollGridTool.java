@@ -117,7 +117,16 @@ package me.nereo.multi_image_selector.utils.choosepic;
  		layoutParams.height = (int) (line * height) + line * 5;
  		grid.setLayoutParams(layoutParams);
  	}
- 
+
+
+	public void init(ImageView img,  View rootView) {
+		Intent intent = new Intent();  // Itent就是我们要发送的内容
+		intent.setAction(CLEAR_PIC);   // 设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+		mAct.sendBroadcast(intent);   // 发送广播
+	}
+
+
+
 
  	public void update() {
  		adapter.update();

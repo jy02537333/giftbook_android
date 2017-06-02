@@ -1,8 +1,6 @@
-package com.zxw.giftbook.Activity;
+package com.zxw.giftbook.Activity.myinfo;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,32 +10,16 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
-
-import java.io.File;
-import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import com.zxw.giftbook.Activity.contact.ContactListSelectActivity;
+import com.zxw.giftbook.Activity.login.LoginAct;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.config.NetworkConfig;
@@ -47,17 +29,24 @@ import com.zxw.giftbook.utils.ComParamsAddTool;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import me.nereo.multi_image_selector.MultiImageSelector;
 import me.nereo.multi_image_selector.utils.choosepic.ImgScrollGridTool;
 import pri.zxw.library.base.MyBaseActivity;
 import pri.zxw.library.entity.ComIdNameInfo;
 import pri.zxw.library.entity.FileEntity;
 import pri.zxw.library.entity.KVStringVString;
+import pri.zxw.library.entity.User;
 import pri.zxw.library.listener.TitleOnClickListener;
 import pri.zxw.library.myinterface.IServicesCallback;
 import pri.zxw.library.tool.Common;
 import pri.zxw.library.tool.DateCommon;
 import pri.zxw.library.tool.ImgLoad.ImgLoadMipmapTool;
+import pri.zxw.library.tool.ImgLoad.MyImgLoadTool;
 import pri.zxw.library.tool.MessageHandlerTool;
 import pri.zxw.library.tool.ToastShowTool;
 import pri.zxw.library.tool.dialogTools.CustomDialog;
@@ -65,33 +54,26 @@ import pri.zxw.library.tool.img_compression.ImageCompressUtils;
 import pri.zxw.library.view.TitleBar;
 
 /**
- * 请帖事件编辑
- * Createdy 张相伟
- * 2017/3/27.
+ * Created by Administrator on 2017/6/2.
  */
 
-public class AffairEditAct extends MyBaseActivity {
+public class MyInfoEditAct extends MyBaseActivity {
 
     List<ComIdNameInfo> idList;
     String ids;
     TitleBar titleBar;
-    TextView a_affair_edit_cover_Tv;
-    GridView a_affair_edit_noScrollgridview;
     ImgScrollGridTool noScrollGridTool;
-    LinearLayout rootLay;
-    EditText a_affair_edit_tfDetails_edit,a_affair_edit_inviter_tv;
-    ImageView coverImg;
-    RadioGroup typeRadio;
-    TextView coverTv,a_affair_edit_date_tv,a_affair_edit_time_tv,selectTv;
-    Button submitBtn;
+    ImageView img;
+    TextView sexTv,nameTv;
+    RadioGroup sexRadio;
+    RadioButton rbo1,rbo2;
     AppServerTool serverTool;
+    LinearLayout lay1,lay2;
     int type=0;
     private Dialog dialog;
     String oneImgPath="";
-    public static final int REQUEST_CONTACT_CODE=8934;
     public static final int SUBMIT_CODE=1537;
     public static final int GET_TOKEN_CODE=5537;
-    private static final int UPDATE_ONE_IMG_END_CODE=0x546;
     private static final int UPDATE_IMG_END_CODE=0x333;
     private static final int COMPRESS_MULTI_CODE=2968;
     private static final int COMPRESS_ONE_CODE=2962;
@@ -101,43 +83,15 @@ public class AffairEditAct extends MyBaseActivity {
     /**s是否单选*/
     boolean isOne=false;
     boolean isGetData=false;
-    int mHour=0;
-    int mMinute=0;
-    String expendituredate;
-    Calendar dateAndTime = Calendar.getInstance(Locale.CHINA);
     MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
     UploadManager uploadManager = new UploadManager();
-    DatePickerDialog.OnDateSetListener datePicker = new DatePickerDialog.OnDateSetListener()
-    {
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-            //修改日历控件的年，月，日
-            //这里的year,monthOfYear,dayOfMonth的值与DatePickerDialog控件设置的最新值一致
-            dateAndTime.set(Calendar.YEAR, year);
-            dateAndTime.set(Calendar.MONTH, monthOfYear);
-            dateAndTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            expendituredate=dateAndTime.toString();
-            //将页面TextView的显示更新为最新时间
-            SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd", Locale.CHINA);
-            a_affair_edit_date_tv.setText(sdf.format(dateAndTime.getTime()));
-        }
-    };
-    TimePickerDialog.OnTimeSetListener timeDialog = new TimePickerDialog.OnTimeSetListener() {
-                //从这个方法中取得获得的时间
-                @Override
-                public void onTimeSet(TimePicker view, int hourOfDay,
-                                      int minute) {
-                    a_affair_edit_time_tv.setText(hourOfDay+":"+minute);
-                }
-            };
     Handler mHandler=new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if(msg.what==GET_TOKEN_CODE)
             {
-                token= messageHandlerTool.handlerData(msg,AffairEditAct.this);
+                token= messageHandlerTool.handlerData(msg,MyInfoEditAct.this);
                 if(token!=null&&token.length()>0) {
                     if(ImgScrollGridTool.mSelectPath.size()==0)
                         compressedOneFiles();
@@ -150,18 +104,13 @@ public class AffairEditAct extends MyBaseActivity {
                 }
             }else if(msg.what==UPDATE_IMG_END_CODE)
             {
-//                if(mRequest==ImgScrollGridTool.REQUEST_MULTI_IMAGE){
-//                    getUpimg(oneImgPath,ImgScrollGridTool.REQUEST_ONE_IMAGE);
-//                } else if(mRequest==ImgScrollGridTool.REQUEST_ONE_IMAGE){
-//                    submit();
-//                 }
                 submit();
             }else if(msg.what==SUBMIT_CODE)
             {
-                int ret=   messageHandlerTool.handler(msg,AffairEditAct.this);
+                int ret=   messageHandlerTool.handler(msg,MyInfoEditAct.this);
                 if(ret==1)
                 {
-                    ToastShowTool.myToastShort(AffairEditAct.this,"发布请帖成功！");
+                    ToastShowTool.myToastShort(MyInfoEditAct.this,"发布请帖成功！");
                     finish();
                 }
             }
@@ -180,103 +129,75 @@ public class AffairEditAct extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_affair_edit);
+        setContentView(R.layout.a_my_info_edit);
         initView();
         initListener();
         initTool();
-        initTime();
+        setViewValue();
     }
     void initView()
     {
-        titleBar=(TitleBar)findViewById(R.id.act_gift_money_add_title_bar);
-        a_affair_edit_cover_Tv=(TextView)findViewById(R.id.a_affair_edit_cover_tv);
-        a_affair_edit_noScrollgridview=(GridView)findViewById(R.id.a_affair_edit_noScrollgridview);
-        rootLay=(LinearLayout) findViewById(R.id.a_affair_edit_root_lay);
-        a_affair_edit_tfDetails_edit=(EditText) findViewById(R.id.a_affair_edit_tfDetails_edit);
-        a_affair_edit_date_tv=(TextView) findViewById(R.id.a_affair_edit_date_tv);
-        a_affair_edit_time_tv=(TextView) findViewById(R.id.a_affair_edit_time_tv);
-        coverImg=(ImageView) findViewById(R.id.a_affair_edit_cover_img);
-        selectTv=(TextView) findViewById(R.id.a_affair_edit_select_tv);
-        submitBtn=(Button) findViewById(R.id.a_affair_edit_btn);
-        typeRadio=(RadioGroup) findViewById(R.id.a_affair_edit_rbog);
-        a_affair_edit_inviter_tv=(EditText) findViewById(R.id.a_affair_edit_inviter_edit);
-        a_affair_edit_inviter_tv.setText(FtpApplication.getInstance().getUser().getUsername());
-//        a_affair_edit_tfDetails_edit.clearFocus();
-//      a_affair_edit_tfDetails_edit.setSelected(false);
+        titleBar=(TitleBar) this.findViewById(R.id.a_my_info_edit_title_bar);
+        img=(ImageView) this.findViewById(R.id.a_my_info_edit_img);
+        sexRadio=(RadioGroup) this.findViewById(R.id.a_my_info_edit_sex_rbog);
+        nameTv=(TextView) this.findViewById(R.id.a_my_info_edit_name_tv);
+        sexTv=(TextView) this.findViewById(R.id.a_my_info_edit_sex_tv);
+        lay1=(LinearLayout) this.findViewById(R.id.a_my_info_edit_sex_lay1);
+        lay2=(LinearLayout) this.findViewById(R.id.a_my_info_edit_sex_lay2);
+    }
+    void setViewValue()
+    {
+        if(FtpApplication.getInstance().getUser().isLogin(this)) {
+            User user=FtpApplication.getInstance().getUser();
+            MyImgLoadTool.loadNetHeadImg(this, user.getPortrait(),img,0,0,"");
+            nameTv.setText(user.getUsername());
+            if(user.getSex()==1)
+            {
+                sexTv.setText("男");
+              rbo1.setSelected(true);
+            }
+            else if(user.getSex()==2)
+                {
+                    sexTv.setText("女");
+                    rbo2.setSelected(true);
+                }
+            else
+                sexTv.setText("未知");
+        }
+        else
+        {
+//            Intent intent=new Intent(this, LoginAct.class);
+//            startActivityForResult(intent,911);
+        }
     }
     void initTool()
     {
         serverTool=new AppServerTool(NetworkConfig.api_url,this,mHandler);
         noScrollGridTool=new ImgScrollGridTool(this);
-        noScrollGridTool.init(a_affair_edit_noScrollgridview, null, rootLay);
-    }
-    void initTime()
-    {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar nowDate= Calendar.getInstance();
-        nowDate.add(Calendar.DATE,1);
-        String time = format.format(nowDate.getTime());
-        a_affair_edit_date_tv.setText(time);
     }
     void initListener()
     {
-        typeRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        sexTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lay1.setVisibility(View.GONE);
+                lay2.setVisibility(View.VISIBLE);
+            }
+        });
+        sexRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId==R.id.a_affair_edit_wedding_rbo)
-                    type=1;//婚礼
-                 else
-                    type=2;//百日宴
+                if(checkedId==R.id.a_my_info_edit_sex_rbo1)
+                    type=1;//男
+                else
+                    type=2;//女
 
             }
         });
-        a_affair_edit_cover_Tv.setOnClickListener(new View.OnClickListener() {
+        img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 noScrollGridTool.pickImage(true);
-            }
-        });
-        coverImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                noScrollGridTool.pickImage(true);
-            }
-        });
-        a_affair_edit_date_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //当点击DatePickerDialog控件的设置按钮时，调用该方法
-                DatePickerDialog  dateDlg = new DatePickerDialog(AffairEditAct.this,
-                        datePicker,
-                        dateAndTime.get(Calendar.YEAR),
-                        dateAndTime.get(Calendar.MONTH),
-                        dateAndTime.get(Calendar.DAY_OF_MONTH)
-                );
-                dateDlg.show();
-            }
-        });
-        a_affair_edit_time_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePickerDialog  dateDlg = new TimePickerDialog(AffairEditAct.this,
-                        timeDialog,18, 0, true
-                );
-                dateDlg.show();
-            }
-        });
-        selectTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AffairEditAct.this, ContactListSelectActivity.class);
-                if (ids != null && ids.trim().length() > 0)
-                    intent.putExtra("ids", ids);
-                startActivityForResult(intent, REQUEST_CONTACT_CODE);
-            }
-        });
-        submitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getQiniuToken();
             }
         });
         titleBar.setRightClickListener(new TitleOnClickListener() {
@@ -307,62 +228,23 @@ public class AffairEditAct extends MyBaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(REQUEST_CONTACT_CODE==requestCode)//请求联系人
-        {
-            if (resultCode == 1) {
-                if (data != null)
-                    ids = data.getStringExtra("ids");
-                selectTv.setText("");
-                if (ids == null || ids.trim().length() == 0) {
-
-                } else {
-                    String entitys = data.getStringExtra("entitys");
-                    Gson gson = new Gson();
-                    Type type = new TypeToken<List<ComIdNameInfo>>() {
-                    }.getType();
-                    idList = gson.fromJson(entitys, type);
-                    String nameStr="";
-                    for (int i=0;i<idList.size();i++)
-                    {
-                        if(i>7||i+1==idList.size())
-                        {
-                            nameStr=nameStr+idList.get(i).getName();
-                            break;
-                        }else
-                            nameStr=nameStr+idList.get(i).getName()+",";
-                    }
-                    selectTv.setText(nameStr);
-//                    createHeadImg();
-                }
-            } else {
-
-            }
-        }else
         if(ImgScrollGridTool.REQUEST_ONE_IMAGE==requestCode&&resultCode==RESULT_OK)
         {
-            coverImg.setVisibility(View.VISIBLE);
-            a_affair_edit_cover_Tv.setVisibility(View.GONE);
             if(data!=null) {
                 ArrayList<String> path = data.getStringArrayListExtra(MultiImageSelector.EXTRA_RESULT);
                 oneImgPath=path.get(0);
-                ImgLoadMipmapTool.load(oneImgPath, coverImg);
+                ImgLoadMipmapTool.load(oneImgPath, img);
             }
-        }else if(ImgScrollGridTool.REQUEST_MULTI_IMAGE==requestCode&&resultCode==RESULT_OK)
-             noScrollGridTool.imgActivityResult(resultCode,requestCode,data);
+        }
     }
     void submit()
     {
-        String inviter=  a_affair_edit_inviter_tv.getText().toString();
-        String address=a_affair_edit_tfDetails_edit.getText().toString();
         Map<String,String> param= ComParamsAddTool.getParam();
         param.put("inviterid", FtpApplication.getInstance().getUser().getId());
         param.put("inviterphone", FtpApplication.getInstance().getUser().getUserphone());
-        param.put("feastaddress",address);
-        param.put("feastdate",a_affair_edit_date_tv.getText().toString()+" "+a_affair_edit_time_tv.getText().toString()+":00");
         param.put("feasttype",type+"");
-        param.put("invitername", inviter);
         String photoAlbum="";
-        boolean isAddCoverImg=false;//是否已经加入到封面图
+        boolean isAddCoverImg=false;//是否要修改图片
 //        for (int i=0;i<  ImgScrollGridTool.mSelectPath.size();i++)
 //        {
 //            if(ImgScrollGridTool.mSelectPath.get(i).equals(oneImgPath))
@@ -397,7 +279,7 @@ public class AffairEditAct extends MyBaseActivity {
         serverTool.doPostAndalysisDataCall("apiInvitationController.do?doAdd",param,SUBMIT_CODE,new IServicesCallback(){
             @Override
             public void onStart() {
-//                dialog = CustomDialog.createLoadingDialog(AffairEditAct.this, "加载数据…");
+//                dialog = CustomDialog.createLoadingDialog(MyInfoEditAct.this, "加载数据…");
 //                dialog.setCancelable(false);
 //                dialog.show();
 //                isGetData=true;
@@ -420,32 +302,9 @@ public class AffairEditAct extends MyBaseActivity {
     public void getQiniuToken()
     {
 
-        if(type==0)
-        {
-            ToastShowTool.myToastShort(AffairEditAct.this,"请选择邀请类型！");
-            return ;
-        }
-        String inviter=  a_affair_edit_inviter_tv.getText().toString();
-        if(inviter.trim().length()<2)
-        {
-            ToastShowTool.myToastShort(AffairEditAct.this,"请填写邀请人！");
-            return ;
-        }
-        String address=a_affair_edit_tfDetails_edit.getText().toString();
-        if(address.trim().length()<5)
-        {
-            ToastShowTool.myToastShort(AffairEditAct.this,"请填写完整的地址！");
-            return;
-        }
-        String inviterStr=a_affair_edit_inviter_tv.getText().toString();
-        if(inviterStr.trim().length()<1)
-        {
-            ToastShowTool.myToastShort(AffairEditAct.this,"请选择亲友！");
-            return;
-        }
         if(oneImgPath.trim().length()<5)
         {
-            ToastShowTool.myToastShort(AffairEditAct.this,"请选择封面图！");
+            submit();
             return;
         }
         if(isGetData)
@@ -454,7 +313,7 @@ public class AffairEditAct extends MyBaseActivity {
         serverTool.doGetAndalysisDataCall("apiQiNiuUptokenCtrl.do?uptokenMobile",param,GET_TOKEN_CODE,new IServicesCallback(){
             @Override
             public void onStart() {
-                dialog = CustomDialog.createLoadingDialog(AffairEditAct.this, "加载数据…");
+                dialog = CustomDialog.createLoadingDialog(MyInfoEditAct.this, "加载数据…");
                 dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
@@ -494,19 +353,19 @@ public class AffairEditAct extends MyBaseActivity {
     }
     private void compressedOneFiles()
     {
-            ImageCompressUtils.from(this)
-                    .load(oneImgPath)
-                    .execute(new ImageCompressUtils.OnCompressListener() {
-                        @Override
-                        public void onSuccess(File file) {
-                            compress.add(new FileEntity(file, oneImgPath));
-                            mHandler.sendEmptyMessage(COMPRESS_ONE_CODE);
-                        }
+        ImageCompressUtils.from(this)
+                .load(oneImgPath)
+                .execute(new ImageCompressUtils.OnCompressListener() {
+                    @Override
+                    public void onSuccess(File file) {
+                        compress.add(new FileEntity(file, oneImgPath));
+                        mHandler.sendEmptyMessage(COMPRESS_ONE_CODE);
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                        }
-                    });
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+                });
     }
 
     public void getUpimg(final String imagePath,final int requestCode) {
@@ -514,9 +373,9 @@ public class AffairEditAct extends MyBaseActivity {
             public void run() {
                 // 图片上传到七牛 重用 uploadManager。一般地，只需要创建一个 uploadManager 对象
                 String prefix=imagePath.substring(imagePath.lastIndexOf(".")+1);
-                String fileName=DateCommon.getDateFileName()+Common.getFixLenthString(3);
+                String fileName= DateCommon.getDateFileName()+ Common.getFixLenthString(3);
 
-                                String key="uplaod_affair/"+FtpApplication.getInstance().getUser().getId()+"/"+fileName+"."+prefix;
+                String key="uplaod_affair/"+FtpApplication.getInstance().getUser().getId()+"/"+fileName+"."+prefix;
                 uploadManager.put(imagePath, key, token,
                         new UpCompletionHandler() {
                             @Override
@@ -527,7 +386,7 @@ public class AffairEditAct extends MyBaseActivity {
                                         + res);
                                 try {
                                     // 七牛返回的文件名
-                                  String  upimg = res.getString("key");
+                                    String  upimg = res.getString("key");
 //                                    if(requestCode==ImgScrollGridTool.REQUEST_ONE_IMAGE)
 //                                    {
 //                                        mRequest=requestCode;
@@ -551,7 +410,5 @@ public class AffairEditAct extends MyBaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(ContactListSelectActivity.mContactList!=null)
-              ContactListSelectActivity.mContactList.clear();
     }
 }

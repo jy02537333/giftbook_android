@@ -39,6 +39,8 @@ public class ImgUrlUtil {
      */
     public static String  getMyTaskFullImgUrl(String imgUrl)
     {
+        if(imgUrl.indexOf("http://")!=-1)
+            return imgUrl;
         if(imgUrl==null||imgUrl.length()==0)
             return IMG_BASE_URL+"uploadImgs/myTaskuserimg.jpg";
         if(imgUrl.indexOf(IMG_BASE_URL)==-1)
@@ -54,6 +56,8 @@ public class ImgUrlUtil {
      */
     public static String  getFullHeadImgUrl(String imgUrl)
     {
+        if(imgUrl.indexOf("http://")!=-1)
+            return imgUrl;
         if(imgUrl==null||imgUrl.length()==0)
             return IMG_BASE_URL+"uploadImgs/icon_user.png";
         if(imgUrl.indexOf(IMG_BASE_URL)==-1)
@@ -70,6 +74,8 @@ public class ImgUrlUtil {
      */
     public static String  getFullUnitImgUrl(String imgUrl)
     {
+        if(imgUrl.indexOf("http://")!=-1)
+            return imgUrl;
         if(imgUrl==null||imgUrl.length()==0)
             return IMG_BASE_URL+"uploadImgs/img_square.jpg";
         if(imgUrl.indexOf(IMG_BASE_URL)==-1)
@@ -78,6 +84,7 @@ public class ImgUrlUtil {
             imgUrl="http://"+imgUrl;
         return imgUrl;
     }
+
 
     public static String getSmall(String imageUrl,int type)
     {

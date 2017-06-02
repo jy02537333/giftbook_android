@@ -78,7 +78,6 @@ public class LoginAct extends MyBaseActivity {
                                 loginUser = loginUserInfoHandlerTool.loginedHandler(msg,passwordEdit.getText().toString());
                                 ToastShowTool.myToastShort(LoginAct.this, "登录成功！");
                                 Intent intent = new Intent(LoginAct.this, MainAct.class);
-                                FtpApplication.getInstance().clearActityNotServer();
                                 startActivity(intent);
                                 finish();
                             }

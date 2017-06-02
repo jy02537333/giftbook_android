@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,7 +13,7 @@ public class ProgressDialogTool {
 	private static ProgressDialogTool mDialogTool = null;
 	private ProgressDialog mDialog;
 	private static List<ProgressDialog> mDialogs=new ArrayList<ProgressDialog>();
-	private static Context mContext;
+	private static Activity mContext;
 	private static boolean mIsBackKey;
 	private static boolean mIsOkKey=false;
 	/**
@@ -20,7 +21,7 @@ public class ProgressDialogTool {
 	 */
 	private static boolean isShow=false;
 	@SuppressWarnings("deprecation")
-	private ProgressDialogTool(Context context) {
+	private ProgressDialogTool(Activity context) {
 		mDialog = new ProgressDialog(context);
 		mDialogs.add(  mDialog );
 		mContext=context;
@@ -38,7 +39,7 @@ public class ProgressDialogTool {
 		   }
 		});
 	}
-	public static ProgressDialogTool getInstance(Context context,boolean isBackKey,boolean isOkKey) {
+	public static ProgressDialogTool getInstance(Activity context,boolean isBackKey,boolean isOkKey) {
 		mIsBackKey=isBackKey;
 		mIsOkKey=isOkKey;
 		if (mDialogTool == null) {
@@ -52,7 +53,7 @@ public class ProgressDialogTool {
 		return mDialogTool;  
 	}
 
-	public static ProgressDialogTool getInstance(Context context) {
+	public static ProgressDialogTool getInstance(Activity context) {
 		return getInstance(context,true, false);
 	}
 
@@ -71,7 +72,15 @@ public class ProgressDialogTool {
 		isShow=false;
 		for (ProgressDialog item : mDialogs) {
 			if(item!=null)
-			item.dismiss();
+			{
+				if(item.getContext().isRestricted())
+				{
+
+				}
+				item.dismiss();
+
+			}
+
 		}
 		if(mDialogs.size()==0)
 		{

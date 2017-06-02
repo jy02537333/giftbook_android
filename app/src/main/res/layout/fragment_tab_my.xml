@@ -14,7 +14,8 @@
             android:id="@+id/fragment_my_title_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            titleBarStyle:text="我的"/>
+            titleBarStyle:left_visibility="visible"
+            titleBarStyle:text="我"/>
 
         <include layout="@layout/fragment_my" ></include>
         <TextView

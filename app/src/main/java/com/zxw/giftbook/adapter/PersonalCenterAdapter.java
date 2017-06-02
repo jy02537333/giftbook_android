@@ -118,6 +118,7 @@ public class PersonalCenterAdapter extends MyBaseAdapter {
                                         FtpApplication.getInstance().getUser().clearUser();
                                         mContext.startActivity(intent);
                                         mContext.getActivity().finish();
+                                        FtpApplication.getInstance().clearActityNotServer();
                                     }
                                 }
                             });

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.zxw.giftbook.Activity.GroupMemberAct;
 import com.zxw.giftbook.Activity.entitiy.GroupmemberEntity;
 import com.zxw.giftbook.Activity.entitiy.ReceivesInvitationEntity;
+import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 
 import java.util.ArrayList;
@@ -84,6 +85,8 @@ public class ReceivesInvitationAdapter extends MyBaseAdapter<ReceivesInvitationE
         }
         holder.addrTv.setText(entity.getFeastaddress());
         holder.typeTv.setText(entity.getFeasttype());
+        MyImgLoadTool.loadNetHeadImg(mContext, FtpApplication.getInstance().getUser().getPortrait(),
+                holder.img,80,80,"ReceivesInvitationAdapter");
         return super.getView(position, convertView, parent);
     }
 

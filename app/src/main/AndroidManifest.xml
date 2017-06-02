@@ -115,6 +115,9 @@
         <activity android:name=".Activity.login.PersonalInfoAct"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".Activity.myinfo.MyInfoEditAct"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".Activity.contact.ContactListActivity"
             android:screenOrientation="portrait">
         </activity>

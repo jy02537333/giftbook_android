@@ -7,6 +7,9 @@ import com.bumptech.glide.Glide;
 
 import java.io.File;
 
+import pri.zxw.library.R;
+import pri.zxw.library.constant.BaseNetConfig;
+
 /**
  * 加载图片
  * Createdy 张相伟
@@ -53,6 +56,26 @@ public class MyImgLoadTool {
                 .override(width, height)
                 .centerCrop()
                 .into(img);
+    }
+    /**
+     * 加载网络头像图片
+     * @param context
+     * @param img
+     * @param width
+     * @param height
+     */
+    public static void loadNetHeadImg(Context context, String path, ImageView img,int width,int height,String tag)
+    {
+        path=ImgUrlUtil.getFullHeadImgUrl(path);
+        Glide
+                .with(context)
+                .load(path)
+                .placeholder(R.mipmap.big_user_default)
+                .error(R.mipmap.big_user_default)
+                .override(width, height)
+                .centerCrop()
+                .into(img);
+
     }
     public static void pauseTag(Context context) {
 

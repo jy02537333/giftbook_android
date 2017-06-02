@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <pri.zxw.library.view.TitleBar xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/a_my_info_edit_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        titleBarStyle:left_visibility="visible"
+        titleBarStyle:text="个人资料" />
+
+    <LinearLayout
+        style="@style/my_info_edit_lay"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/my_info_edit_font"
+            android:text="头像" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/a_my_info_edit_img"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/big_user_default" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/com_line_color" />
+
+    <LinearLayout
+        style="@style/my_info_edit_lay"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/my_info_edit_font"
+            android:text="帐号" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/a_my_info_edit_account_tv"
+                style="@style/my_info_edit_right_font"
+                android:text="帐号" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/com_line_color" />
+
+    <LinearLayout
+        style="@style/my_info_edit_lay"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/my_info_edit_font"
+            android:text="姓名" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/a_my_info_edit_name_tv"
+                style="@style/my_info_edit_right_font"
+                android:text="姓名" />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/com_line_color" />
+
+
+    <LinearLayout
+        style="@style/my_info_edit_lay"
+        android:id="@+id/a_my_info_edit_sex_lay1"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            style="@style/my_info_edit_font"
+            android:text="性别" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/a_my_info_edit_sex_tv"
+                style="@style/my_info_edit_right_font"
+                android:text="男" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/a_my_info_edit_sex_lay2"
+        style="@style/my_info_edit_lay"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/my_info_edit_font"
+            android:text="性别" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:id="@+id/a_my_info_edit_sex_rbog"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/a_my_info_edit_sex_rbo1"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:text="男" />
+
+            <RadioButton
+                android:id="@+id/a_my_info_edit_sex_rbo2"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:text="女" />
+        </RadioGroup>
+    </LinearLayout>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/com_line_color" />
+    <!--<LinearLayout-->
+    <!--style="@style/my_info_edit_lay"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<TextView-->
+    <!--style="@style/my_info_edit_font"-->
+    <!--android:text="地区" />-->
+    <!--<LinearLayout-->
+    <!--android:orientation="vertical"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
+    <!--<TextView-->
+    <!--style="@style/my_info_edit_right_font"-->
+    <!--android:text="帐号"/>-->
+    <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+    <!--<TextView-->
+    <!--android:background="@color/com_line_color"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp" />-->
+</LinearLayout>

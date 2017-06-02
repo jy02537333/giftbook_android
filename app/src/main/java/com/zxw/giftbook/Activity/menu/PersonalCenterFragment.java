@@ -32,6 +32,7 @@ import java.util.List;
 
 import pri.zxw.library.entity.User;
 import pri.zxw.library.tool.ImgLoad.ImageLoadTool;
+import pri.zxw.library.tool.ImgLoad.MyImgLoadTool;
 import pri.zxw.library.view.CircleImageView;
 import pri.zxw.library.view.TitleBar;
 import pri.zxw.mysetting.MySettingInfo;
@@ -99,50 +100,21 @@ public class PersonalCenterFragment extends Fragment implements
         gv=(GridView) view.findViewById(R.id.f_personal_center_gv);
         userNameTv = (TextView) view.findViewById(R.id.f_personal_center_name);
         createMysetting();
+       if( FtpApplication.getInstance().getUser().isLogin(getActivity()))
+       {
+           MyImgLoadTool.loadNetHeadImg(getActivity(),FtpApplication.getInstance().getUser().getPortrait(),userImg,100,100,"");
+           if(FtpApplication.getInstance().getUser().getUsername().trim().length()==0)
+           {
+               userNameTv.setText(FtpApplication.getInstance().getUser().getUserphone());
+           }else
+           userNameTv.setText(FtpApplication.getInstance().getUser().getUsername());
+       }
 
     }
     private void createMysetting()
     {
         adapter=new PersonalCenterAdapter(this);
         gv.setAdapter(adapter);
-    }
-
-    /**
-     * 创建设置
-     * @return
-     */
-    public MySettingInfo createSetting()
-    {
-        MySettingInfo info=new MySettingInfo();
-        info.setItemIcon(R.mipmap.mysetting);
-        info.setItemName("设置");
-        info.setItemClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        return info;
-    }
-    /**
-     * 创建退出程序
-     * @return
-     */
-    public MySettingInfo createLogout()
-    {
-        MySettingInfo info=new MySettingInfo();
-        info.setItemIcon(R.mipmap.mysetting);
-        info.setItemName("退出");
-        info.setItemClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getActivity(), LoginAct.class);
-                FtpApplication.getInstance().getUser().clearUser();
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
-        return info;
     }
 
     private void initTool() {

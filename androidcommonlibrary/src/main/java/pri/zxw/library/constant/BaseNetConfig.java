@@ -18,4 +18,6 @@ public class BaseNetConfig {
     public static  String api_url="http://192.168.3.102:8087/";
 
     public static String img_url="";
+
+
 }
