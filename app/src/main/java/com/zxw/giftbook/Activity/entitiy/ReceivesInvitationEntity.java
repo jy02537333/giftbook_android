@@ -23,7 +23,7 @@ public class ReceivesInvitationEntity extends BaseEntity implements java.io.Seri
     /**宴席地址*/
     private java.lang.String feastaddress;
     /**宴席时间*/
-    private java.util.Date feastdate;
+    private String feastdate;
     /**宴席类型*/
     private java.lang.String feasttype;
     /**邀请人*/
@@ -37,13 +37,13 @@ public class ReceivesInvitationEntity extends BaseEntity implements java.io.Seri
     /**状态(0=删除，1正常)*/
     private java.lang.Integer state;
     /**创建时间*/
-    private java.util.Date createDate;
+    private String createDate;
     /**创建人编号*/
     private java.lang.String createBy;
     /**创建人姓名*/
     private java.lang.String createName;
     /**更新时间*/
-    private java.util.Date updateDate;
+    private String updateDate;
     /**更新人编号*/
     private java.lang.String updateBy;
     /**更信任姓名*/
@@ -89,11 +89,11 @@ public class ReceivesInvitationEntity extends BaseEntity implements java.io.Seri
         this.feastaddress = feastaddress;
     }
 
-    public Date getFeastdate() {
+    public String getFeastdate() {
         return feastdate;
     }
 
-    public void setFeastdate(Date feastdate) {
+    public void setFeastdate(String feastdate) {
         this.feastdate = feastdate;
     }
 
@@ -137,11 +137,11 @@ public class ReceivesInvitationEntity extends BaseEntity implements java.io.Seri
         this.state = state;
     }
 
-    public Date getCreateDate() {
+    public String getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 
@@ -161,11 +161,11 @@ public class ReceivesInvitationEntity extends BaseEntity implements java.io.Seri
         this.createName = createName;
     }
 
-    public Date getUpdateDate() {
+    public String getUpdateDate() {
         return updateDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
+    public void setUpdateDate(String updateDate) {
         this.updateDate = updateDate;
     }
 

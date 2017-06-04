@@ -75,17 +75,17 @@ public class AffairEditAct extends MyBaseActivity {
     List<ComIdNameInfo> idList;
     String ids;
     TitleBar titleBar;
-    TextView a_affair_edit_cover_Tv;
+    TextView a_affair_edit_cover_Tv,manTv,womanTv;
     GridView a_affair_edit_noScrollgridview;
     ImgScrollGridTool noScrollGridTool;
     LinearLayout rootLay;
-    EditText a_affair_edit_tfDetails_edit,a_affair_edit_inviter_tv;
+    EditText a_affair_edit_tfDetails_edit,a_affair_edit_man_tv,a_affair_edit_woman_tv,invitationEdit;
     ImageView coverImg;
     RadioGroup typeRadio;
     TextView coverTv,a_affair_edit_date_tv,a_affair_edit_time_tv,selectTv;
     Button submitBtn;
     AppServerTool serverTool;
-    int type=0;
+    int type=1;
     private Dialog dialog;
     String oneImgPath="";
     public static final int REQUEST_CONTACT_CODE=8934;
@@ -199,8 +199,12 @@ public class AffairEditAct extends MyBaseActivity {
         selectTv=(TextView) findViewById(R.id.a_affair_edit_select_tv);
         submitBtn=(Button) findViewById(R.id.a_affair_edit_btn);
         typeRadio=(RadioGroup) findViewById(R.id.a_affair_edit_rbog);
-        a_affair_edit_inviter_tv=(EditText) findViewById(R.id.a_affair_edit_inviter_edit);
-        a_affair_edit_inviter_tv.setText(FtpApplication.getInstance().getUser().getUsername());
+        a_affair_edit_man_tv=(EditText) findViewById(R.id.a_affair_edit_man_edit);
+        a_affair_edit_woman_tv=(EditText) findViewById(R.id.a_affair_edit_woman_edit);
+        invitationEdit=(EditText) findViewById(R.id.a_affair_edit_invitation_edit);
+        manTv=(TextView) findViewById(R.id.a_affair_edit_man_tv);
+        womanTv=(TextView) findViewById(R.id.a_affair_edit_woman_tv);
+//        a_affair_edit_inviter_tv.setText(FtpApplication.getInstance().getUser().getUsername());
 //        a_affair_edit_tfDetails_edit.clearFocus();
 //      a_affair_edit_tfDetails_edit.setSelected(false);
     }
@@ -224,9 +228,21 @@ public class AffairEditAct extends MyBaseActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if(checkedId==R.id.a_affair_edit_wedding_rbo)
+                {
                     type=1;//婚礼
+                    manTv.setText("男方");
+                    womanTv.setText("女方");
+                    a_affair_edit_man_tv.setHint("男方姓名");
+                    a_affair_edit_woman_tv.setHint("女方姓名");
+                }
                  else
+                {
                     type=2;//百日宴
+                    manTv.setText("男孩");
+                    womanTv.setText("女孩");
+                    a_affair_edit_man_tv.setHint("男孩名字");
+                    a_affair_edit_woman_tv.setHint("女孩名字");
+                }
 
             }
         });
@@ -352,7 +368,7 @@ public class AffairEditAct extends MyBaseActivity {
     }
     void submit()
     {
-        String inviter=  a_affair_edit_inviter_tv.getText().toString();
+        String inviter=  invitationEdit.getText().toString();
         String address=a_affair_edit_tfDetails_edit.getText().toString();
         Map<String,String> param= ComParamsAddTool.getParam();
         param.put("inviterid", FtpApplication.getInstance().getUser().getId());
@@ -360,7 +376,9 @@ public class AffairEditAct extends MyBaseActivity {
         param.put("feastaddress",address);
         param.put("feastdate",a_affair_edit_date_tv.getText().toString()+" "+a_affair_edit_time_tv.getText().toString()+":00");
         param.put("feasttype",type+"");
-        param.put("invitername", inviter);
+        param.put("manname",a_affair_edit_man_tv.getText().toString()+"");
+        param.put("womanname",a_affair_edit_woman_tv.getText().toString()+"");
+        param.put("createName", inviter);
         String photoAlbum="";
         boolean isAddCoverImg=false;//是否已经加入到封面图
 //        for (int i=0;i<  ImgScrollGridTool.mSelectPath.size();i++)
@@ -425,7 +443,7 @@ public class AffairEditAct extends MyBaseActivity {
             ToastShowTool.myToastShort(AffairEditAct.this,"请选择邀请类型！");
             return ;
         }
-        String inviter=  a_affair_edit_inviter_tv.getText().toString();
+        String inviter=  invitationEdit.getText().toString();
         if(inviter.trim().length()<2)
         {
             ToastShowTool.myToastShort(AffairEditAct.this,"请填写邀请人！");
@@ -437,7 +455,7 @@ public class AffairEditAct extends MyBaseActivity {
             ToastShowTool.myToastShort(AffairEditAct.this,"请填写完整的地址！");
             return;
         }
-        String inviterStr=a_affair_edit_inviter_tv.getText().toString();
+        String inviterStr=invitationEdit.getText().toString();
         if(inviterStr.trim().length()<1)
         {
             ToastShowTool.myToastShort(AffairEditAct.this,"请选择亲友！");

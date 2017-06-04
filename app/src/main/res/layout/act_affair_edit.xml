@@ -63,6 +63,7 @@
                                 android:id="@+id/a_affair_edit_wedding_rbo"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:checked="true"
                                 android:text="婚礼"/>
 
                             <RadioButton
@@ -85,17 +86,66 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-
-                            android:text="邀  请  人：" />
+                            android:id="@+id/a_affair_edit_invitation_tv"
+                            android:text="邀请人：" />
 
                         <EditText
-                            android:id="@+id/a_affair_edit_inviter_edit"
+                            android:id="@+id/a_affair_edit_invitation_edit"
                             style="@style/et_style_commonal_single"
                             android:layout_width="0dp"
                             android:hint="邀请人姓名"
                             android:maxLength="10"
                             android:layout_weight="3" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:id="@+id/a_affair_edit_man_tv"
+                            android:text="男   方：" />
+
+                        <EditText
+                            android:id="@+id/a_affair_edit_man_edit"
+                            style="@style/et_style_commonal_single"
+                            android:layout_width="0dp"
+                            android:hint="男方姓名"
+                            android:maxLength="10"
+                            android:layout_weight="3" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:id="@+id/a_affair_edit_woman_tv"
+                            android:text="女   方：" />
+
+                        <EditText
+                            android:id="@+id/a_affair_edit_woman_edit"
+                            style="@style/et_style_commonal_single"
+                            android:layout_width="0dp"
+                            android:hint="女方姓名"
+                            android:maxLength="10"
+                            android:layout_weight="3" />
+                    </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

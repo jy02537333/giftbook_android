@@ -15,6 +15,7 @@ import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import pri.zxw.library.base.MyBaseAdapter;
@@ -22,7 +23,7 @@ import pri.zxw.library.tool.DateCommon;
 import pri.zxw.library.tool.ImgLoad.MyImgLoadTool;
 
 /**
- *  请帖适配器
+ *  收到请帖适配器
  * Created by Administrator on 2016/11/8.
  */
 
@@ -76,12 +77,13 @@ public class ReceivesInvitationAdapter extends MyBaseAdapter<ReceivesInvitationE
        final ReceivesInvitationEntity entity=list.get(position);
         holder.nameTv.setText(entity.getInvitername());
         holder.phoneTv.setText("["+entity.getInviterphone()+"]");
-        if( DateCommon.gainCurrentDate().getYear()==entity.getFeastdate().getYear())
+        Date date=new Date(entity.getFeastdate());
+        if( DateCommon.gainCurrentDate().getYear()==date.getYear())
         {
-            holder.dateTv.setText( DateCommon.formatDateTime( entity.getFeastdate(),DateCommon.MM_DD_HH_MM_SS));
+            holder.dateTv.setText( DateCommon.formatDateTime( date,DateCommon.MM_DD_HH_MM_SS));
         }else
         {
-            holder.dateTv.setText( DateCommon.formatDateTime( entity.getFeastdate(),DateCommon.YYYY_MM_DD_HH_MM_SS));
+            holder.dateTv.setText( DateCommon.formatDateTime( date,DateCommon.YYYY_MM_DD_HH_MM_SS));
         }
         holder.addrTv.setText(entity.getFeastaddress());
         holder.typeTv.setText(entity.getFeasttype());

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--乔迁选择图片-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:drawable="@mipmap/move_house_p"></item>
+    <item android:state_selected="false" android:drawable="@mipmap/move_house" ></item>
+    <item android:drawable="@mipmap/move_house_p" android:state_checked="true"/>
+    <item android:drawable="@mipmap/move_house"  android:state_checked="false"/>
+    <item android:state_focused="true" android:drawable="@mipmap/move_house_p"></item>
+    <item android:state_focused="false" android:drawable="@mipmap/move_house"></item>
+
+</selector>

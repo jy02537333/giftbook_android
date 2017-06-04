@@ -6,53 +6,39 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.zxw.giftbook.Activity.entitiy.MembergiftmoneyEntity;
 import com.zxw.giftbook.Activity.entitiy.ReceivesInvitationEntity;
-import com.zxw.giftbook.Activity.menu.HomeFragment;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
-import com.zxw.giftbook.adapter.HomeJournalAccountAdapter;
 import com.zxw.giftbook.adapter.ReceivesInvitationAdapter;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
-import com.zxw.giftbook.utils.DateMapUtil;
 
 import java.lang.reflect.Type;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-import pri.zxw.library.base.MyBaseActivity;
 import pri.zxw.library.base.MyPullToRefreshBaseActivity;
 import pri.zxw.library.listener.TitleOnClickListener;
 import pri.zxw.library.tool.MessageHandlerTool;
-import pri.zxw.library.tool.dialogTools.DropDownBoxTool;
 import pri.zxw.library.view.TitleBar;
 
 /**
- * 收到的请帖列表
+ * 功能 我发送的请帖
  * Createdy 张相伟
- * 2017/5/20.
+ * 2017/6/2.
  */
 
-public class ReceivesInvitationAct extends MyPullToRefreshBaseActivity {
+public class SendInvitationAct extends MyPullToRefreshBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.a_receives_invitation);
+        setContentView(R.layout.a_send_invitation);
     }
     TitleBar titleBar;
     View view;
@@ -69,7 +55,7 @@ public class ReceivesInvitationAct extends MyPullToRefreshBaseActivity {
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 Type type=new TypeToken<List<ReceivesInvitationEntity>>(){}.getType();
-                MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,ReceivesInvitationAct.this,adapter,listView,type);
+                MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,SendInvitationAct.this,adapter,listView,type);
                 String sum=  msgInfo.getRetMap().get("sumCount");
                 if(sum!=null)
                 {
@@ -124,7 +110,7 @@ public class ReceivesInvitationAct extends MyPullToRefreshBaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 position=position-1;
                 ReceivesInvitationEntity invitationEntity= adapter.getItem(position);
-                Intent intent= new Intent(ReceivesInvitationAct.this,ReceivesInvitationDetailAct.class);
+                Intent intent= new Intent(SendInvitationAct.this,ReceivesInvitationDetailAct.class);
                 intent.putExtra("invitationId",invitationEntity.getId());
                 intent.putExtra("inviterId",invitationEntity.getInvitationlistEntityList().get(0).getId());
                 startActivity(intent);

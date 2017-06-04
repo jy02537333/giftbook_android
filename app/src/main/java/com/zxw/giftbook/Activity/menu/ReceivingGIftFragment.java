@@ -1,5 +1,6 @@
 package com.zxw.giftbook.Activity.menu;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,13 +9,22 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.zxw.giftbook.Activity.AddReceivingGiftIitemMoneyAct;
+import com.zxw.giftbook.Activity.AddReceivingGiftsAffair2Act;
+import com.zxw.giftbook.Activity.AddReceivingGiftsAffairAct;
 import com.zxw.giftbook.Activity.GiftMoneyAddAct;
-import com.zxw.giftbook.Activity.entitiy.MembergiftmoneyEntity;
+import com.zxw.giftbook.Activity.ReceivingGiftItemMoneyListAct;
+import com.zxw.giftbook.Activity.entitiy.ReceivingGiftEntity;
+import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.adapter.HomeJournalAccountAdapter;
+import com.zxw.giftbook.adapter.ReceivesGiftAdapter;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
@@ -25,7 +35,9 @@ import java.util.Map;
 
 import pri.zxw.library.base.MyPullToRefreshBaseFragment;
 import pri.zxw.library.listener.TitleOnClickListener;
+import pri.zxw.library.listener.TxtLengthRestrictTool;
 import pri.zxw.library.tool.MessageHandlerTool;
+import pri.zxw.library.tool.MyAlertDialog;
 import pri.zxw.library.view.TitleBar;
 
 /**
@@ -38,10 +50,10 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
     TitleBar titleBar;
     View view;
     AppServerTool mServicesTool;
-    HomeJournalAccountAdapter adapter;
+    TextView numTv,moneyTv;
+    ReceivesGiftAdapter adapter;
     PullToRefreshListView listView;
-    public static final String ADD_URL="apiMembergiftmoneyCtrl.do?doAdd";
-    public static final String GET_DATA_URL="apiMembergiftmoneyCtrl.do?datagrid";
+    public static final String GET_DATA_URL="apiVReceivesMoneyController.do?datagrid";
     Handler mHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -49,8 +61,18 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
             if(msg.what==GET_DATA_CODE)
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
-                Type type=new TypeToken<List<MembergiftmoneyEntity>>(){}.getType();
+                Type type=new TypeToken<List<ReceivingGiftEntity>>(){}.getType();
                 MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,ReceivingGIftFragment.this,adapter,listView,type);
+                int num=0;
+                double money=0.0d;
+                if(msgInfo.getIsHashValue())
+                for (ReceivingGiftEntity entity:(List<ReceivingGiftEntity>)msgInfo.getList())
+                {
+                    num+=entity.getNum();
+                    money+=Double.parseDouble(entity.getSumMoney());
+                }
+                numTv.setText("收礼次数："+num+"次");
+                moneyTv.setText(money+"元");
             }
             else if(msg.what==LOAD_CODE)
             {
@@ -60,7 +82,7 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
     };
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.f_home_journal_account, container, false);
+        view=inflater.inflate(R.layout.f_receiving_gift, container, false);
         initView();
         initTool();
         initListener();
@@ -80,13 +102,15 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
 
     public void initView()
     {
-        titleBar=(TitleBar) view.findViewById(R.id.f_home_journal_account_title_bar);
-        listView=(PullToRefreshListView)view.findViewById(R.id.f_home_journal_account_lv);
+        titleBar=(TitleBar) view.findViewById(R.id.f_receiving_gift_title_bar);
+        listView=(PullToRefreshListView)view.findViewById(R.id.f_receiving_gift_lv);
+        numTv=(TextView) view.findViewById(R.id.f_receiving_gift_num_tv);
+        moneyTv=(TextView) view.findViewById(R.id.f_receiving_gift_money_tv);
     }
     void initTool()
     {
         mServicesTool=new AppServerTool(NetworkConfig.api_url,getActivity(),mHandler);
-        adapter=new HomeJournalAccountAdapter(getActivity());
+        adapter=new ReceivesGiftAdapter(getActivity());
         listView.setAdapter(adapter);
         this.initListener(listView,adapter);
     }
@@ -95,8 +119,19 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
         titleBar.setRightClickListener(new TitleOnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), GiftMoneyAddAct.class);
-                startActivityForResult(intent,GET_ADD_CODE);
+                Intent intent=new Intent(getActivity(), AddReceivingGiftsAffair2Act.class);
+                getActivity().startActivityForResult(intent,GET_ADD_CODE);
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ReceivingGiftEntity entity=adapter.getItem(++position);
+                Intent intent=new Intent(getActivity(), ReceivingGiftItemMoneyListAct.class);
+                intent.putExtra("id",entity.getId());
+                intent.putExtra("typeId",entity.getReceivestypeId());
+                intent.putExtra("typeName",entity.getReceivestype());
+                startActivityForResult(intent,ADD_CHILD_CODE);
             }
         });
     }
@@ -105,12 +140,14 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
     @Override
     public void getWebData() {
         Map<String,String> params= ComParamsAddTool.getPageParam(this);
+        params.put("create_by", FtpApplication.getInstance().getUser().getId());
         mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==GET_ADD_CODE&&resultCode==1)
+        if((requestCode==GET_ADD_CODE||requestCode==ADD_CHILD_CODE)&&resultCode==1)
         {
             listView.setRefreshing(true);
         }

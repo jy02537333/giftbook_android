@@ -142,7 +142,7 @@ public class SidekickerGroupFragment extends MyPullToRefreshBaseFragment {
     }
     void initTool()
     {
-        MenuSettingViewInit.init(titleBar,getActivity());
+//        MenuSettingViewInit.init(titleBar,getActivity());
         mServicesTool=new AppServerTool(NetworkConfig.api_url,getActivity(),mHandler);
         adapter=new SidekickerGroupAdapter(this);
         gridView.setAdapter(adapter);

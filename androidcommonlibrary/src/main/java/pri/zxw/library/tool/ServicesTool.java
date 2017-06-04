@@ -134,6 +134,13 @@ public abstract class ServicesTool {
 		doGetAndalysisData(subUrl, param, requestCode);
 	}
 
+	/**
+	 * 带开始和结束回调的方法
+	 * @param subUrl
+	 * @param param
+	 * @param requestCode
+	 * @param servicesCallback 访问开始和结束 事件回调
+     */
 	public void doGetAndalysisDataCall(String subUrl, Map<String, String> param,
 								   final int requestCode,final IServicesCallback servicesCallback) {
 		if (baseUrl == null || subUrl == null) {

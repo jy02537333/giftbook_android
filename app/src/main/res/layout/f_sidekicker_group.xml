@@ -25,6 +25,7 @@
              android:layout_height="60dp"
              android:layout_marginTop="10dp"
              android:layout_gravity="center_horizontal"
+             android:visibility="gone"
              android:src="@mipmap/big_user_default"/>
        <GridView
            android:layout_marginTop="10dp"

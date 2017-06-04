@@ -3,6 +3,7 @@ package pri.zxw.library.tool;
 import pri.zxw.library.R;
 import android.app.Activity;
 import android.content.Context;
+import android.widget.EditText;
 import android.widget.Toast;
 
 
@@ -137,4 +138,23 @@ public class ToastShowTool {
 	{
 		myToastShort(act, "请先连接网络！再进行操作！");
 	}
+
+	/**
+	 * 判断是否是空的
+	 * @param context
+	 * @param emptyStr
+	 * @param editText
+     * @return
+     */
+	public static boolean emptyToast(Context context, String emptyStr, EditText editText)
+	{
+		String str=editText.getText().toString();
+		if(str.trim().length()==0)
+		{
+			myToastShort(context,emptyStr);
+			return true;
+		}
+		return false;
+	}
+
 }

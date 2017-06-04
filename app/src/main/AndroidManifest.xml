@@ -118,6 +118,22 @@
         <activity android:name=".Activity.myinfo.MyInfoEditAct"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".Activity.AddReceivingGiftIitemMoneyAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.AddReceivingGiftsAffairAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.AddReceivingGiftsAffair2Act"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.ReceivingGiftItemMoneyListAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.SendInvitationAct"
+            android:screenOrientation="portrait">
+        </activity>
+
         <activity android:name=".Activity.contact.ContactListActivity"
             android:screenOrientation="portrait">
         </activity>

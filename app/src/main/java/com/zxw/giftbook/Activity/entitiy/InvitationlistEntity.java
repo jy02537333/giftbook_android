@@ -22,13 +22,13 @@ public class InvitationlistEntity {
     /**状态(0=删除，1正常)*/
     private java.lang.Integer state;
     /**创建时间*/
-    private java.util.Date createDate;
+    private String createDate;
     /**创建人编号*/
     private java.lang.String createBy;
     /**创建人姓名*/
     private java.lang.String createName;
     /**更新时间*/
-    private java.util.Date updateDate;
+    private String updateDate;
     /**更新人编号*/
     private java.lang.String updateBy;
     /**更信任姓名*/
@@ -148,7 +148,7 @@ public class InvitationlistEntity {
      *方法: 取得java.util.Date
      *@return: java.util.Date  创建时间
      */
-    public java.util.Date getCreateDate(){
+    public String getCreateDate(){
         return this.createDate;
     }
 
@@ -156,7 +156,7 @@ public class InvitationlistEntity {
      *方法: 设置java.util.Date
      *@param: java.util.Date  创建时间
      */
-    public void setCreateDate(java.util.Date createDate){
+    public void setCreateDate(String createDate){
         this.createDate = createDate;
     }
     /**
@@ -193,7 +193,7 @@ public class InvitationlistEntity {
      *方法: 取得java.util.Date
      *@return: java.util.Date  更新时间
      */
-    public java.util.Date getUpdateDate(){
+    public String getUpdateDate(){
         return this.updateDate;
     }
 
@@ -201,7 +201,7 @@ public class InvitationlistEntity {
      *方法: 设置java.util.Date
      *@param: java.util.Date  更新时间
      */
-    public void setUpdateDate(java.util.Date updateDate){
+    public void setUpdateDate(String updateDate){
         this.updateDate = updateDate;
     }
     /**

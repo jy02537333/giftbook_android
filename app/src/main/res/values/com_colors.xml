@@ -26,12 +26,16 @@
     <color name="font_com_content_black_tint_color">#777777</color>
     <!-- 公共背景色 -->
     <color name="com_bg_color">#fafafa</color>
+    <!-- 公共边框色dddd -->
+    <color name="com_bg_ddd_color">#dddddd</color>
     <!-- 公共图片背景色 -->
     <color name="com_img_bg_color">#f5f5f5</color>
 
     <!-- 公共 按钮的字体颜色 -->
     <color name="font_btn_bg_color">#ffffff</color>
 
+    <!-- 公共 金额颜色 -->
+    <color name="font_money_color">#ef5453</color>
     <!-- 公共 横线颜色 -->
     <color name="com_line_color">#e5e5e5</color>
     <!-- 公共 横线颜色 -->
