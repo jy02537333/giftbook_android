@@ -6,7 +6,7 @@
         xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
         android:id="@+id/a_receives_invitation_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/title_bar_h"
         titleBarStyle:text="请帖"
         titleBarStyle:left_visibility="visible"/>
     <com.handmark.pulltorefresh.library.PullToRefreshListView

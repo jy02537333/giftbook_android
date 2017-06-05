@@ -53,7 +53,7 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
     TextView numTv,moneyTv;
     ReceivesGiftAdapter adapter;
     PullToRefreshListView listView;
-    public static final String GET_DATA_URL="apiVReceivesMoneyController.do?datagrid";
+    public static final String GET_DATA_URL="apiVReceivingMoneyController.do?datagrid";
     Handler mHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -140,7 +140,7 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
     @Override
     public void getWebData() {
         Map<String,String> params= ComParamsAddTool.getPageParam(this);
-        params.put("create_by", FtpApplication.getInstance().getUser().getId());
+        params.put("createby", FtpApplication.getInstance().getUser().getId());
         mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
     }
 

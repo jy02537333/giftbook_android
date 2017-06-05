@@ -7,7 +7,7 @@
         xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
         android:id="@+id/a_add_receiving_gifts_affair_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/title_bar_h"
         titleBarStyle:text="添加收礼"
         titleBarStyle:left_visibility="visible"
         titleBarStyle:right_text="完成"/>

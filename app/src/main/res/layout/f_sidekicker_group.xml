@@ -8,7 +8,7 @@
         xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
         android:id="@+id/f_sidekicker_group_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/title_bar_h"
         titleBarStyle:text="亲友团"
         titleBarStyle:left_visibility="gone" />
     <android.support.v4.widget.SwipeRefreshLayout
