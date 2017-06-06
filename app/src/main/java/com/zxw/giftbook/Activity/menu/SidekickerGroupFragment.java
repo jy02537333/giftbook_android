@@ -87,7 +87,7 @@ public class SidekickerGroupFragment extends MyPullToRefreshBaseFragment {
                 String id=messageHandlerTool.handlerData(msg,getActivity());
                 if(id!=null)
                 {
-                    mAdapter.remove();
+                    adapter.remove();
                     isSubmit=false;
                     getWebData();
 //                    adapter.addData(entity);
