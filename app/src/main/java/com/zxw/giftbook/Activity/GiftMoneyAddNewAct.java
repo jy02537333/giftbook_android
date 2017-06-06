@@ -3,9 +3,11 @@ package com.zxw.giftbook.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -37,6 +39,7 @@ import pri.zxw.library.base.MyPullToRefreshBaseFragment;
 import pri.zxw.library.listener.TitleOnClickListener;
 import pri.zxw.library.listener.TxtLengthRestrictTool;
 import pri.zxw.library.tool.DateCommon;
+import pri.zxw.library.tool.ImgLoad.MyImgLoadTool;
 import pri.zxw.library.tool.MessageHandlerTool;
 import pri.zxw.library.tool.MyAlertDialog;
 import pri.zxw.library.tool.ProgressDialogTool;
@@ -61,13 +64,10 @@ public class GiftMoneyAddNewAct extends MyBaseActivity {
     TreeMap<String,String>  groupmembers=new TreeMap<>();
     TreeMap<String,Integer> membersNum=new TreeMap<>();
 
-    /**组类型*/
-    TextView  typeTv;
-    TextView otherTv,birthdayTv,weddingTv,hundredthTv,dateTv;
+    TextView otherTv,birthdayTv,weddingTv,hundredthTv,dateTv,moveHouseTv;
     TextView nameTv;
     EditText moneyEdit;
     TextView searchMemberTv;
-    TextView addGiftTypeTv;
     Button submitBtn;
     String typeId,typeName;
     String expendituredate;
@@ -139,8 +139,8 @@ public class GiftMoneyAddNewAct extends MyBaseActivity {
                 if(obj!=null)
                 {
                     giftTypeMap.put(obj.getId(),obj.getTypename() );
-                    typeTv.setText(obj.getTypename());
-                    typeTv.setTag(obj.getId());
+//                    typeTv.setText(obj.getTypename());
+//                    typeTv.setTag(obj.getId());
                     ToastShowTool.myToastShort(GiftMoneyAddNewAct.this,"添加成功！");
                 }else
                 {
@@ -183,17 +183,16 @@ public class GiftMoneyAddNewAct extends MyBaseActivity {
         titleBar=(TitleBar) findViewById(R.id.act_gift_money_add_title_bar);
         nameTv=(TextView) findViewById(R.id.act_gift_money_add_name_tv);
         searchMemberTv=(TextView) findViewById(R.id.act_gift_money_add_member_add_tv);
-        moneyEdit=(EditText) findViewById(R.id.act_gift_money_add_money_edit);
-        addGiftTypeTv=(TextView) findViewById(R.id.act_gift_money_add_type_add_tv);
-        typeTv=(TextView) findViewById(R.id.act_gift_money_add_type_tv);
+        moneyEdit=(EditText) findViewById(R.id.i_calc_value_edit);
         dateTv=(TextView) findViewById(R.id.act_gift_money_add_date_tv);
         weddingTv=(TextView) findViewById(R.id.a_gift_money_add_wedding_type_tv);
         birthdayTv=(TextView) findViewById(R.id.a_gift_money_add_birthday_type_tv);
+        moveHouseTv=(TextView) findViewById(R.id.a_gift_money_add_move_house_type_tv);
         otherTv=(TextView) findViewById(R.id.a_gift_money_add_other_type_tv);
         hundredthTv=(TextView) findViewById(R.id.a_gift_money_add_hundredth_type_tv);
         submitBtn=(Button)findViewById(R.id.i_calc_confirm);
-        if(typeId!=null)
-            typeTv.setText(typeName);
+        SimpleDateFormat sdf = new SimpleDateFormat( "MM-dd", Locale.CHINA);
+        dateTv.setText(sdf.format(dateAndTime.getTime()));
     }
     void initTool()
     {
@@ -231,6 +230,71 @@ public class GiftMoneyAddNewAct extends MyBaseActivity {
                 dateDlg.show();
             }
         });
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submit();
+            }
+        });
+        weddingTv.setOnClickListener(new MyClick());
+        birthdayTv.setOnClickListener(new MyClick());
+        otherTv.setOnClickListener(new MyClick());
+        hundredthTv.setOnClickListener(new MyClick());
+        moveHouseTv.setOnClickListener(new MyClick());
+    }
+    public void setTvSelect(TextView tv)
+    {
+        Drawable drawable1=getResources().getDrawable(R.mipmap.wedding);
+        drawable1.setBounds(0, 0, drawable1.getMinimumWidth(), drawable1.getMinimumHeight());
+        weddingTv.setCompoundDrawables(null,drawable1,null,null);
+        Drawable drawable2=getResources().getDrawable(R.mipmap.birthday);
+        drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());
+        birthdayTv.setCompoundDrawables(null,drawable2,null,null);
+        Drawable drawable3=getResources().getDrawable(R.mipmap.other);
+        drawable3.setBounds(0, 0, drawable3.getMinimumWidth(), drawable3.getMinimumHeight());
+        otherTv.setCompoundDrawables(null,drawable3,null,null);
+        Drawable drawable4=getResources().getDrawable(R.mipmap.hundredth);
+        drawable4.setBounds(0, 0, drawable4.getMinimumWidth(), drawable4.getMinimumHeight());
+        hundredthTv.setCompoundDrawables(null,drawable4,null,null);
+        Drawable drawable10=getResources().getDrawable(R.mipmap.hundredth);
+        drawable10.setBounds(0, 0, drawable10.getMinimumWidth(), drawable10.getMinimumHeight());
+        moveHouseTv.setCompoundDrawables(null,drawable10,null,null);
+        if(tv.getId()==weddingTv.getId())
+        {
+            Drawable drawable5=getResources().getDrawable(R.mipmap.wedding_p);
+            drawable5.setBounds(0, 0, drawable1.getMinimumWidth(), drawable1.getMinimumHeight());
+            typeId="1";
+            typeName=tv.getText().toString();
+            weddingTv.setCompoundDrawables(null,drawable5,null,null);
+        }else     if(tv.getId()==birthdayTv.getId())
+        {
+            Drawable drawable5=getResources().getDrawable(R.mipmap.birthday_p);
+        drawable5.setBounds(0, 0, drawable1.getMinimumWidth(), drawable1.getMinimumHeight());
+            typeId="3";
+            typeName=tv.getText().toString();
+            birthdayTv.setCompoundDrawables(null,drawable5,null,null);
+        }else     if(tv.getId()==otherTv.getId())
+        {
+            Drawable drawable5=getResources().getDrawable(R.mipmap.other_p);
+        drawable5.setBounds(0, 0, drawable1.getMinimumWidth(), drawable1.getMinimumHeight());
+            typeId="0";
+            typeName=tv.getText().toString();
+            otherTv.setCompoundDrawables(null,drawable5,null,null);
+        }else     if(tv.getId()==hundredthTv.getId())
+        {
+            Drawable drawable5=getResources().getDrawable(R.mipmap.hundredth_p);
+        drawable5.setBounds(0, 0, drawable1.getMinimumWidth(), drawable1.getMinimumHeight());
+            typeId="2";
+            typeName=tv.getText().toString();
+            hundredthTv.setCompoundDrawables(null,drawable5,null,null);
+        }else     if(tv.getId()==moveHouseTv.getId())
+        {
+            Drawable drawable5=getResources().getDrawable(R.mipmap.move_house_p);
+            drawable5.setBounds(0, 0, drawable1.getMinimumWidth(), drawable1.getMinimumHeight());
+            typeId="4";
+            typeName=tv.getText().toString();
+            moveHouseTv.setCompoundDrawables(null,drawable5,null,null);
+        }
     }
     public void submit()
     {
@@ -273,18 +337,6 @@ public class GiftMoneyAddNewAct extends MyBaseActivity {
         params.put("userid", FtpApplication.user.getId());
         ProgressDialogTool.getInstance(GiftMoneyAddNewAct.this).showDialog("提交中...");
         mServicesTool.doPostAndalysisData("apiAllTypeCtrl.do?getAll",params,MyPullToRefreshBaseFragment.GET_DATA_CODE);
-    }
-    public void showType()
-    {
-        DropDownBoxTool tool = new DropDownBoxTool();
-        tool.showDialog("选择礼金类型", giftTypeMap, 1,
-                this, typeTv, new DropDownBoxTool.Callback() {
-                    @Override
-                    public void complate(String key, String value) {
-                        typeId=key;
-                        typeName=value;
-                    }
-                });
     }
     public void addGiftType(String name)
     {
@@ -343,7 +395,7 @@ public class GiftMoneyAddNewAct extends MyBaseActivity {
                 this, null, new DropDownBoxTool.Callback() {
                     @Override
                     public void complate(String key, String value) {
-                        if(membersNum.get(key)>0)
+                        if(membersNum.get(key)<=0)
                         {
                             ToastShowTool.myToastShort(GiftMoneyAddNewAct.this,"该组下未有亲友！");
                             isGetGroupMembering=false;
@@ -371,6 +423,12 @@ public class GiftMoneyAddNewAct extends MyBaseActivity {
                     public void complate(String key, String value) {
                     }
                 });
+    }
+    class MyClick implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            setTvSelect((TextView) v);
+        }
     }
 
     @Override

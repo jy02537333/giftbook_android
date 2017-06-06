@@ -8,6 +8,8 @@ import java.lang.Integer;
 import java.math.BigDecimal;
 import java.sql.Blob;
 
+import pri.zxw.library.base.BaseEntity;
+
 /**   
  * @Title: 收礼事件
  * @Description: receives_invitation
@@ -16,7 +18,7 @@ import java.sql.Blob;
  * @version V1.0   
  *
  */
-public class ReceivesInvitationTitleEntity implements java.io.Serializable {
+public class ReceivesInvitationTitleEntity  extends BaseEntity {
 	/**Id*/
 	private String id;
 	/**收礼类型*/
@@ -187,5 +189,10 @@ public class ReceivesInvitationTitleEntity implements java.io.Serializable {
 	 */
 	public void setUpdateName(String updateName){
 		this.updateName = updateName;
+	}
+
+	@Override
+	public Class getMyClass() {
+		return null;
 	}
 }

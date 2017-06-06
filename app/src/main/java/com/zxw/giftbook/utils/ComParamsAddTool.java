@@ -23,6 +23,7 @@ public class ComParamsAddTool {
     {
         Map<String,String > paramMap=getParam();
         paramMap.put("page",base.getCur_page()+"");
+        paramMap.put("rows",base.getRows()+"");
         return paramMap;
     }
     /**

@@ -184,10 +184,7 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
         else
             params.put("month","0");
         params.put("isexpenditure","1");
-        if(this.getUpfalg())
-        {
-            params.put("getCount","1");
-        }
+        params.put("getCount","10");
         mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
     }
 

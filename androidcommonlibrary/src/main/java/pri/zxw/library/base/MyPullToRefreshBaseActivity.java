@@ -22,7 +22,8 @@ extends MyBaseActivity implements PullToRefreshBase.OnRefreshListener2
 	public static final int LOAD_CODE=3333;
 	public static final int DEL_CODE=3333;
 	public static final int GO_ADD=2121;
-	protected static final int PAGE_SIZE = 10; // 页面大小
+	public boolean isSub=false;
+	protected  int rows = 10; // 页面大小
 	protected String startDate = DateCommon.getCurrentDateStr(); // 开始查找的时间节
 	protected Boolean mUpfalg = true;
 	public int cur_page = 1; // 当前页的索引
@@ -154,5 +155,14 @@ extends MyBaseActivity implements PullToRefreshBase.OnRefreshListener2
 		cur_page--;
 		return cur_page;
 	}
-	
+
+	@Override
+	public int getRows() {
+		return rows;
+	}
+
+	@Override
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
 }

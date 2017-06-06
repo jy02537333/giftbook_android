@@ -73,8 +73,15 @@ public class ReceivesGiftAdapter extends MyBaseAdapter<ReceivingGiftEntity> {
        final ReceivingGiftEntity entity=list.get(position);
         holder.title.setText(entity.getTitle());
         holder.typeTv.setText(entity.getReceivestype());
-        holder.dateTv.setText( DateCommon.formatDateTime(new Date( entity.getCreateDate()),DateCommon.YYYY_P_MM_P_DD));
-        holder.moneyTv.setText(entity.getSumMoney()+"元");
+        if(entity.getCreateDate()!=null )
+        {
+            long dateL=Long.parseLong(entity.getCreateDate());
+            holder.dateTv.setText( DateCommon.formatDateTime(new Date( dateL),DateCommon.YYYY_P_MM_P_DD));
+        }
+        if(entity.getSumMoney()==null||entity.getSumMoney().equals(""))
+            holder.moneyTv.setText("0元");
+        else
+            holder.moneyTv.setText(entity.getSumMoney()+"元");
         holder.numTv.setText(entity.getNum()+"人");
         return super.getView(position, convertView, parent);
     }

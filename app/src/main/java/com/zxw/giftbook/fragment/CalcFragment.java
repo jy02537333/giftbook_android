@@ -3,6 +3,7 @@ package com.zxw.giftbook.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +84,8 @@ public class CalcFragment extends BaseFragment {
 
             }
         });
+        valEdit.setKeyListener(null);
+        valEdit.setInputType(InputType.TYPE_NULL);
     }
 
     @Override

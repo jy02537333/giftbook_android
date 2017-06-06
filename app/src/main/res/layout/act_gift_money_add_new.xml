@@ -71,6 +71,14 @@
                 android:drawableTop="@drawable/select_gift_type_hundredth"
                 android:text="百日"/>
             <TextView
+                android:id="@+id/a_gift_money_add_move_house_type_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:drawableTop="@drawable/select_gift_type_move_house"
+                android:text="乔迁"/>
+            <TextView
                 android:id="@+id/a_gift_money_add_other_type_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -79,11 +87,13 @@
                 android:drawableTop="@drawable/select_gift_type_other"
                 android:text="其它"/>
         </LinearLayout>
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

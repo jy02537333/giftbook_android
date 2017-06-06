@@ -12,7 +12,7 @@ import pri.zxw.library.base.BaseEntity;
  *
  */
 @SuppressWarnings("serial")
-public class SidekickergroupEntity extends BaseEntity implements java.io.Serializable {
+public class SidekickergroupEntity extends BaseEntity {
 	public  Class<GifttypeEntity> getMyClass()
 	{
 		return GifttypeEntity.class;

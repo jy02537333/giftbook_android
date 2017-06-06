@@ -10,20 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.zxw.giftbook.Activity.AddReceivingGiftIitemMoneyAct;
 import com.zxw.giftbook.Activity.AddReceivingGiftsAffair2Act;
-import com.zxw.giftbook.Activity.AddReceivingGiftsAffairAct;
-import com.zxw.giftbook.Activity.GiftMoneyAddAct;
 import com.zxw.giftbook.Activity.ReceivingGiftItemMoneyListAct;
 import com.zxw.giftbook.Activity.entitiy.ReceivingGiftEntity;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
-import com.zxw.giftbook.adapter.HomeJournalAccountAdapter;
 import com.zxw.giftbook.adapter.ReceivesGiftAdapter;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
@@ -35,9 +31,8 @@ import java.util.Map;
 
 import pri.zxw.library.base.MyPullToRefreshBaseFragment;
 import pri.zxw.library.listener.TitleOnClickListener;
-import pri.zxw.library.listener.TxtLengthRestrictTool;
+import pri.zxw.library.myinterface.IServicesCallback;
 import pri.zxw.library.tool.MessageHandlerTool;
-import pri.zxw.library.tool.MyAlertDialog;
 import pri.zxw.library.view.TitleBar;
 
 /**
@@ -69,6 +64,7 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
                 for (ReceivingGiftEntity entity:(List<ReceivingGiftEntity>)msgInfo.getList())
                 {
                     num+=entity.getNum();
+                   if(entity.getSumMoney()!=null&&!entity.getSumMoney().equals(""))
                     money+=Double.parseDouble(entity.getSumMoney());
                 }
                 numTv.setText("收礼次数："+num+"次");
@@ -112,7 +108,8 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
         mServicesTool=new AppServerTool(NetworkConfig.api_url,getActivity(),mHandler);
         adapter=new ReceivesGiftAdapter(getActivity());
         listView.setAdapter(adapter);
-        this.initListener(listView,adapter);
+        setRows(1000);
+        this.initListener(listView,adapter,PullToRefreshBase.Mode.PULL_FROM_START);
     }
     public void initListener()
     {
@@ -120,17 +117,18 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getActivity(), AddReceivingGiftsAffair2Act.class);
-                getActivity().startActivityForResult(intent,GET_ADD_CODE);
+                startActivityForResult(intent,GET_ADD_CODE);
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ReceivingGiftEntity entity=adapter.getItem(++position);
+                ReceivingGiftEntity entity=adapter.getItem(--position);
                 Intent intent=new Intent(getActivity(), ReceivingGiftItemMoneyListAct.class);
                 intent.putExtra("id",entity.getId());
                 intent.putExtra("typeId",entity.getReceivestypeId());
                 intent.putExtra("typeName",entity.getReceivestype());
+                intent.putExtra("title",entity.getTitle());
                 startActivityForResult(intent,ADD_CHILD_CODE);
             }
         });
@@ -139,9 +137,21 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
 
     @Override
     public void getWebData() {
+        if(isSub)
+            return ;
         Map<String,String> params= ComParamsAddTool.getPageParam(this);
         params.put("createby", FtpApplication.getInstance().getUser().getId());
-        mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
+        mServicesTool.doPostAndalysisDataCall(GET_DATA_URL, params, GET_DATA_CODE, new IServicesCallback() {
+            @Override
+            public void onStart() {
+                isSub=true;
+            }
+
+            @Override
+            public void onEnd() {
+                isSub=false;
+            }
+        });
     }
 
 

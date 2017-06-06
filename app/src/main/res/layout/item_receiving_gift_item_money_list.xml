@@ -21,7 +21,7 @@
            android:layout_height="match_parent"
            android:layout_weight="1"
            android:textColor="@color/font_money_color"
-           android:text="姓名"/>
+           android:text="2000元"/>
        <TextView
            android:id="@+id/item_receiving_gift_item_type_tv"
            android:gravity="center"
@@ -35,7 +35,8 @@
            android:layout_width="0dp"
            android:layout_height="match_parent"
            android:layout_weight="1"
-           android:layout_margin="5dp"
+           android:layout_margin="10dp"
+           android:textSize="14sp"
            android:background="@color/submit_btn_color"
            android:textColor="@color/font_btn_bg_color"
            android:text="删除"/>

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_h"
         titleBarStyle:left_visibility="visible"
-        titleBarStyle:text="记一笔" />
+        titleBarStyle:text="收礼记账" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,15 +63,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </fragment>
-        <Button
-            android:id="@+id/a_add_receiving_gift_item_money_submit_btn"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/select_shape_bg_btn"
-            android:textColor="@color/font_btn_bg_color"
-            android:text="保存"/>
     </LinearLayout>
 </LinearLayout>

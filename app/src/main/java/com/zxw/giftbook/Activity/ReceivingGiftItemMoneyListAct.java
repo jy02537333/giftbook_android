@@ -13,10 +13,12 @@ import android.widget.TextView;
 import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zxw.giftbook.Activity.entitiy.ReceivingGiftEntity;
+import com.zxw.giftbook.Activity.entitiy.ReceivingGiftsMoneyEntity;
 import com.zxw.giftbook.Activity.menu.ReceivingGIftFragment;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.adapter.HomeJournalAccountAdapter;
+import com.zxw.giftbook.adapter.ReceivingGiftItemMoneyAdapter;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
@@ -28,7 +30,9 @@ import java.util.Map;
 import pri.zxw.library.base.MyPullToRefreshBaseActivity;
 import pri.zxw.library.base.MyPullToRefreshBaseFragment;
 import pri.zxw.library.listener.TitleOnClickListener;
+import pri.zxw.library.myinterface.IServicesCallback;
 import pri.zxw.library.tool.MessageHandlerTool;
+import pri.zxw.library.tool.ProgressDialogTool;
 import pri.zxw.library.view.TitleBar;
 
 /**
@@ -40,13 +44,14 @@ import pri.zxw.library.view.TitleBar;
 public class ReceivingGiftItemMoneyListAct  extends MyPullToRefreshBaseActivity{
 
     TitleBar titleBar;
-    View view;
     AppServerTool mServicesTool;
-    HomeJournalAccountAdapter adapter;
+    ReceivingGiftItemMoneyAdapter adapter;
     PullToRefreshListView listView;
     String id;
     String typeId="";
     String typeName="";
+    String title;
+    public static final String DEL_URL="apiReceivingGiftsMoneyController.do?doDel";
     public static final String GET_DATA_URL="apiReceivingGiftsMoneyController.do?datagrid";
     Handler mHandler=new Handler(){
         @Override
@@ -55,12 +60,17 @@ public class ReceivingGiftItemMoneyListAct  extends MyPullToRefreshBaseActivity{
             if(msg.what==GET_DATA_CODE)
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
-                Type type=new TypeToken<List<ReceivingGiftEntity>>(){}.getType();
+                Type type=new TypeToken<List<ReceivingGiftsMoneyEntity>>(){}.getType();
                 MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,ReceivingGiftItemMoneyListAct.this,adapter,listView,type);
             }
             else if(msg.what==LOAD_CODE)
             {
                 listView.setRefreshing(true);
+            }
+            else if(msg.what==DEL_CODE)
+            {
+                MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
+                int ret = messageHandlerTool.handler(msg,ReceivingGiftItemMoneyListAct.this);
             }
         }
     };
@@ -72,6 +82,7 @@ public class ReceivingGiftItemMoneyListAct  extends MyPullToRefreshBaseActivity{
         id=getIntent().getStringExtra("id");
         typeId=getIntent().getStringExtra("typeId");
         typeName=getIntent().getStringExtra("typeName");
+        title=getIntent().getStringExtra("title");
         initView();
         initTool();
         initListener();
@@ -82,13 +93,14 @@ public class ReceivingGiftItemMoneyListAct  extends MyPullToRefreshBaseActivity{
 
     public void initView()
     {
-        titleBar=(TitleBar) view.findViewById(R.id.a_receives_gift_item_money_title_bar);
-        listView=(PullToRefreshListView)view.findViewById(R.id.a_receives_gift_item_money_lv);
+        titleBar=(TitleBar) findViewById(R.id.a_receives_gift_item_money_title_bar);
+        listView=(PullToRefreshListView)findViewById(R.id.a_receives_gift_item_money_lv);
+        titleBar.setText(title);
     }
     void initTool()
     {
         mServicesTool=new AppServerTool(NetworkConfig.api_url,this,mHandler);
-        adapter=new HomeJournalAccountAdapter(this);
+        adapter=new ReceivingGiftItemMoneyAdapter(this);
         listView.setAdapter(adapter);
         this.initListener(listView,adapter);
     }
@@ -105,20 +117,51 @@ public class ReceivingGiftItemMoneyListAct  extends MyPullToRefreshBaseActivity{
             public void onClick(View view) {
                 Intent intent=new Intent(ReceivingGiftItemMoneyListAct.this, AddReceivingGiftIitemMoneyAct.class);
                 intent.putExtra("parentId",id);
-                intent.putExtra("typeId",id);
-                intent.putExtra("typeName",id);
+                intent.putExtra("typeId",typeId);
+                intent.putExtra("typeName",typeName);
                 startActivityForResult(intent,GET_ADD_CODE);
             }
         });
     }
+    public void del(String id)
+    {
+        if(isSub)
+            return ;
+        Map<String,String> params= ComParamsAddTool.getParam();
+        params.put("id",id);
+        mServicesTool.doPostAndalysisDataCall(DEL_URL,params,DEL_CODE, new IServicesCallback() {
+            @Override
+            public void onStart() {
+                ProgressDialogTool.getInstance(ReceivingGiftItemMoneyListAct.this).showDialog("删除中...");
+                isSub=true;
+            }
 
+            @Override
+            public void onEnd() {
+                ProgressDialogTool.getInstance(ReceivingGiftItemMoneyListAct.this).dismissDialog();
+                isSub=false;
+            }
+        });
+    }
 
     @Override
     public void getWebData() {
+        if(isSub)
+            return ;
         Map<String,String> params= ComParamsAddTool.getPageParam(this);
         params.put("correlativeinvitation",id);
         params.put("create_by", FtpApplication.getInstance().getUser().getId());
-        mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
+        mServicesTool.doPostAndalysisDataCall(GET_DATA_URL, params, GET_DATA_CODE, new IServicesCallback() {
+            @Override
+            public void onStart() {
+                isSub=true;
+            }
+
+            @Override
+            public void onEnd() {
+                isSub=false;
+            }
+        });
     }
 
 

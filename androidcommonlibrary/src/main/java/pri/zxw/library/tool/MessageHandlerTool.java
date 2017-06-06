@@ -210,6 +210,13 @@ public class MessageHandlerTool {
 								}
 							else
 								adapter.notifyDataSetChanged();
+							double sumCount=Double.parseDouble(map.get("sumCount"));
+							double currCount=contenxt.getRows()*contenxt.getCur_page();
+							if(sumCount<=currCount){//已经滑动到最后一页时
+								listView.onRefreshComplete();
+								listView.setMode(Mode.PULL_FROM_START);
+								messageInfo.isEnd = true;
+							}
 							messageInfo.isHashValue = true;
 							messageInfo.list=tList;
 						
@@ -220,6 +227,7 @@ public class MessageHandlerTool {
 								}
 							}).start();
 						} else if (!contenxt.getUpfalg()) {
+							listView.onRefreshComplete();
 							listView.setMode(Mode.PULL_FROM_START);
 							messageInfo.isHashValue = false;
 							messageInfo.isEnd = true;

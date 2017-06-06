@@ -39,7 +39,7 @@ import pri.zxw.library.tool.dialogTools.DropDownBoxTool;
 import pri.zxw.library.view.TitleBar;
 
 /**
- * 功能
+ * 添加收礼信息
  * Createdy 张相伟
  * 2017/6/4.
  */
@@ -48,7 +48,7 @@ public class AddReceivingGiftIitemMoneyAct extends MyBaseActivity {
     boolean isSubmit=false;
     AppServerTool mServicesTool;
     TitleBar titleBar;
-    public static final String ADD_URL="apiMembergiftmoneyCtrl.do?doAdd";
+    public static final String ADD_URL="apiReceivingGiftsMoneyController.do?doAdd";
     TreeMap<String,String> giftTypeMap=new TreeMap<>();
     TreeMap<String,String> sidekickerGroups=new TreeMap<>();
     TreeMap<String,String>  groupmembers=new TreeMap<>();
@@ -154,8 +154,8 @@ public class AddReceivingGiftIitemMoneyAct extends MyBaseActivity {
     {
         titleBar=(TitleBar) findViewById(R.id.a_add_receiving_gift_item_money_title_bar);
         nameTv=(TextView) findViewById(R.id.a_add_receiving_gift_item_money_name_tv);
-        moneyEdit=(EditText) findViewById(R.id.a_add_receiving_gift_item_money_money_edit);
-        submitBtn=(Button)findViewById(R.id.a_add_receiving_gift_item_money_submit_btn);
+        moneyEdit=(EditText) findViewById(R.id.i_calc_value_edit);
+        submitBtn=(Button)findViewById(R.id.i_calc_confirm);
     }
     void initTool()
     {
@@ -202,7 +202,6 @@ public class AddReceivingGiftIitemMoneyAct extends MyBaseActivity {
         }
         Map<String,String > params= ComParamsAddTool.getParam();
         params.put("correlativeinvitation",parentId);
-
         params.put("gourpmemberid", nameTv.getTag().toString());
         params.put("groupmember", nameTv.getText().toString());
         params.put("expendituretype", typeId+"");
@@ -249,7 +248,7 @@ public class AddReceivingGiftIitemMoneyAct extends MyBaseActivity {
                 this, null, new DropDownBoxTool.Callback() {
                     @Override
                     public void complate(String key, String value) {
-                        if(membersNum.get(key)>0)
+                        if(membersNum.get(key)<=0)
                         {
                             ToastShowTool.myToastShort(AddReceivingGiftIitemMoneyAct.this,"该组下未有亲友！");
                             isGetGroupMembering=false;

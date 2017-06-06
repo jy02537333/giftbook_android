@@ -1,12 +1,14 @@
 package com.zxw.giftbook.Activity.entitiy;
 
+import pri.zxw.library.base.BaseEntity;
+
 /**
  *  邀请人列表
  * Createdy 张相伟
  * 2017/5/23.
  */
 
-public class InvitationlistEntity {
+public class InvitationlistEntity  extends BaseEntity {
     /**Id*/
     private java.lang.String id;
     /**请帖编号*/
@@ -251,4 +253,8 @@ public class InvitationlistEntity {
         this.issend = issend;
     }
 
+    @Override
+    public Class getMyClass() {
+        return null;
+    }
 }

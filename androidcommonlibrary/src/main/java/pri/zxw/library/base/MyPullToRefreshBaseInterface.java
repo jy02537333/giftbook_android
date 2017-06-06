@@ -18,6 +18,8 @@ public interface MyPullToRefreshBaseInterface {
 	public void setUpfalg(Boolean mUpfalg);
 	public int getCur_page();
 	public void setCur_page(int cur_page);
+	public int getRows();
+	public void setRows(int rows);
 	public Context getContext();
 	public String getStartDate();
 	public void setStartDate(String startDate);

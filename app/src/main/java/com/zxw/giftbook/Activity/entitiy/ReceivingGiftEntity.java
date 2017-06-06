@@ -14,14 +14,15 @@ public class ReceivingGiftEntity extends BaseEntity {
     /**标题*/
     private String title;
     /**创建时间*/
-    private String createDate;
+    private String createdate;
+    private String createby;
     /**Id*/
     private String id;
     /**receivestype*/
     private String receivestype;
-    private String receivestypeid;
+    private String typeid;
     /**sumMoney*/
-    private String sumMoney;
+    private String summoney;
     /**num*/
     private Integer num;
 
@@ -45,7 +46,7 @@ public class ReceivingGiftEntity extends BaseEntity {
      *@return: java.util.Date  创建时间
      */
     public String getCreateDate(){
-        return this.createDate;
+        return this.createdate;
     }
 
     /**
@@ -53,7 +54,7 @@ public class ReceivingGiftEntity extends BaseEntity {
      *@param: java.util.Date  创建时间
      */
     public void setCreateDate(String createDate){
-        this.createDate = createDate;
+        this.createdate = createDate;
     }
     /**
      *方法: 取得java.lang.String
@@ -91,14 +92,14 @@ public class ReceivingGiftEntity extends BaseEntity {
      * @return
      */
     public String getReceivestypeId() {
-        return receivestypeid;
+        return typeid;
     }
     /**
      * 送礼类型
      * @return
      */
-    public void setReceivestypeId(String receivestypeid) {
-        this.receivestypeid = receivestypeid;
+    public void setReceivestypeId(String typeid) {
+        this.typeid = typeid;
     }
 
     /**
@@ -106,7 +107,7 @@ public class ReceivingGiftEntity extends BaseEntity {
      *@return: java.lang.String  sumMoney
      */
     public String getSumMoney(){
-        return this.sumMoney;
+        return this.summoney;
     }
 
     /**
@@ -114,7 +115,7 @@ public class ReceivingGiftEntity extends BaseEntity {
      *@param: java.lang.String  sumMoney
      */
     public void setSumMoney(String sumMoney){
-        this.sumMoney = sumMoney;
+        this.summoney = sumMoney;
     }
     /**
      *方法: 取得java.lang.Integer
@@ -130,6 +131,14 @@ public class ReceivingGiftEntity extends BaseEntity {
      */
     public void setNum(Integer num){
         this.num = num;
+    }
+
+    public String getCreatedate() {
+        return createdate;
+    }
+
+    public void setCreatedate(String createdate) {
+        this.createdate = createdate;
     }
 
     @Override

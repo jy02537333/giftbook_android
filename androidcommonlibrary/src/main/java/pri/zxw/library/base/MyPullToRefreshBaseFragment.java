@@ -26,10 +26,11 @@ extends BaseFragment implements PullToRefreshBase.OnRefreshListener2
 	public static final int ADD_CHILD_CODE=9494;
 	public static final int LOAD_CODE=3333;
 	public static final int DEL_CODE=4444;
-	protected static final int PAGE_SIZE = 10; // 页面大小
+	protected   int rows = 10; // 页面大小
 	protected String startDate = DateCommon.getCurrentDateStr(); // 开始查找的时间节
 	/**是否下拉刷新*/
-	protected Boolean mUpfalg = true; 
+	protected Boolean mUpfalg = true;
+	public boolean isSub=false;
 	public int cur_page = 1; // 当前页的索引
 	protected PullToRefreshBase mPullToRefreshBase;   
 	protected MyBaseAdapter mAdapter;
@@ -173,5 +174,15 @@ extends BaseFragment implements PullToRefreshBase.OnRefreshListener2
 	public int CurrPageMinus() {
 		cur_page--;
 		return cur_page;
+	}
+
+	@Override
+	public int getRows() {
+		return rows;
+	}
+
+	@Override
+	public void setRows(int rows) {
+		this.rows=rows;
 	}
 }
