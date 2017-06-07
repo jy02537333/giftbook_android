@@ -88,7 +88,7 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
         initView();
         initTool();
         initListener();
-       listLoad(mHandler);
+        listLoad(mHandler);
         return view;
     }
 

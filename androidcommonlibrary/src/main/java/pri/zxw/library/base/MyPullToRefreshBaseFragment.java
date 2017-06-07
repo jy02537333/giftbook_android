@@ -80,7 +80,7 @@ extends BaseFragment implements PullToRefreshBase.OnRefreshListener2
 			@Override
 			public void run() {
 				try {
-					Thread.sleep(500);
+					Thread.sleep(300);
 					Message msg=new Message();
 					msg.what=LOAD_CODE;
 					handler.sendMessage(msg);

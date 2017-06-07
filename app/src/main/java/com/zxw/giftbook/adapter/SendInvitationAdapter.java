@@ -7,22 +7,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.zxw.giftbook.Activity.SendInvitationAct;
 import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
+import com.zxw.giftbook.Activity.entitiy.VSendInvitationEntity;
 import com.zxw.giftbook.Activity.menu.SidekickerGroup2Fragment;
 import com.zxw.giftbook.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import pri.zxw.library.base.MyBaseAdapter;
+import pri.zxw.library.tool.DateCommon;
 
 /**
- * 亲友团 ，组名称 适配器
+ * 我发送的请帖 适配器
  *
  */
 public class SendInvitationAdapter extends MyBaseAdapter {
-    private SidekickerGroup2Fragment mContext;
-    private List<SidekickergroupEntity> comLists;
+    private SendInvitationAct mContext;
+    private List<VSendInvitationEntity> comLists;
     private LayoutInflater inflater = null;
     @Override
     public void addDataAll(List infos) {
@@ -35,10 +39,10 @@ public class SendInvitationAdapter extends MyBaseAdapter {
         comLists.clear();
     }
 
-    public SendInvitationAdapter(SidekickerGroup2Fragment context) {
+    public SendInvitationAdapter(SendInvitationAct context) {
         this.mContext = context;
         inflater= LayoutInflater.from(context.getContext());
-        comLists=new ArrayList<SidekickergroupEntity>();
+        comLists=new ArrayList<VSendInvitationEntity>();
     }
 
     @Override
@@ -48,7 +52,7 @@ public class SendInvitationAdapter extends MyBaseAdapter {
         return 0;
     }
     @Override
-    public SidekickergroupEntity getItem(int position) {
+    public VSendInvitationEntity getItem(int position) {
         return comLists.get(position);
     }
 
@@ -63,25 +67,24 @@ public class SendInvitationAdapter extends MyBaseAdapter {
         ViewHolder mHolder;
         View view = convertView;
         if (view == null) {
-            view = inflater.inflate(R.layout.item_list_group_type2, null);
+            view = inflater.inflate(R.layout.item_send_invitation, null);
             mHolder = new ViewHolder();
-            mHolder.lay = (LinearLayout) view.findViewById(R.id.item_list_group_type_lay);
-            mHolder.operateImg=(ImageView)view.findViewById(R.id.item_list_group_type_operate_img);
-            mHolder.nameTv = (TextView) view.findViewById(R.id.item_list_group_type_name_tv);
-            mHolder.numTv = (TextView) view.findViewById(R.id.item_list_group_type_num_tv);
+            mHolder.lay = (LinearLayout) view.findViewById(R.id.item_send_invitation_lay);
+//            mHolder.operateImg=(ImageView)view.findViewById(R.id.item_send_invitation);
+            mHolder.dateTv = (TextView) view.findViewById(R.id.item_send_invitation_date_tv);
+            mHolder.numTv = (TextView) view.findViewById(R.id.item_send_invitation_num_tv);
+            mHolder.addrTv = (TextView) view.findViewById(R.id.item_send_invitation_addr_tv);
+            mHolder.typeTv = (TextView) view.findViewById(R.id.item_send_invitation_type_tv);
             view.setTag(mHolder);
         } else {
             mHolder = (ViewHolder) view.getTag();
         }
-       final SidekickergroupEntity comInfo =comLists.get(position);
-        mHolder.nameTv.setText(comInfo.getGroupname());
-        mHolder.numTv.setText("("+comInfo.getGroupmembersnum()+")");
-        mHolder.operateImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mContext.operate(comInfo.getId(),comInfo.getGroupname());
-            }
-        });
+       final VSendInvitationEntity comInfo =comLists.get(position);
+        long dateL=Long.parseLong(comInfo.getFeastdate());
+        mHolder.dateTv.setText(DateCommon.formatDateTime(new Date( dateL),DateCommon.YYYY_P_MM_P_DD));
+        mHolder.numTv.setText("("+comInfo.getNum()+")");
+        mHolder.addrTv.setText("("+comInfo.getFeastaddress()+")");
+        mHolder.typeTv.setText("("+comInfo.getFeasttype()+")");
         return view;
     }
 
@@ -91,7 +94,7 @@ public class SendInvitationAdapter extends MyBaseAdapter {
     class ViewHolder {
         LinearLayout lay;
         ImageView operateImg;
-       TextView nameTv;
+       TextView dateTv,typeTv,addrTv;
         TextView numTv;
     }
 

@@ -12,9 +12,11 @@ import android.widget.AdapterView;
 import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zxw.giftbook.Activity.entitiy.ReceivesInvitationEntity;
+import com.zxw.giftbook.Activity.entitiy.VSendInvitationEntity;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.adapter.ReceivesInvitationAdapter;
+import com.zxw.giftbook.adapter.SendInvitationAdapter;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
@@ -43,10 +45,9 @@ public class SendInvitationAct extends MyPullToRefreshBaseActivity {
     TitleBar titleBar;
     View view;
     AppServerTool mServicesTool;
-    ReceivesInvitationAdapter adapter;
+    SendInvitationAdapter adapter;
     PullToRefreshListView listView;
-    public static final String ADD_URL="apiInvitationController.do?doAdd";
-    public static final String GET_DATA_URL="apiInvitationController.do?getList";
+    public static final String GET_DATA_URL="apiVSendInvitationController.do?getList";
     Handler mHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -92,7 +93,7 @@ public class SendInvitationAct extends MyPullToRefreshBaseActivity {
     void initTool()
     {
         mServicesTool=new AppServerTool(NetworkConfig.api_url,this,mHandler);
-        adapter=new ReceivesInvitationAdapter(this);
+        adapter=new SendInvitationAdapter(this);
         listView.setAdapter(adapter);
         this.initListener(listView,adapter);
 
@@ -105,37 +106,36 @@ public class SendInvitationAct extends MyPullToRefreshBaseActivity {
                 onBackPressed();
             }
         });
+        titleBar.setRightClickListener(new TitleOnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(SendInvitationAct.this,AffairEditAct.class);
+                startActivityForResult(intent,ADD_CHILD_CODE);
+            }
+        });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 position=position-1;
-                ReceivesInvitationEntity invitationEntity= adapter.getItem(position);
+                VSendInvitationEntity invitationEntity= adapter.getItem(position);
                 Intent intent= new Intent(SendInvitationAct.this,ReceivesInvitationDetailAct.class);
-                intent.putExtra("invitationId",invitationEntity.getId());
-                intent.putExtra("inviterId",invitationEntity.getInvitationlistEntityList().get(0).getId());
+                intent.putExtra("id",invitationEntity.getId());
                 startActivity(intent);
             }
         });
-//        titleBar.setRightClickListener(new TitleOnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent=new Intent(this, GiftMoneyAddNewAct.class);
-//                startActivityForResult(intent,GET_ADD_CODE);
-//            }
-//        });
     }
 
 
     @Override
     public void getWebData() {
         Map<String,String> params= ComParamsAddTool.getPageParam(this);
-        params.put("userid", FtpApplication.getInstance().getUser().getId());
+        params.put("create_id", FtpApplication.getInstance().getUser().getId());
         mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==GET_ADD_CODE&&resultCode==1)
+        if(requestCode==ADD_CHILD_CODE&&resultCode==1)
         {
             listView.setRefreshing(true);
         }

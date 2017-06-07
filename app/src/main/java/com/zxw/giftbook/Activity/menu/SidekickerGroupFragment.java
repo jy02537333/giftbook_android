@@ -221,6 +221,7 @@ public class SidekickerGroupFragment extends MyPullToRefreshBaseFragment {
                 list.add(entity2);
                 addEmpty(list);
                 adapter.addDataAll(list);
+
     }
 
     @Override

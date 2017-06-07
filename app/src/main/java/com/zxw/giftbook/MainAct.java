@@ -28,6 +28,7 @@ import com.zxw.giftbook.Activity.menu.MyFragment;
 import com.zxw.giftbook.Activity.menu.HomeFragment;
 import com.zxw.giftbook.Activity.menu.PersonalCenterFragment;
 import com.zxw.giftbook.Activity.menu.ReceivingGIftFragment;
+import com.zxw.giftbook.Activity.menu.SidekickerGroup2Fragment;
 import com.zxw.giftbook.Activity.menu.SidekickerGroupFragment;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
@@ -46,7 +47,7 @@ public class MainAct extends MyBaseActivity {
     private Fragment mContent;
     private HomeFragment homeFragment;
     ReceivingGIftFragment receivingGIftFragment;
-    private SidekickerGroupFragment sidekickerGroupFragment;
+    private SidekickerGroup2Fragment sidekickerGroupFragment;
     private FinancialFragment financialFragment;
     private PersonalCenterFragment myFragment;
     private AppServerTool mServicesTool;
@@ -203,7 +204,7 @@ public class MainAct extends MyBaseActivity {
                 radioCanelCheck(id, R.mipmap.tab_sidekicker_group_p);
                 if (sidekickerGroupFragment == null)
                 {
-                    sidekickerGroupFragment = new SidekickerGroupFragment();
+                    sidekickerGroupFragment = new SidekickerGroup2Fragment();
                 }
                 switchContent(mContent, sidekickerGroupFragment);
             }

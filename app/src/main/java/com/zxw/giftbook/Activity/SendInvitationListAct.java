@@ -29,7 +29,7 @@ import pri.zxw.library.tool.MessageHandlerTool;
 import pri.zxw.library.view.TitleBar;
 
 /**
- * 收到的请帖列表
+ * 发送的请帖人员明细列表
  * Createdy 张相伟
  * 2017/5/20.
  */
@@ -46,7 +46,7 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
     ReceivesInvitationAdapter adapter;
     PullToRefreshListView listView;
     public static final String ADD_URL="apiInvitationController.do?doAdd";
-    public static final String GET_DATA_URL="apiInvitationController.do?getList";
+    public static final String GET_DATA_URL="apiInvitationlistController.do?datagrid";
     Handler mHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
