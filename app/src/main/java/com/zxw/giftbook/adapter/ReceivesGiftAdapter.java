@@ -50,6 +50,12 @@ public class ReceivesGiftAdapter extends MyBaseAdapter<ReceivingGiftEntity> {
 
     }
 
+
+    @Override
+    public void removeItem(int position) {
+        list.remove(position);
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ReceivesGiftView holder = null;

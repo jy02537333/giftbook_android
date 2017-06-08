@@ -44,6 +44,11 @@ public class HomeJournalAccountAdapter extends MyBaseAdapter<MembergiftmoneyEnti
     }
 
     @Override
+    public void removeItem(int position) {
+        list.remove(position);
+    }
+
+    @Override
     public void remove() {
         if(list!=null)
             list.clear();
@@ -86,6 +91,10 @@ public class HomeJournalAccountAdapter extends MyBaseAdapter<MembergiftmoneyEnti
         return super.getView(position, convertView, parent);
     }
 
+    @Override
+    public Object getItem(int position) {
+        return list.get(position);
+    }
 
 
     class ViewHolder{

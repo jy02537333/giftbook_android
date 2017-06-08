@@ -15,8 +15,17 @@ public class TestAdapter extends MyBaseAdapter<ComInfo> {
     }
 
     @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
     public void addDataAll(List<ComInfo> infos) {
 
+    }
+
+    @Override
+    public void removeItem(int position) {
     }
 
     @Override

@@ -18,4 +18,5 @@
         <!-- 分割线 -->
     <color name="fuxk_base_divide_line_color">#dcdcdc</color>
     <color name="trans">#00000000</color>
+    <color name="com_black_bg">#d5d5d5</color>
 </resources>

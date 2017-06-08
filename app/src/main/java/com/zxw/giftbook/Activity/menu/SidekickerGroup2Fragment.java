@@ -11,9 +11,11 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -25,6 +27,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.zxw.giftbook.Activity.GroupMemberAct;
 import com.zxw.giftbook.Activity.GroupMemberAddAct;
 import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
 import com.zxw.giftbook.FtpApplication;
@@ -33,6 +36,7 @@ import com.zxw.giftbook.adapter.SidekickerGroup2Adapter;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
+import com.zxw.giftbook.utils.PopShowDelAndEditOperateTool;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -43,8 +47,11 @@ import pri.zxw.library.base.MyPullToRefreshBaseFragment;
 import pri.zxw.library.db.JsonStrHistoryDao;
 import pri.zxw.library.listener.TitleOnClickListener;
 import pri.zxw.library.listener.TxtLengthRestrictTool;
+import pri.zxw.library.myinterface.IServicesCallback;
 import pri.zxw.library.tool.MessageHandlerTool;
 import pri.zxw.library.tool.MyAlertDialog;
+import pri.zxw.library.tool.ProgressDialogTool;
+import pri.zxw.library.tool.ToastShowTool;
 import pri.zxw.library.tool.dialogTools.DialogSelectBtn;
 import pri.zxw.library.view.TitleBar;
 
@@ -60,9 +67,10 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
     PullToRefreshListView lv;
     SidekickerGroup2Adapter adapter;
     AppServerTool mServicesTool;
-    public static final String GET_DATA_URL="apiSidekickergroupCtrl.do?list";
-    public static final int GET_DATA_CODE=1111;
-    public static final int GET_ADD_CODE=222;
+    int mPosition=-1;
+    public static final String GET_DATA_URL="apiSidekickergroupCtrl.do?datagrid";
+    public static final String GET_DEL_URL="apiSidekickergroupCtrl.do?doDel";
+    public static final String GET_EDIT_URL="apiSidekickergroupCtrl.do?doUpdate";
     Handler mHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -80,15 +88,25 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
                     dao.addCache("sidekickerGroup",messageHandlerTool.jsonStr);
                 }
                 isData=false;
-            }else if(msg.what==GET_ADD_CODE)
+            }else if(msg.what==EDIT_CODE)
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
-                String id=messageHandlerTool.handlerData(msg,getActivity());
-                if(id!=null)
+                Type type=new TypeToken<SidekickergroupEntity>(){}.getType();
+                SidekickergroupEntity retEntity=(SidekickergroupEntity)messageHandlerTool.handlerObject(msg,type,getActivity());
+                if(retEntity!=null)
                 {
-                    adapter.remove();
-                    isSubmit=false;
-                    getWebData();
+                    SidekickergroupEntity entity=   adapter.getItem(mPosition);
+                    entity.setGroupname(retEntity.getGroupname());
+                    adapter.notifyDataSetChanged();
+                }
+            }else if(msg.what==DEL_CODE)
+            {
+                MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
+                int ret=messageHandlerTool.handler(msg,getActivity());
+                if(ret==1)
+                {
+                    adapter.removeItem(mPosition);
+                    adapter.notifyDataSetChanged();
                 }
             } else if(msg.what==LOAD_CODE)
             {
@@ -134,6 +152,16 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
                 showAddView();
             }
         });
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SidekickergroupEntity entity=adapter.getItem(--position);
+                Intent intent=new Intent(getActivity(), GroupMemberAct.class);
+                intent.putExtra("id",entity.getId());
+                intent.putExtra("groupName",entity.getGroupname());
+                startActivity(intent);
+            }
+        });
     }
     public void addGroup(String name)
     {
@@ -146,96 +174,98 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
         params.put("userid", FtpApplication.getInstance().getUser().getId());
         mServicesTool.doPostAndalysisData("apiSidekickergroupCtrl.do?doAdd",params,GET_ADD_CODE);
     }
-    public void operate(final String id, final String name)
+    public void operate( String id,  String name,int poistion)
     {
-        int width=320;
-        int height= 180;
-        List<View> btns=new ArrayList<>();
-        TextView btn1= new TextView(getActivity());
-         LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(width,height);
-        lp.setMargins(0,10,0,0);
-        btn1.setLayoutParams(lp);
-        btn1.setCompoundDrawablePadding(10);
-        Drawable drawable=getResources().getDrawable(R.mipmap.operate_del);
-        drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
-        btn1.setCompoundDrawables(drawable,null,null,null);
-        btn1.setText("删除");
-        btn1.setOnClickListener(new View.OnClickListener() {
+        mPosition=poistion;
+        PopShowDelAndEditOperateTool.show(getActivity(),id,name,  view,
+        new PopShowDelAndEditOperateTool.DelAndEditCallback(){
             @Override
-            public void onClick(View v) {
+            public void onDelComplate(String id, String name) {
                 del(id,name);
             }
-        });
-        btns.add(btn1);
-        TextView lineTv=new TextView(getActivity());
-        LinearLayout.LayoutParams lpLine=new LinearLayout.LayoutParams(width,1);
-        lineTv.setLayoutParams(lp);
-        btns.add(lineTv);
-
-        TextView btn2= new TextView(getActivity());
-        LinearLayout.LayoutParams lp2=new LinearLayout.LayoutParams(width,height);
-        lp2.setMargins(0,10,0,10);
-        btn2.setLayoutParams(lp2);
-        btn1.setCompoundDrawablePadding(10);
-        Drawable drawable2=getResources().getDrawable(R.mipmap.operate_edit);
-        drawable2.setBounds(0,0,drawable2.getMinimumWidth(),drawable2.getMinimumHeight());
-        btn1.setCompoundDrawables(drawable,null,null,null);
-        btn2.setText("编辑");
-        btn2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                edit(id,name);
+            public void onEditComplate(String id, String name) {
+                showEditView(id,name);
             }
         });
-        btns.add(btn2);
-        DialogSelectBtn.show(getActivity(),"操作分类："+name,btns,view);
-//
-//        final MyAlertDialog.MyBuilder dialog1 = new MyAlertDialog.MyBuilder(getActivity());
-//        dialog1.setTitle("操作分类："+name);
-//        dialog1.setAutoDismiss(false, true);
-//        LayoutInflater mLayoutInflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
-//        View dialog_view = mLayoutInflater.inflate(
-//                R.layout.tool_alert_edit_text, null);
-//        dialog1.setContentView(dialog_view);
-//        final EditText editText = (EditText) dialog_view
-//                .findViewById(R.id.nickname_edit_aty_editor);
-//        editText.setTextColor(getResources().getColor(R.color.font_com_content_black_color));
-//        editText.setHintTextColor(getResources().getColor(R.color.com_hint_font_gray_color));
-//        editText.setHint("输入分类");
-//        editText.addTextChangedListener(new TxtLengthRestrictTool(editText, 20));
-//        editText.setSelection(editText.getText().length());
-//        dialog1.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface arg0, int arg1) {
-//                String str = editText.getText().toString().trim();
-//                addGroup(str);
-//                dialog1.dismiss();
-//            }
-//        });
-//        dialog1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface arg0, int arg1) {
-//                dialog1.dismiss();
-//            }
-//        });
-//        dialog1.create().show();
     }
-    void del(String id,String name)
+    void del(final String id,String name)
     {
 
-    }
-    void edit(String id,String name)
-    {
+        final MyAlertDialog.MyBuilder dialog1 = new MyAlertDialog.MyBuilder(getActivity());
+        dialog1.setTitle("删除分类："+name);
+        dialog1.setAutoDismiss(false, true);
+        LayoutInflater mLayoutInflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
+        View dialog_view = mLayoutInflater.inflate(
+                R.layout.tool_alert_edit_text, null);
+        dialog1.setContentView(dialog_view);
+        final EditText editText = (EditText) dialog_view
+                .findViewById(R.id.nickname_edit_aty_editor);
+        editText.setVisibility(View.GONE);
+        dialog1.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                dialog1.dismiss();
+                if(isData)
+                    return;
+                isData=true;
+                Map<String,String> params= ComParamsAddTool.getParam();
+                params.put("id", id);
+                mServicesTool.doPostAndalysisDataCall(GET_DEL_URL, params, DEL_CODE, new IServicesCallback() {
+                    @Override
+                    public void onStart() {
+                        ProgressDialogTool.getInstance(getActivity()).showDialog("删除....");
+                        isData=false;
+                    }
+
+                    @Override
+                    public void onEnd() {
+                        ProgressDialogTool.getInstance(getActivity()).dismissDialog();
+                        isData=false;
+                    }
+                });
+
+            }
+        });
+        dialog1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                dialog1.dismiss();
+            }
+        });
+        dialog1.create().show();
+
+
 
     }
-
-    public void addMember(String id,String groupName)
+    void editSubmit(String id,String updateNameStr)
     {
-        Intent intent=new Intent(getActivity(), GroupMemberAddAct.class);
-        intent.putExtra("id",id);
-        intent.putExtra("groupName",groupName);
-        startActivityForResult(intent,GET_ADD_CODE);
+        if(updateNameStr.trim().length()==0)
+        {
+            ToastShowTool.myToastShort(getActivity(),"");
+            return ;
+        }
+        if(isData)
+            return;
+        isData=true;
+        Map<String,String> params= ComParamsAddTool.getParam();
+        params.put("id", id);
+        params.put("groupname",updateNameStr);
+        mServicesTool.doPostAndalysisDataCall(GET_EDIT_URL, params, EDIT_CODE, new IServicesCallback() {
+            @Override
+            public void onStart() {
+                ProgressDialogTool.getInstance(getActivity()).showDialog("修改....");
+                isData=false;
+            }
+
+            @Override
+            public void onEnd() {
+                ProgressDialogTool.getInstance(getActivity()).dismissDialog();
+                isData=false;
+            }
+        });
     }
+
 
     @Override
     public String getFragmentName() {
@@ -257,7 +287,7 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
         params.put("page","1");
         params.put("rows","100");
         params.put("userid", FtpApplication.getInstance().getUser().getId());
-        mServicesTool.doPostAndalysisData("apiSidekickergroupCtrl.do?datagrid",params,GET_DATA_CODE);
+        mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
     }
 
 
@@ -296,12 +326,48 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
         dialog1.create().show();
     }
 
+
+    /**
+     * 编辑分类
+     */
+    private void showEditView(final String id, final String oldName) {
+        final MyAlertDialog.MyBuilder dialog1 = new MyAlertDialog.MyBuilder(getActivity());
+        dialog1.setTitle("编辑名称");
+        dialog1.setAutoDismiss(false, true);
+        LayoutInflater mLayoutInflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
+        View dialog_view = mLayoutInflater.inflate(
+                R.layout.tool_alert_edit_text, null);
+        dialog1.setContentView(dialog_view);
+        final EditText editText = (EditText) dialog_view
+                .findViewById(R.id.nickname_edit_aty_editor);
+        editText.setTextColor(getResources().getColor(R.color.font_com_content_black_color));
+        editText.setHintTextColor(getResources().getColor(R.color.com_hint_font_gray_color));
+        editText.setHint( oldName);
+        editText.addTextChangedListener(new TxtLengthRestrictTool(editText, 20));
+        editText.setSelection(editText.getText().length());
+        dialog1.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                dialog1.dismiss();
+                String str = editText.getText().toString().trim();
+                if(!str.trim().equals(oldName))
+                      editSubmit(id,str);
+            }
+        });
+        dialog1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                dialog1.dismiss();
+            }
+        });
+        dialog1.create().show();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-       if(requestCode==GET_ADD_CODE&&resultCode==1)
+       if(resultCode==1)
        {
-           adapter.remove();
-           getWebData();
+           listLoad(mHandler);
        }
     }
 }

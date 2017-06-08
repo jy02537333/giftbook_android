@@ -42,6 +42,11 @@ public class ReceivingGiftItemMoneyAdapter extends MyBaseAdapter<ReceivingGiftsM
     {
         return list.get(position);
     }
+
+    @Override
+    public void removeItem(int position) {
+        list.remove(position);
+    }
     @Override
     public void addDataAll(List<ReceivingGiftsMoneyEntity> infos) {
         list.addAll(infos);

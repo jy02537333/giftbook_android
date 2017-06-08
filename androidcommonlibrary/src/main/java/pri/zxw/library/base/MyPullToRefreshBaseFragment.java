@@ -25,7 +25,8 @@ extends BaseFragment implements PullToRefreshBase.OnRefreshListener2
 	/**添加子级**/
 	public static final int ADD_CHILD_CODE=9494;
 	public static final int LOAD_CODE=3333;
-	public static final int DEL_CODE=4444;
+	public static final int DEL_CODE=5555;
+	public static final int EDIT_CODE=4444;
 	protected   int rows = 10; // 页面大小
 	protected String startDate = DateCommon.getCurrentDateStr(); // 开始查找的时间节
 	/**是否下拉刷新*/

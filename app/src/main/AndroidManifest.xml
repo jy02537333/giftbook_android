@@ -133,6 +133,9 @@
         <activity android:name=".Activity.SendInvitationAct"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".Activity.GroupMemberEditAct"
+            android:screenOrientation="portrait">
+        </activity>
 
         <activity android:name=".Activity.contact.ContactListActivity"
             android:screenOrientation="portrait">

@@ -23,19 +23,34 @@ import pri.zxw.library.R;
  */
 
 public class DialogSelectBtn {
-
-    public static void show(Context context, String name, List<View> views, View rootView) {
-
+    LinearLayout lay;
+     PopupWindow popupWindow;
+    public DialogSelectBtn(Context context,View rootView)
+    {
         View popupView = LayoutInflater.from(context).inflate(R.layout.dialog_select_lay, null);
-        final PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT,
+        popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         int popupWidth = popupView.getMeasuredWidth();
         int popupHeight = popupView.getMeasuredHeight();
-        LinearLayout lay = (LinearLayout) popupView.findViewById(R.id.dialog_select_lay);
+         lay = (LinearLayout) popupView.findViewById(R.id.dialog_select_lay);
+    }
+    public ViewGroup.LayoutParams getLP()
+    {
+        return lay.getLayoutParams();
+    }
+
+
+    public  void show(Context context, String name, List<View> views, View rootView) {
+
         if (views != null)
             for (View view : views)
+            {
+                view.setBackgroundColor(context.getResources().getColor(R.color.com_black_bg));
                 lay.addView(view);
+
+            }
+        lay.setBackgroundColor(context.getResources().getColor(R.color.com_black_bg) );
         lay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

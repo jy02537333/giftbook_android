@@ -53,6 +53,11 @@ public class ReceivesInvitationAdapter extends MyBaseAdapter<ReceivesInvitationE
     }
 
     @Override
+    public void removeItem(int position) {
+        list.remove(position);
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ReceivesInvitationView holder = null;
         if(convertView==null)

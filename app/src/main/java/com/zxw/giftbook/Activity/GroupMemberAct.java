@@ -1,18 +1,22 @@
 package com.zxw.giftbook.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 
 import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zxw.giftbook.Activity.entitiy.GroupmemberEntity;
 import com.zxw.giftbook.Activity.entitiy.MembergiftmoneyEntity;
+import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
 import com.zxw.giftbook.Activity.menu.HomeFragment;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
@@ -22,6 +26,7 @@ import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
 import com.zxw.giftbook.utils.MenuSettingViewInit;
+import com.zxw.giftbook.utils.PopShowDelAndEditOperateTool;
 import com.zxw.giftbook.view.ListViewEmptyView;
 
 import java.lang.reflect.Type;
@@ -30,8 +35,13 @@ import java.util.Map;
 
 import pri.zxw.library.base.MyPullToRefreshBaseActivity;
 import pri.zxw.library.listener.TitleOnClickListener;
+import pri.zxw.library.listener.TxtLengthRestrictTool;
+import pri.zxw.library.myinterface.IServicesCallback;
 import pri.zxw.library.tool.MessageHandlerTool;
+import pri.zxw.library.tool.MyAlertDialog;
+import pri.zxw.library.tool.ProgressDialogTool;
 import pri.zxw.library.tool.ServicesTool;
+import pri.zxw.library.tool.ToastShowTool;
 import pri.zxw.library.tool.WebGetDataTool;
 import pri.zxw.library.view.TitleBar;
 
@@ -48,7 +58,11 @@ public class GroupMemberAct extends MyPullToRefreshBaseActivity {
     TitleBar titleBar;
     ListViewEmptyView emptyView;
     String id,groupName;
+    View rootView;
+    int mPosition=-1;
     double tatolMoney=0,itemMoney=0;
+    public static final String EDIT_URL="apiGroupmemberCtrl.do?doUpdate";
+    public static final String DEL_URL="apiGroupmemberCtrl.do?doDel";
     public static final String GET_DATA_URL="apiGroupmemberCtrl.do?datagrid";
 
     Handler mHandler=new Handler() {
@@ -85,7 +99,18 @@ public class GroupMemberAct extends MyPullToRefreshBaseActivity {
                     mAdapter.notifyDataSetChanged();
                 }
                 listView.onRefreshComplete();
-            }else if(msg.what==LOAD_CODE)
+            }
+            else if(msg.what==DEL_CODE)
+            {
+                MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
+                int ret=messageHandlerTool.handler(msg,GroupMemberAct.this);
+                if(ret==1)
+                {
+                    mAdapter.removeItem(mPosition);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+            else if(msg.what==LOAD_CODE)
                 listView.setRefreshing(true);
         }
     };
@@ -106,6 +131,7 @@ public class GroupMemberAct extends MyPullToRefreshBaseActivity {
         listView=(com.handmark.pulltorefresh.library.PullToRefreshListView)findViewById(R.id.act_group_member_list_lv);
         emptyView=(ListViewEmptyView) findViewById(R.id.act_group_member_list_empty);
         titleBar.setText(groupName);
+        rootView=titleBar.getRootView();
     }
     void initTool()
     {
@@ -148,6 +174,107 @@ public class GroupMemberAct extends MyPullToRefreshBaseActivity {
         params.put("userid", FtpApplication.user.getId());
         params.put("gourpid", id);
         mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
+    }
+    public void operate( String id,  String name,int poistion)
+    {
+        mPosition=poistion;
+        PopShowDelAndEditOperateTool.show(this,id,name,  rootView,
+                new PopShowDelAndEditOperateTool.DelAndEditCallback(){
+                    @Override
+                    public void onDelComplate(String id, String name) {
+                        del(id,name);
+                    }
+                    @Override
+                    public void onEditComplate(String id, String name) {
+                        showEditView(id,name);
+                    }
+                });
+    }
+    void del(final String id,String name)
+    {
+
+        final MyAlertDialog.MyBuilder dialog1 = new MyAlertDialog.MyBuilder(this);
+        dialog1.setTitle("删除成员："+name);
+        dialog1.setAutoDismiss(false, true);
+        LayoutInflater mLayoutInflater = (LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE);
+        View dialog_view = mLayoutInflater.inflate(
+                R.layout.tool_alert_edit_text, null);
+        dialog1.setContentView(dialog_view);
+        final EditText editText = (EditText) dialog_view
+                .findViewById(R.id.nickname_edit_aty_editor);
+        editText.setVisibility(View.GONE);
+        dialog1.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                dialog1.dismiss();
+                if(isSub)
+                    return;
+                isSub=true;
+                Map<String,String> params= ComParamsAddTool.getParam();
+                params.put("id", id);
+                mServicesTool.doPostAndalysisDataCall(DEL_URL, params, DEL_CODE, new IServicesCallback() {
+                    @Override
+                    public void onStart() {
+                        ProgressDialogTool.getInstance(GroupMemberAct.this).showDialog("删除....");
+                        isSub=false;
+                    }
+
+                    @Override
+                    public void onEnd() {
+                        ProgressDialogTool.getInstance(GroupMemberAct.this).dismissDialog();
+                        isSub=false;
+                    }
+                });
+
+            }
+        });
+        dialog1.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                dialog1.dismiss();
+            }
+        });
+        dialog1.create().show();
+
+
+
+    }
+    void editSubmit(String id,String updateNameStr)
+    {
+        if(updateNameStr.trim().length()==0)
+        {
+            ToastShowTool.myToastShort(this,"");
+            return ;
+        }
+        if(isSub)
+            return;
+        isSub=true;
+        Map<String,String> params= ComParamsAddTool.getParam();
+        params.put("id", id);
+        params.put("groupname",updateNameStr);
+        mServicesTool.doPostAndalysisDataCall(EDIT_URL, params, EDIT_CODE, new IServicesCallback() {
+            @Override
+            public void onStart() {
+                ProgressDialogTool.getInstance(GroupMemberAct.this).showDialog("修改....");
+                isSub=false;
+            }
+
+            @Override
+            public void onEnd() {
+                ProgressDialogTool.getInstance(GroupMemberAct.this).dismissDialog();
+                isSub=false;
+            }
+        });
+    }
+
+    /**
+     * 编辑分类
+     */
+    private void showEditView(final String id, final String oldName) {
+        GroupmemberEntity entity= mAdapter.getItem(mPosition);
+        Intent intent=new Intent(this,GroupMemberEditAct.class);
+        intent.putExtra("entity",entity);
+        startActivityForResult(intent,EDIT_CODE);
     }
 
     @Override

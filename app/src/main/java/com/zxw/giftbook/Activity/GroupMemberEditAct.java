@@ -26,6 +26,7 @@ import java.util.TreeMap;
 
 import pri.zxw.library.base.MyBaseActivity;
 import pri.zxw.library.listener.TitleOnClickListener;
+import pri.zxw.library.myinterface.IServicesCallback;
 import pri.zxw.library.tool.MessageHandlerTool;
 import pri.zxw.library.tool.ProgressDialogTool;
 import pri.zxw.library.tool.ToastShowTool;
@@ -34,7 +35,7 @@ import pri.zxw.library.tool.dialogTools.DropDownBoxTool;
 import pri.zxw.library.view.TitleBar;
 
 /**
- * 功能  组成员添加
+ * 功能  组成员编辑
  * Createdy 张相伟
  * 2016/11/6.
  */
@@ -45,9 +46,8 @@ public class GroupMemberEditAct extends MyBaseActivity {
     TitleBar titleBar;
     /**关联人所在组*/
     String affiliatedGroup;
-    public static final String GET_ADD_URL="apiGroupmemberCtrl.do?doAdd";
-    public static final int GET_ADD_CODE=1111;
-    public static final int GET_DATA_CODE=2222;
+    GroupmemberEntity entity;
+    public static final String GET_ADD_URL="apiGroupmemberCtrl.do?doUpdate";
     public static final int GET_GROUP_MEMBER_CODE=4444;
     /**到添加关联人界面*/
     public static final int ADD_AFFILIATED_PERSON=3333;
@@ -79,12 +79,12 @@ public class GroupMemberEditAct extends MyBaseActivity {
                 int ret=messageHandlerTool.handler(msg,GroupMemberEditAct.this);
                 if(ret==1)
                 {
-                    ToastShowTool.myToastShort(GroupMemberEditAct.this,"添加成功！");
+                    ToastShowTool.myToastShort(GroupMemberEditAct.this,"修改成功！");
                    setResult(1);
                     finish();
                 }else
                 {
-                    ToastShowTool.myToastShort(GroupMemberEditAct.this,"添加失败！");
+                    ToastShowTool.myToastShort(GroupMemberEditAct.this,"修改失败！");
                 }
                 isSubmit=false;
             }else if(msg.what==GET_DATA_CODE) {
@@ -130,6 +130,7 @@ public class GroupMemberEditAct extends MyBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_group_member_add);
+        entity=(GroupmemberEntity) getIntent().getSerializableExtra("entity");
         typeId=getIntent().getStringExtra("id");
         typeName=getIntent().getStringExtra("groupName");
         isAddAffiliated=getIntent().getBooleanExtra("isAddAffiliated",false);
@@ -156,6 +157,12 @@ public class GroupMemberEditAct extends MyBaseActivity {
             affiliated_personTv.setVisibility(View.GONE);
             affiliated_personAddTv.setVisibility(View.GONE);
         }
+        nameEdit.setText(entity.getGroupmember());
+        nameEdit.setTag(entity.getGourpid());
+        if(entity.getMemberphone()!=null&&entity.getMemberphone().trim().length()>0)
+             phoneEdit.setText(entity.getMemberphone());
+        if(entity.getAffiliatedpersonid()!=null&&entity.getAffiliatedpersonid().trim().length()>0)
+             affiliated_personTv.setText(entity.getAffiliatedperson());
     }
     void initTool()
     {
@@ -216,6 +223,7 @@ public class GroupMemberEditAct extends MyBaseActivity {
             return ;
         }
         Map<String,String > params= ComParamsAddTool.getParam();
+        params.put("id",entity.getId());
         params.put("userid", FtpApplication.user.getId());
         params.put("gourpid", typeId);
         params.put("groupmember",nameEdit.getText().toString().trim());
@@ -231,7 +239,18 @@ public class GroupMemberEditAct extends MyBaseActivity {
         if(isSubmit)
             return;
         isSubmit=true;
-        mServicesTool.doPostAndalysisData(GET_ADD_URL,params,GET_ADD_CODE);
+        mServicesTool.doPostAndalysisDataCall(GET_ADD_URL, params, GET_ADD_CODE, new IServicesCallback() {
+            @Override
+            public void onStart() {
+                ProgressDialogTool.getInstance(GroupMemberEditAct.this).showDialog("修改....");
+            }
+
+            @Override
+            public void onEnd() {
+                ProgressDialogTool.getInstance(GroupMemberEditAct.this).dismissDialog();
+                isSubmit=false;
+            }
+        });
     }
 
     public void getDropDownData()

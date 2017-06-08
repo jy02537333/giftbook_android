@@ -30,10 +30,7 @@ public abstract class MyBaseAdapter<T extends BaseEntity> extends BaseAdapter {
 	 	 return convertView;  
 	 }  
 	@Override
-	public Object getItem(int position) {
-		// TODO Auto-generated method stub
-		return mList.get(position);
-	}
+	public abstract Object getItem(int position) ;
 	@Override
 	public long getItemId(int arg0) {
 		// TODO Auto-generated method stub
@@ -55,10 +52,7 @@ public abstract class MyBaseAdapter<T extends BaseEntity> extends BaseAdapter {
 	 * @param infos
 	 */
 	public abstract void addDataAll(List<T> infos);
-	public void removeItem(int postion) { 
-	     if(mList!=null) 
-		        mList.remove(postion); 
-	}
+	public abstract void removeItem(int position) ;
 	/**
 	 * 批量清空对象方法
 	 */

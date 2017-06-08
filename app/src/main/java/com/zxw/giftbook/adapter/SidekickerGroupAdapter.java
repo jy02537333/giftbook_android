@@ -40,6 +40,12 @@ public class SidekickerGroupAdapter extends MyBaseAdapter {
         notifyDataSetChanged();
     }
 
+
+    @Override
+    public void removeItem(int position) {
+        comLists.remove(position);
+    }
+
     @Override
     public void remove() {
         comLists.clear();

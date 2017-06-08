@@ -31,6 +31,11 @@ public class SidekickerGroup2Adapter extends MyBaseAdapter {
     }
 
     @Override
+    public void removeItem(int position) {
+        comLists.remove(position);
+    }
+
+    @Override
     public void remove() {
         comLists.clear();
     }
@@ -38,7 +43,7 @@ public class SidekickerGroup2Adapter extends MyBaseAdapter {
     public SidekickerGroup2Adapter(SidekickerGroup2Fragment context) {
         this.mContext = context;
         inflater= LayoutInflater.from(context.getContext());
-        comLists=new ArrayList<SidekickergroupEntity>();
+        comLists=new ArrayList<>();
     }
 
     @Override
@@ -59,7 +64,7 @@ public class SidekickerGroup2Adapter extends MyBaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder mHolder;
         View view = convertView;
         if (view == null) {
@@ -73,13 +78,13 @@ public class SidekickerGroup2Adapter extends MyBaseAdapter {
         } else {
             mHolder = (ViewHolder) view.getTag();
         }
-       final SidekickergroupEntity comInfo =comLists.get(position);
+        final SidekickergroupEntity comInfo =comLists.get(position);
         mHolder.nameTv.setText(comInfo.getGroupname());
         mHolder.numTv.setText("("+comInfo.getGroupmembersnum()+")");
         mHolder.operateImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.operate(comInfo.getId(),comInfo.getGroupname());
+                mContext.operate(comInfo.getId(),comInfo.getGroupname(),position);
             }
         });
         return view;

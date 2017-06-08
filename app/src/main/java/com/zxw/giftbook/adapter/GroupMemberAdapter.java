@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.zxw.giftbook.Activity.GroupMemberAct;
@@ -24,8 +25,8 @@ import pri.zxw.library.base.MyBaseAdapter;
 public class GroupMemberAdapter extends MyBaseAdapter<GroupmemberEntity> {
     List<GroupmemberEntity> list;
     LayoutInflater inflater;
-    Context mContext;
-    public GroupMemberAdapter(Context context)
+    GroupMemberAct mContext;
+    public GroupMemberAdapter(GroupMemberAct context)
     {
         this.inflater = LayoutInflater.from(context);
         list=new ArrayList<>();
@@ -47,7 +48,12 @@ public class GroupMemberAdapter extends MyBaseAdapter<GroupmemberEntity> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public void removeItem(int position) {
+        list.remove(position);
+    }
+
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
         GroupMemberView holder = null;
         if(convertView==null)
         {
@@ -61,6 +67,10 @@ public class GroupMemberAdapter extends MyBaseAdapter<GroupmemberEntity> {
                     (TextView) convertView.findViewById(R.id.item_list_group_member_list_name_tv);
             holder.phoneTv =
                     (TextView) convertView.findViewById(R.id.item_list_group_member_list_phone_tv);
+            holder.phoneTv =
+                    (TextView) convertView.findViewById(R.id.item_list_group_member_list_phone_tv);
+            holder.operateBtn =
+                    (Button) convertView.findViewById(R.id.item_list_group_member_list_gift_operate_btn);
             convertView.setTag(holder);
         }else
             holder= (GroupMemberView)convertView.getTag();
@@ -82,6 +92,12 @@ public class GroupMemberAdapter extends MyBaseAdapter<GroupmemberEntity> {
         {
             holder.affiliatedPersonTv.setText("");
         }
+        holder.operateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.operate(entity.getId(),entity.getGroupmember(),position);
+            }
+        });
         return super.getView(position, convertView, parent);
     }
 
@@ -91,6 +107,7 @@ public class GroupMemberAdapter extends MyBaseAdapter<GroupmemberEntity> {
     }
     class GroupMemberView
     {
+        Button operateBtn;
         TextView nameTv;
         TextView phoneTv;
         /**关联人*/

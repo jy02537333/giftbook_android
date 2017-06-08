@@ -54,8 +54,6 @@ public class GroupMemberAddAct extends MyBaseActivity {
     /**关联人所在组*/
     String affiliatedGroup;
     public static final String GET_ADD_URL="apiGroupmemberCtrl.do?doAdd";
-    public static final int GET_ADD_CODE=1111;
-    public static final int GET_DATA_CODE=2222;
     public static final int GET_GROUP_MEMBER_CODE=4444;
     /**到添加关联人界面*/
     public static final int ADD_AFFILIATED_PERSON=3333;
@@ -64,7 +62,7 @@ public class GroupMemberAddAct extends MyBaseActivity {
     TreeMap<String,String> sidekickerGroups=new TreeMap<>();
     TextView
             /**关联人*/
-            affiliated_personTv,affiliated_personAddTv,
+            affiliated_personTv,affiliated_personAddTv,importTv,
     /**组类型*/
             typeTv,typeAddTv;
     EditText nameEdit;
