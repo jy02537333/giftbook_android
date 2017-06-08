@@ -7,6 +7,8 @@ public String tfId;
 public String tfName;//姓名
 public String sortKey;//索引
 
+
+
 /**
  * @return the tfId
  */
@@ -61,6 +63,13 @@ public String tfPhone;//电话
 public String tfPortrait;//头像
 public String affiliatedperson;//职位
 
-
-
+	public AddressBooktBean(){}
+	public AddressBooktBean(String tfId, String tfName, String sortKey, String tfPhone, String tfPortrait, String affiliatedperson) {
+		this.tfId = tfId;
+		this.tfName = tfName;
+		this.sortKey = sortKey;
+		this.tfPhone = tfPhone;
+		this.tfPortrait = tfPortrait;
+		this.affiliatedperson = affiliatedperson;
+	}
 }

@@ -17,13 +17,6 @@ import android.os.Message;
 public abstract class MyPullToRefreshBaseActivity<T  extends AbstractStartDateEntity>
 extends MyBaseActivity implements PullToRefreshBase.OnRefreshListener2
 ,MyPullToRefreshBaseInterface{
-	public static final int GET_DATA_CODE=1111;
-	public static final int GET_ADD_CODE=2222;
-	public static final int LOAD_CODE=3333;
-	public static final int DEL_CODE=4444;
-	public static final int EDIT_CODE=5555;
-	public static final int GO_ADD=2121;
-	public boolean isSub=false;
 	protected  int rows = 10; // 页面大小
 	protected String startDate = DateCommon.getCurrentDateStr(); // 开始查找的时间节
 	protected Boolean mUpfalg = true;

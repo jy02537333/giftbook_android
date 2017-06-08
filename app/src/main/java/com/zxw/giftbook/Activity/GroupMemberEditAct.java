@@ -58,7 +58,7 @@ public class GroupMemberEditAct extends MyBaseActivity {
             /**关联人*/
             affiliated_personTv,affiliated_personAddTv,
     /**组类型*/
-            typeTv,typeAddTv;
+            typeTv,typeAddTv,importTv;
     EditText nameEdit;
     EditText phoneEdit;
     /**当前选择的组*/
@@ -147,6 +147,8 @@ public class GroupMemberEditAct extends MyBaseActivity {
         phoneEdit=(EditText) findViewById(R.id.act_group_member_add_phone_edit);
         affiliated_personTv=(TextView) findViewById(R.id.act_group_member_add_affiliated_person_tv);
         affiliated_personAddTv=(TextView) findViewById(R.id.act_group_member_add_affiliated_person_add_tv);
+        importTv=(TextView) findViewById(R.id.act_group_member_add_improt_tv);
+        importTv.setVisibility(View.GONE);
         typeTv=(TextView) findViewById(R.id.act_group_member_add_type_tv);
         typeAddTv=(TextView) findViewById(R.id.act_group_member_add_type_add_tv);
         submitBtn=(Button) findViewById(R.id.act_group_member_add_btn);

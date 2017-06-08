@@ -29,6 +29,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import pri.zxw.library.tool.ImgLoad.ImgLoadMipmapTool;
 import pri.zxw.library.tool.ImgLoad.ImgUrlUtil;
 import pri.zxw.library.tool.ImgLoad.MyImgLoadTool;
 
@@ -130,8 +131,13 @@ public class ContactListSelectAdapter extends BaseAdapter {
         String number = contact.getTfPhone();
         holder.nameTv.setText(name);
         holder.phoneTv.setText(number);
-        String imgUrl = ImgUrlUtil.getFullHeadImgUrl(contact.getTfPortrait());
-        MyImgLoadTool.loadNetImg(ctx,imgUrl,R.mipmap.user_default,holder.quickContactBadge,80,80,null);
+        if(contact.getTfPortrait()==null)
+        {
+            ImgLoadMipmapTool.load(R.mipmap.user_default, holder.quickContactBadge);
+        }else {
+            String imgUrl = ImgUrlUtil.getFullHeadImgUrl(contact.getTfPortrait());
+            MyImgLoadTool.loadNetImg(ctx, imgUrl, R.mipmap.user_default, holder.quickContactBadge, 80, 80, null);
+        }
 
         // 当前字母
 

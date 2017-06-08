@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.zxw.giftbook.Activity.contact.PhoneContactListSelectActivity;
 import com.zxw.giftbook.Activity.entitiy.GroupmemberEntity;
 import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
 import com.zxw.giftbook.FtpApplication;
@@ -32,6 +33,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import pri.zxw.library.base.MyBaseActivity;
+import pri.zxw.library.entity.ComIdNameInfo;
 import pri.zxw.library.listener.TitleOnClickListener;
 import pri.zxw.library.tool.JsonParse;
 import pri.zxw.library.tool.MessageHandlerTool;
@@ -48,6 +50,8 @@ import pri.zxw.library.view.TitleBar;
  */
 
 public class GroupMemberAddAct extends MyBaseActivity {
+    List<ComIdNameInfo> idList;
+    String ids;
     boolean isSubmit=false;
     AppServerTool mServicesTool;
     TitleBar titleBar;
@@ -58,6 +62,8 @@ public class GroupMemberAddAct extends MyBaseActivity {
     /**到添加关联人界面*/
     public static final int ADD_AFFILIATED_PERSON=3333;
 
+    /**到导入界面*/
+    public static final int ADD_IMPORT_CODE=6767;
     TreeMap<String,String>  groupmembers=new TreeMap<>();
     TreeMap<String,String> sidekickerGroups=new TreeMap<>();
     TextView
@@ -152,6 +158,7 @@ public class GroupMemberAddAct extends MyBaseActivity {
         phoneEdit=(EditText) findViewById(R.id.act_group_member_add_phone_edit);
         affiliated_personTv=(TextView) findViewById(R.id.act_group_member_add_affiliated_person_tv);
         affiliated_personAddTv=(TextView) findViewById(R.id.act_group_member_add_affiliated_person_add_tv);
+        importTv=(TextView) findViewById(R.id.act_group_member_add_improt_tv);
         typeTv=(TextView) findViewById(R.id.act_group_member_add_type_tv);
         typeAddTv=(TextView) findViewById(R.id.act_group_member_add_type_add_tv);
         submitBtn=(Button) findViewById(R.id.act_group_member_add_btn);
@@ -206,6 +213,16 @@ public class GroupMemberAddAct extends MyBaseActivity {
             @Override
             public void onClick(View view) {
                 submit();
+            }
+        });
+        importTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(GroupMemberAddAct.this,PhoneContactListSelectActivity.class);
+                intent.putExtra("typeid",typeId);
+                intent.putExtra("typename",typeName);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -297,4 +314,16 @@ public class GroupMemberAddAct extends MyBaseActivity {
                 });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==ADD_IMPORT_CODE)
+        {
+            if (resultCode == 1) {
+
+            } else {
+
+            }
+        }
+    }
 }

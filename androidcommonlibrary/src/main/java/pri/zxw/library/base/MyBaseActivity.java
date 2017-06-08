@@ -28,12 +28,14 @@ import pri.zxw.library.entity.AppPropertyInfo;
  */
 public class MyBaseActivity extends Activity {
 	protected SharedPreferences preferences;
-	public static final int GET_DATA_CODE=1111;
-	public static final int GET_ADD_CODE=2222;
-	/**添加子级**/
-	public static final int ADD_CHILD_CODE=9494;
-	public static final int LOAD_CODE=3333;
-	public static final int DEL_CODE=4444;
+	public static final int GET_DATA_CODE=9001;
+	public static final int GET_ADD_CODE=9002;
+	public static final int LOAD_CODE=9003;
+	public static final int DEL_CODE=9004;
+	public static final int EDIT_CODE=9005;
+	public static final int ADD_CHILD_CODE=9006;
+	public static final int GO_ADD=9101;
+	public boolean isSub=false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub

@@ -18,6 +18,8 @@
     <uses-permission android:name="android.permission.MODIFY_PHONE_STATE"   />
 
 
+    <uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>
+    <!--<uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>-->
 
     <!-- 友盟推送权限 开始 -->
     <uses-permission android:name="android.permission.READ_SETTINGS" />
@@ -87,6 +89,9 @@
         <activity android:name=".Activity.GroupMemberAddAct"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".Activity.GroupMemberEditAct"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".Activity.GroupMemberAct"
             android:screenOrientation="portrait">
         </activity>
@@ -133,10 +138,11 @@
         <activity android:name=".Activity.SendInvitationAct"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".Activity.GroupMemberEditAct"
+
+
+        <activity android:name=".Activity.contact.PhoneContactListSelectActivity"
             android:screenOrientation="portrait">
         </activity>
-
         <activity android:name=".Activity.contact.ContactListActivity"
             android:screenOrientation="portrait">
         </activity>

@@ -20,13 +20,13 @@ import android.os.Message;
 public abstract class MyPullToRefreshBaseFragment<T extends AbstractStartDateEntity>
 extends BaseFragment implements PullToRefreshBase.OnRefreshListener2
 ,MyPullToRefreshBaseInterface{
-	public static final int GET_DATA_CODE=1111;
-	public static final int GET_ADD_CODE=2222;
+	public static final int GET_DATA_CODE=9011;
+	public static final int GET_ADD_CODE=9022;
 	/**添加子级**/
-	public static final int ADD_CHILD_CODE=9494;
-	public static final int LOAD_CODE=3333;
-	public static final int DEL_CODE=5555;
-	public static final int EDIT_CODE=4444;
+	public static final int ADD_CHILD_CODE=9055;
+	public static final int LOAD_CODE=9003;
+	public static final int DEL_CODE=9004;
+	public static final int EDIT_CODE=9006;
 	protected   int rows = 10; // 页面大小
 	protected String startDate = DateCommon.getCurrentDateStr(); // 开始查找的时间节
 	/**是否下拉刷新*/
