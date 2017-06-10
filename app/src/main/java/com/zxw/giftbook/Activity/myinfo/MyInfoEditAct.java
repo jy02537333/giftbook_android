@@ -64,7 +64,7 @@ public class MyInfoEditAct extends MyBaseActivity {
     TitleBar titleBar;
     ImgScrollGridTool noScrollGridTool;
     ImageView img;
-    TextView sexTv,nameTv;
+    TextView sexTv,nameTv,accountTv;
     RadioGroup sexRadio;
     RadioButton rbo1,rbo2;
     AppServerTool serverTool;
@@ -139,6 +139,7 @@ public class MyInfoEditAct extends MyBaseActivity {
     {
         titleBar=(TitleBar) this.findViewById(R.id.a_my_info_edit_title_bar);
         img=(ImageView) this.findViewById(R.id.a_my_info_edit_img);
+        accountTv=(TextView) this.findViewById(R.id.a_my_info_edit_account_tv);
         sexRadio=(RadioGroup) this.findViewById(R.id.a_my_info_edit_sex_rbog);
         nameTv=(TextView) this.findViewById(R.id.a_my_info_edit_name_tv);
         sexTv=(TextView) this.findViewById(R.id.a_my_info_edit_sex_tv);
@@ -149,14 +150,15 @@ public class MyInfoEditAct extends MyBaseActivity {
     {
         if(FtpApplication.getInstance().getUser().isLogin(this)) {
             User user=FtpApplication.getInstance().getUser();
-            MyImgLoadTool.loadNetHeadImg(this, user.getPortrait(),img,0,0,"");
+            MyImgLoadTool.loadNetHeadImg(this, user.getPortrait(),img,80,80,"");
             nameTv.setText(user.getUsername());
-            if(user.getSex()==1)
+            accountTv.setText(user.getLoginname());
+            if(user.getSex()!=null&&user.getSex()==1)
             {
                 sexTv.setText("男");
               rbo1.setSelected(true);
             }
-            else if(user.getSex()==2)
+            else if(user.getSex()!=null&&user.getSex()==2)
                 {
                     sexTv.setText("女");
                     rbo2.setSelected(true);

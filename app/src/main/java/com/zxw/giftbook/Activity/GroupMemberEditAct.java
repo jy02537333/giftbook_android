@@ -73,14 +73,14 @@ public class GroupMemberEditAct extends MyBaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if(msg.what==GET_ADD_CODE)
+            if(msg.what==EDIT_CODE)
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 int ret=messageHandlerTool.handler(msg,GroupMemberEditAct.this);
                 if(ret==1)
                 {
                     ToastShowTool.myToastShort(GroupMemberEditAct.this,"修改成功！");
-                   setResult(1);
+                    setResult(1);
                     finish();
                 }else
                 {
@@ -104,6 +104,8 @@ public class GroupMemberEditAct extends MyBaseActivity {
                     {
                     }
                 }
+                typeTv.setText(typeName);
+                typeTv.setTag(typeId);
             }
             else if(msg.what==GET_GROUP_MEMBER_CODE)
             {
@@ -138,6 +140,8 @@ public class GroupMemberEditAct extends MyBaseActivity {
         initTool();
         initListener();
         getDropDownData();
+        titleBar.setText("编辑信息");
+        submitBtn.setText("修改");
     }
 
     public void initView()
@@ -153,7 +157,10 @@ public class GroupMemberEditAct extends MyBaseActivity {
         typeAddTv=(TextView) findViewById(R.id.act_group_member_add_type_add_tv);
         submitBtn=(Button) findViewById(R.id.act_group_member_add_btn);
         if(typeId!=null)
+        {
             typeTv.setText(typeName);
+            typeTv.setTag(typeId);
+        }
         if(isAddAffiliated)
         {
             affiliated_personTv.setVisibility(View.GONE);
@@ -241,7 +248,7 @@ public class GroupMemberEditAct extends MyBaseActivity {
         if(isSubmit)
             return;
         isSubmit=true;
-        mServicesTool.doPostAndalysisDataCall(GET_ADD_URL, params, GET_ADD_CODE, new IServicesCallback() {
+        mServicesTool.doPostAndalysisDataCall(GET_ADD_URL, params, EDIT_CODE, new IServicesCallback() {
             @Override
             public void onStart() {
                 ProgressDialogTool.getInstance(GroupMemberEditAct.this).showDialog("修改....");

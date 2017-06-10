@@ -279,7 +279,7 @@ public class GroupMemberAct extends MyPullToRefreshBaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==GO_ADD&&resultCode==1)
+        if(resultCode==1)
         {
             listView.setRefreshing(true);
         }

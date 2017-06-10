@@ -12,9 +12,11 @@ import android.widget.AdapterView;
 import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zxw.giftbook.Activity.entitiy.ReceivesInvitationEntity;
+import com.zxw.giftbook.Activity.entitiy.VInvitationListAndGroupEntity;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.adapter.ReceivesInvitationAdapter;
+import com.zxw.giftbook.adapter.SendInvitationDetailListAdapter;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
@@ -38,15 +40,15 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.a_receives_invitation);
+        setContentView(R.layout.a_send_invitation_detail_list);
     }
     TitleBar titleBar;
     View view;
+    String parentId;
     AppServerTool mServicesTool;
-    ReceivesInvitationAdapter adapter;
+    SendInvitationDetailListAdapter adapter;
     PullToRefreshListView listView;
-    public static final String ADD_URL="apiInvitationController.do?doAdd";
-    public static final String GET_DATA_URL="apiInvitationlistController.do?datagrid";
+    public static final String GET_DATA_URL="apiVInvitationListAndGroupController.do?datagrid";
     Handler mHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -72,7 +74,8 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        setContentView(R.layout.a_receives_invitation);
+        setContentView(R.layout.a_send_invitation_detail_list);
+        parentId=getIntent().getStringExtra("parentid");
         initView();
         initTool();
         initListener();
@@ -81,8 +84,8 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
 
     public void initView()
     {
-        titleBar=(TitleBar) view.findViewById(R.id.a_receives_invitation_title_bar);
-        listView=(PullToRefreshListView)view.findViewById(R.id.a_receives_invitation_lv);
+        titleBar=(TitleBar) view.findViewById(R.id.a_send_invitation_detail_list_title_bar);
+        listView=(PullToRefreshListView)view.findViewById(R.id.a_send_invitation_detail_list_lv);
         Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
         top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
         titleBar.setRightDrawable(top_edit,null,null,null);
@@ -92,7 +95,7 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
     void initTool()
     {
         mServicesTool=new AppServerTool(NetworkConfig.api_url,this,mHandler);
-        adapter=new ReceivesInvitationAdapter(this);
+        adapter=new SendInvitationDetailListAdapter(this);
         listView.setAdapter(adapter);
         this.initListener(listView,adapter);
 
@@ -105,15 +108,16 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
                 onBackPressed();
             }
         });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 position=position-1;
-                ReceivesInvitationEntity invitationEntity= adapter.getItem(position);
-                Intent intent= new Intent(SendInvitationListAct.this,ReceivesInvitationDetailAct.class);
-                intent.putExtra("invitationId",invitationEntity.getId());
-                intent.putExtra("inviterId",invitationEntity.getInvitationlistEntityList().get(0).getId());
-                startActivity(intent);
+//                VInvitationListAndGroupEntity invitationEntity= adapter.getItem(position);
+//                Intent intent= new Intent(SendInvitationListAct.this,ReceivesInvitationDetailAct.class);
+//                intent.putExtra("invitationId",invitationEntity.getId());
+//                intent.putExtra("inviterId",invitationEntity.getInvitationlistEntityList().get(0).getId());
+//                startActivity(intent);
             }
         });
 //        titleBar.setRightClickListener(new TitleOnClickListener() {
@@ -130,6 +134,8 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
     public void getWebData() {
         Map<String,String> params= ComParamsAddTool.getPageParam(this);
         params.put("userid", FtpApplication.getInstance().getUser().getId());
+        params.put("rows","1000");
+        params.put("invitationid",parentId);
         mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
     }
 

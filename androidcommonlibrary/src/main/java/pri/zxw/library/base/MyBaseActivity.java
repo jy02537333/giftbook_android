@@ -18,6 +18,7 @@ import android.os.Message;
 import android.view.Window;
 
 import pri.zxw.library.entity.AppPropertyInfo;
+import pri.zxw.library.tool.ProgressDialogTool;
 
 /**
  * @ClassName: MyBaseActivity
@@ -59,6 +60,7 @@ public class MyBaseActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		AppPropertyInfo.activityList.remove(this);
+		ProgressDialogTool.getInstance(this).dismissDialog();
 		super.onDestroy();
 	}
 }

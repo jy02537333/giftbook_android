@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_h"
         titleBarStyle:left_visibility="visible"
+        titleBarStyle:right_text="编辑"
         titleBarStyle:text="个人资料" />
 
     <LinearLayout
@@ -65,6 +66,7 @@
         android:background="@color/com_line_color" />
 
     <LinearLayout
+        android:id="@+id/a_my_info_edit_name_lay1"
         style="@style/my_info_edit_lay"
         android:orientation="horizontal">
 
@@ -80,6 +82,27 @@
             <TextView
                 android:id="@+id/a_my_info_edit_name_tv"
                 style="@style/my_info_edit_right_font"
+                android:text="姓名" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        style="@style/my_info_edit_lay"
+        android:id="@+id/a_my_info_edit_name_lay2"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/my_info_edit_font"
+            android:text="姓名" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/a_my_info_edit_name_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:text="姓名" />
         </LinearLayout>
     </LinearLayout>

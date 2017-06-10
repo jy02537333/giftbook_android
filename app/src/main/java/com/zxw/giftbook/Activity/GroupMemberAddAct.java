@@ -37,6 +37,7 @@ import pri.zxw.library.entity.ComIdNameInfo;
 import pri.zxw.library.listener.TitleOnClickListener;
 import pri.zxw.library.tool.JsonParse;
 import pri.zxw.library.tool.MessageHandlerTool;
+import pri.zxw.library.tool.NetUtil;
 import pri.zxw.library.tool.ProgressDialogTool;
 import pri.zxw.library.tool.ToastShowTool;
 import pri.zxw.library.tool.dialogTools.DialogSheetzAction;
@@ -241,6 +242,7 @@ public class GroupMemberAddAct extends MyBaseActivity {
         Map<String,String > params= ComParamsAddTool.getParam();
         params.put("userid", FtpApplication.user.getId());
         params.put("gourpid", typeId);
+        params.put("gourpName",typeName );
         params.put("groupmember",nameEdit.getText().toString().trim());
         params.put("totalmoney", "0");
         if(affiliated_personTv.getTag()!=null) {

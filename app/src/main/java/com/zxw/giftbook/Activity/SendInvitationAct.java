@@ -73,7 +73,7 @@ public class SendInvitationAct extends MyPullToRefreshBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        setContentView(R.layout.a_receives_invitation);
+        setContentView(R.layout.a_send_invitation);
         initView();
         initTool();
         initListener();
@@ -82,8 +82,8 @@ public class SendInvitationAct extends MyPullToRefreshBaseActivity {
 
     public void initView()
     {
-        titleBar=(TitleBar) view.findViewById(R.id.a_receives_invitation_title_bar);
-        listView=(PullToRefreshListView)view.findViewById(R.id.a_receives_invitation_lv);
+        titleBar=(TitleBar) view.findViewById(R.id.a_send_invitation_title_bar);
+        listView=(PullToRefreshListView)view.findViewById(R.id.a_send_invitation_lv);
         Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
         top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
         titleBar.setRightDrawable(top_edit,null,null,null);
@@ -118,8 +118,8 @@ public class SendInvitationAct extends MyPullToRefreshBaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 position=position-1;
                 VSendInvitationEntity invitationEntity= adapter.getItem(position);
-                Intent intent= new Intent(SendInvitationAct.this,ReceivesInvitationDetailAct.class);
-                intent.putExtra("id",invitationEntity.getId());
+                Intent intent= new Intent(SendInvitationAct.this,SendInvitationListAct.class);
+                intent.putExtra("parentId",invitationEntity.getId());
                 startActivity(intent);
             }
         });

@@ -56,6 +56,10 @@ public class ImgUrlUtil {
      */
     public static String  getFullHeadImgUrl(String imgUrl)
     {
+        if(imgUrl==null)
+        {
+            return IMG_BASE_URL+"uploadImgs/icon_user.png";
+        }
         if(imgUrl.indexOf("http://")!=-1)
             return imgUrl;
         if(imgUrl==null||imgUrl.length()==0)

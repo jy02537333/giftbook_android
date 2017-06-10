@@ -16,12 +16,14 @@ import com.zxw.giftbook.Activity.AffairEditAct;
 import pri.zxw.library.entity.NameImgEntity;
 
 import com.zxw.giftbook.Activity.ReceivesInvitationAct;
+import com.zxw.giftbook.Activity.SendInvitationAct;
 import com.zxw.giftbook.Activity.login.AboutAct;
 import com.zxw.giftbook.Activity.login.LoginAct;
 import com.zxw.giftbook.Activity.login.PersonalInfoAct;
 import com.zxw.giftbook.Activity.login.RecommendAct;
 import com.zxw.giftbook.Activity.login.UpdatePwdAct;
 import com.zxw.giftbook.Activity.menu.PersonalCenterFragment;
+import com.zxw.giftbook.Activity.myinfo.MyInfoEditAct;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 
@@ -61,10 +63,10 @@ public class PersonalCenterAdapter extends MyBaseAdapter {
     public PersonalCenterAdapter(PersonalCenterFragment context) {
         this.mContext = context;
         inflater= LayoutInflater.from(context.getActivity());
-        comLists=new ArrayList<NameImgEntity>();
-        comLists.add(new NameImgEntity("个人中心",R.mipmap.personal_center,PersonalInfoAct.class));
+        comLists=new ArrayList<>();
+        comLists.add(new NameImgEntity("个人中心",R.mipmap.personal_center,MyInfoEditAct.class));
         comLists.add(new NameImgEntity("收到的请帖",R.mipmap.receive_invitation,ReceivesInvitationAct.class));
-        comLists.add(new NameImgEntity("发送的请帖",R.mipmap.invitation,AffairEditAct.class));
+        comLists.add(new NameImgEntity("发送的请帖",R.mipmap.invitation,SendInvitationAct.class));
         comLists.add(new NameImgEntity("推荐给好友",R.mipmap.recommend,RecommendAct.class));
         comLists.add(new NameImgEntity("修改密码",R.mipmap.edit_pwd,UpdatePwdAct.class));
         comLists.add(new NameImgEntity("关于",R.mipmap.about,AboutAct.class));
