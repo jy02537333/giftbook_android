@@ -139,7 +139,9 @@
             android:screenOrientation="portrait">
         </activity>
 
-
+        <activity android:name=".Activity.MySendInvitationAct"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".Activity.contact.PhoneContactListSelectActivity"
             android:screenOrientation="portrait">
         </activity>

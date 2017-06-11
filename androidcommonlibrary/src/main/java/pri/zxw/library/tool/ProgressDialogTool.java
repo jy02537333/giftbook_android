@@ -67,6 +67,15 @@ public class ProgressDialogTool {
 		isShow=true;
 		mDialog.show();
 	}
+	public void canelClick(final OnCanelClick canelClick)
+	{
+		mDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				canelClick.onComplate();
+			}
+		});
+	}
 
 	public  void dismissDialog() {
 		isShow=false;
@@ -100,5 +109,9 @@ public class ProgressDialogTool {
 	public void destroyDialog() {
 		dismissDialog();
 		
+	}
+
+	public interface OnCanelClick{
+		public void onComplate();
 	}
 }

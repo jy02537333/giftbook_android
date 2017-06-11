@@ -15,7 +15,6 @@ import com.zxw.giftbook.Activity.entitiy.ReceivesInvitationEntity;
 import com.zxw.giftbook.Activity.entitiy.VSendInvitationEntity;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
-import com.zxw.giftbook.adapter.ReceivesInvitationAdapter;
 import com.zxw.giftbook.adapter.SendInvitationAdapter;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
@@ -36,7 +35,7 @@ import pri.zxw.library.view.TitleBar;
  * 2017/6/2.
  */
 
-public class SendInvitationAct extends MyPullToRefreshBaseActivity {
+public class MySendInvitationAct extends MyPullToRefreshBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +55,7 @@ public class SendInvitationAct extends MyPullToRefreshBaseActivity {
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 Type type=new TypeToken<List<ReceivesInvitationEntity>>(){}.getType();
-                MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,SendInvitationAct.this,adapter,listView,type);
+                MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,MySendInvitationAct.this,adapter,listView,type);
                 String sum=  msgInfo.getRetMap().get("sumCount");
                 if(sum!=null)
                 {
@@ -73,7 +72,7 @@ public class SendInvitationAct extends MyPullToRefreshBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        setContentView(R.layout.a_send_invitation);
+//        setContentView(R.layout.a_send_invitation);
 //        initView();
 //        initTool();
 //        initListener();
@@ -92,10 +91,10 @@ public class SendInvitationAct extends MyPullToRefreshBaseActivity {
     }
     void initTool()
     {
-//        mServicesTool=new AppServerTool(NetworkConfig.api_url,this,mHandler);
-//        adapter=new SendInvitationAdapter(this);
-//        listView.setAdapter(adapter);
-//        this.initListener(listView,adapter);
+        mServicesTool=new AppServerTool(NetworkConfig.api_url,this,mHandler);
+        adapter=new SendInvitationAdapter(this);
+        listView.setAdapter(adapter);
+        this.initListener(listView,adapter);
 
     }
     public void initListener()
@@ -109,7 +108,7 @@ public class SendInvitationAct extends MyPullToRefreshBaseActivity {
         titleBar.setRightClickListener(new TitleOnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(SendInvitationAct.this,AffairEditAct.class);
+                Intent intent=new Intent(MySendInvitationAct.this,AffairEditAct.class);
                 startActivityForResult(intent,ADD_CHILD_CODE);
             }
         });
@@ -118,7 +117,7 @@ public class SendInvitationAct extends MyPullToRefreshBaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 position=position-1;
                 VSendInvitationEntity invitationEntity= adapter.getItem(position);
-                Intent intent= new Intent(SendInvitationAct.this,SendInvitationListAct.class);
+                Intent intent= new Intent(MySendInvitationAct.this,SendInvitationListAct.class);
                 intent.putExtra("parentId",invitationEntity.getId());
                 startActivity(intent);
             }

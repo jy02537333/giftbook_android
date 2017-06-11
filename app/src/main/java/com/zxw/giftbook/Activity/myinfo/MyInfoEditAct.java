@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -48,6 +49,7 @@ import pri.zxw.library.tool.DateCommon;
 import pri.zxw.library.tool.ImgLoad.ImgLoadMipmapTool;
 import pri.zxw.library.tool.ImgLoad.MyImgLoadTool;
 import pri.zxw.library.tool.MessageHandlerTool;
+import pri.zxw.library.tool.ProgressDialogTool;
 import pri.zxw.library.tool.ToastShowTool;
 import pri.zxw.library.tool.dialogTools.CustomDialog;
 import pri.zxw.library.tool.img_compression.ImageCompressUtils;
@@ -65,12 +67,13 @@ public class MyInfoEditAct extends MyBaseActivity {
     ImgScrollGridTool noScrollGridTool;
     ImageView img;
     TextView sexTv,nameTv,accountTv;
+    EditText nameEdit;
     RadioGroup sexRadio;
     RadioButton rbo1,rbo2;
     AppServerTool serverTool;
-    LinearLayout lay1,lay2;
+    LinearLayout lay1,lay2,nameLay1,nameLay2;
     int type=0;
-    private Dialog dialog;
+//    private Dialog dialog;
     String oneImgPath="";
     public static final int SUBMIT_CODE=1537;
     public static final int GET_TOKEN_CODE=5537;
@@ -82,7 +85,8 @@ public class MyInfoEditAct extends MyBaseActivity {
     private int mRequest=0;
     /**s是否单选*/
     boolean isOne=false;
-    boolean isGetData=false;
+    boolean isSubPic=false;
+    int operateType=1;
     MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
     UploadManager uploadManager = new UploadManager();
     Handler mHandler=new Handler() {
@@ -100,7 +104,7 @@ public class MyInfoEditAct extends MyBaseActivity {
                 }
                 else
                 {
-                    dialog.dismiss();
+                    ProgressDialogTool.getInstance(MyInfoEditAct.this).dismissDialog();
                 }
             }else if(msg.what==UPDATE_IMG_END_CODE)
             {
@@ -110,13 +114,9 @@ public class MyInfoEditAct extends MyBaseActivity {
                 int ret=   messageHandlerTool.handler(msg,MyInfoEditAct.this);
                 if(ret==1)
                 {
-                    ToastShowTool.myToastShort(MyInfoEditAct.this,"发布请帖成功！");
-                    finish();
+                    ToastShowTool.myToastShort(MyInfoEditAct.this,"修改成功！");
+                   changeEditState();
                 }
-            }
-            else if(msg.what==COMPRESS_MULTI_CODE)
-            {
-                compressedOneFiles();
             }
             else if(msg.what==COMPRESS_ONE_CODE)
             {
@@ -142,9 +142,12 @@ public class MyInfoEditAct extends MyBaseActivity {
         accountTv=(TextView) this.findViewById(R.id.a_my_info_edit_account_tv);
         sexRadio=(RadioGroup) this.findViewById(R.id.a_my_info_edit_sex_rbog);
         nameTv=(TextView) this.findViewById(R.id.a_my_info_edit_name_tv);
+        nameEdit=(EditText) this.findViewById(R.id.a_my_info_edit_name_edit);
         sexTv=(TextView) this.findViewById(R.id.a_my_info_edit_sex_tv);
         lay1=(LinearLayout) this.findViewById(R.id.a_my_info_edit_sex_lay1);
         lay2=(LinearLayout) this.findViewById(R.id.a_my_info_edit_sex_lay2);
+        nameLay1=(LinearLayout) this.findViewById(R.id.a_my_info_edit_name_lay1);
+        nameLay2=(LinearLayout) this.findViewById(R.id.a_my_info_edit_name_lay2);
     }
     void setViewValue()
     {
@@ -152,6 +155,8 @@ public class MyInfoEditAct extends MyBaseActivity {
             User user=FtpApplication.getInstance().getUser();
             MyImgLoadTool.loadNetHeadImg(this, user.getPortrait(),img,80,80,"");
             nameTv.setText(user.getUsername());
+//            nameEdit.setText(user.getUsername());
+            nameEdit.setHint(user.getUsername());
             accountTv.setText(user.getLoginname());
             if(user.getSex()!=null&&user.getSex()==1)
             {
@@ -182,8 +187,7 @@ public class MyInfoEditAct extends MyBaseActivity {
         sexTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lay1.setVisibility(View.GONE);
-                lay2.setVisibility(View.VISIBLE);
+
             }
         });
         sexRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -205,7 +209,13 @@ public class MyInfoEditAct extends MyBaseActivity {
         titleBar.setRightClickListener(new TitleOnClickListener() {
             @Override
             public void onClick(View view) {
-                getQiniuToken();
+                if(operateType==1)
+                {
+                }else
+                {
+                    getQiniuToken();
+                }
+                changeEditState();
             }
         });
         titleBar.setLeftClickListener(new TitleOnClickListener() {
@@ -214,6 +224,27 @@ public class MyInfoEditAct extends MyBaseActivity {
                 onBackPressed();
             }
         });
+
+    }
+    void changeEditState()
+    {
+        if(operateType==1)
+        {
+            operateType=2;
+            titleBar.setRightText("保存");
+            lay1.setVisibility(View.GONE);
+            lay2.setVisibility(View.VISIBLE);
+            nameLay1.setVisibility(View.GONE);
+            nameLay2.setVisibility(View.VISIBLE);
+        }else
+        {
+            operateType=1;
+            titleBar.setRightText("编辑");
+            lay1.setVisibility(View.VISIBLE);
+            lay2.setVisibility(View.GONE);
+            nameLay1.setVisibility(View.VISIBLE);
+            nameLay2.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -241,55 +272,40 @@ public class MyInfoEditAct extends MyBaseActivity {
     }
     void submit()
     {
-        Map<String,String> param= ComParamsAddTool.getParam();
-        param.put("inviterid", FtpApplication.getInstance().getUser().getId());
-        param.put("inviterphone", FtpApplication.getInstance().getUser().getUserphone());
-        param.put("feasttype",type+"");
-        String photoAlbum="";
-        boolean isAddCoverImg=false;//是否要修改图片
-//        for (int i=0;i<  ImgScrollGridTool.mSelectPath.size();i++)
-//        {
-//            if(ImgScrollGridTool.mSelectPath.get(i).equals(oneImgPath))
-//                isExists=true;
-//        }
-        if(upimg_key_list.size()>0) {
-            for (int i = 0; i < upimg_key_list.size(); i++) {
-                if (upimg_key_list.get(i).key.equals(oneImgPath) && !isAddCoverImg) {
-                    param.put("coverimg", upimg_key_list.get(i).value);
-                    isAddCoverImg = true;
-                } else {
-                    photoAlbum = photoAlbum + upimg_key_list.get(i).value + ",";
-                }
-            }
-            photoAlbum = photoAlbum.substring(0, photoAlbum.length() - 1);
-            param.put("photoalbum", photoAlbum);
-        }else
-            param.put("photoalbum", "");
-        StringBuilder stringBuilder=new StringBuilder("[");
-        for (int i=0;i<idList.size();i++)
+        if(type==0)
         {
-            stringBuilder.append("{\"inviteeid\":\"").append(idList.get(i).getId()).append("\",")
-                    .append("\"inviteename\":\"").append(idList.get(i).getName()).append("\",")
-                    .append("\"inviteephone\":\"").append(idList.get(i).getPhone()).append("\"");
-            if(i+1==idList.size())
-                stringBuilder.append("}");
-            else
-                stringBuilder.append("},");
+            ToastShowTool.myToastShort(this,"请选择性别！");
+            return ;
         }
-        stringBuilder.append("]");
-        param.put("invitationListJson",stringBuilder.toString());
-        serverTool.doPostAndalysisDataCall("apiInvitationController.do?doAdd",param,SUBMIT_CODE,new IServicesCallback(){
+        if(nameEdit.getText().toString().trim().length()<=1&&
+                !nameEdit.getText().toString().trim().equals(nameTv.getText().toString().trim()))
+        {
+            ToastShowTool.myToastShort(this,"请输入正确姓名！");
+            return ;
+        }
+        Map<String,String> param= ComParamsAddTool.getParam();
+        param.put("info", FtpApplication.getInstance().getUser().toSignString(this));
+        param.put("id", FtpApplication.getInstance().getUser().getId());
+        if(!nameEdit.getText().toString().trim().equals(nameTv.getText().toString().trim()))
+        param.put("username", nameEdit.getText().toString().trim());
+        param.put("sex",type+"");
+        if(upimg_key_list.size()>0) {
+            param.put("portrait", upimg_key_list.get(0).value );
+        }
+        serverTool.doPostAndalysisDataCall("apiSysUserCtrl.do?doUpdate",param,SUBMIT_CODE,new IServicesCallback(){
             @Override
             public void onStart() {
-//                dialog = CustomDialog.createLoadingDialog(MyInfoEditAct.this, "加载数据…");
-//                dialog.setCancelable(false);
-//                dialog.show();
-//                isGetData=true;
+                if(!isSubPic)
+                {
+                    ProgressDialogTool.getInstance(MyInfoEditAct.this).showDialog("提交中...");
+                }
+                isSub=true;
             }
             @Override
             public void onEnd() {
-                isGetData=false;
-                dialog.dismiss();
+                isSub=false;
+                isSubPic=false;
+                ProgressDialogTool.getInstance(MyInfoEditAct.this).dismissDialog();
                 clearImgList();
             }
         });
@@ -309,23 +325,23 @@ public class MyInfoEditAct extends MyBaseActivity {
             submit();
             return;
         }
-        if(isGetData)
+        if(isSub)
             return;
         Map<String,String> param= ComParamsAddTool.getParam();
         serverTool.doGetAndalysisDataCall("apiQiNiuUptokenCtrl.do?uptokenMobile",param,GET_TOKEN_CODE,new IServicesCallback(){
             @Override
             public void onStart() {
-                dialog = CustomDialog.createLoadingDialog(MyInfoEditAct.this, "加载数据…");
-                dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                ProgressDialogTool.getInstance(MyInfoEditAct.this).showDialog("加载中...");
+                ProgressDialogTool.getInstance(MyInfoEditAct.this).canelClick(new ProgressDialogTool.OnCanelClick() {
                     @Override
-                    public void onCancel(DialogInterface dialog) {
-                        isGetData=false;
+                    public void onComplate() {
+                        isSub=false;
+                        isSubPic=false;
                         clearImgList();
                     }
                 });
-                dialog.setCancelable(true);
-                dialog.show();
-                isGetData=true;
+                isSub=true;
+                isSubPic=true;
             }
             @Override
             public void onEnd() {
@@ -377,7 +393,7 @@ public class MyInfoEditAct extends MyBaseActivity {
                 String prefix=imagePath.substring(imagePath.lastIndexOf(".")+1);
                 String fileName= DateCommon.getDateFileName()+ Common.getFixLenthString(3);
 
-                String key="uplaod_affair/"+FtpApplication.getInstance().getUser().getId()+"/"+fileName+"."+prefix;
+                String key="uplaod_head/"+FtpApplication.getInstance().getUser().getId()+"/"+fileName+"."+prefix;
                 uploadManager.put(imagePath, key, token,
                         new UpCompletionHandler() {
                             @Override

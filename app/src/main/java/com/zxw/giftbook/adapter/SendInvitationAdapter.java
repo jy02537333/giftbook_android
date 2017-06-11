@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.zxw.giftbook.Activity.MySendInvitationAct;
 import com.zxw.giftbook.Activity.SendInvitationAct;
 import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
 import com.zxw.giftbook.Activity.entitiy.VSendInvitationEntity;
@@ -25,7 +26,7 @@ import pri.zxw.library.tool.DateCommon;
  *
  */
 public class SendInvitationAdapter extends MyBaseAdapter {
-    private SendInvitationAct mContext;
+    private MySendInvitationAct mContext;
     private List<VSendInvitationEntity> comLists;
     private LayoutInflater inflater = null;
     @Override
@@ -39,7 +40,12 @@ public class SendInvitationAdapter extends MyBaseAdapter {
         comLists.clear();
     }
 
-    public SendInvitationAdapter(SendInvitationAct context) {
+//    public SendInvitationAdapter(SendInvitationAct context) {
+//        this.mContext = context;
+//        inflater= LayoutInflater.from(context.getContext());
+//        comLists=new ArrayList<VSendInvitationEntity>();
+//    }
+    public SendInvitationAdapter(MySendInvitationAct context) {
         this.mContext = context;
         inflater= LayoutInflater.from(context.getContext());
         comLists=new ArrayList<VSendInvitationEntity>();

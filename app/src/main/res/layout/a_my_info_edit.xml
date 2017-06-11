@@ -82,11 +82,13 @@
             <TextView
                 android:id="@+id/a_my_info_edit_name_tv"
                 style="@style/my_info_edit_right_font"
+                android:layout_width="wrap_content"
                 android:text="姓名" />
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
         style="@style/my_info_edit_lay"
+        android:visibility="gone"
         android:id="@+id/a_my_info_edit_name_lay2"
         android:orientation="horizontal">
 
@@ -103,7 +105,10 @@
                 android:id="@+id/a_my_info_edit_name_edit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="姓名" />
+                android:maxLength="10"
+                android:textColorHint="@color/font_com_gray_color"
+                android:hint="姓名"
+                android:text="" />
         </LinearLayout>
     </LinearLayout>
     <TextView

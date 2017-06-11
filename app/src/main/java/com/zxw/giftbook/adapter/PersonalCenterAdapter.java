@@ -15,9 +15,11 @@ import com.zxw.giftbook.Activity.AffairEditAct;
 
 import pri.zxw.library.entity.NameImgEntity;
 
+import com.zxw.giftbook.Activity.MySendInvitationAct;
 import com.zxw.giftbook.Activity.ReceivesInvitationAct;
 import com.zxw.giftbook.Activity.SendInvitationAct;
 import com.zxw.giftbook.Activity.login.AboutAct;
+import com.zxw.giftbook.Activity.login.FeedbackAct;
 import com.zxw.giftbook.Activity.login.LoginAct;
 import com.zxw.giftbook.Activity.login.PersonalInfoAct;
 import com.zxw.giftbook.Activity.login.RecommendAct;
@@ -66,11 +68,11 @@ public class PersonalCenterAdapter extends MyBaseAdapter {
         comLists=new ArrayList<>();
         comLists.add(new NameImgEntity("个人中心",R.mipmap.personal_center,MyInfoEditAct.class));
         comLists.add(new NameImgEntity("收到的请帖",R.mipmap.receive_invitation,ReceivesInvitationAct.class));
-        comLists.add(new NameImgEntity("发送的请帖",R.mipmap.invitation,SendInvitationAct.class));
+        comLists.add(new NameImgEntity("发送的请帖",R.mipmap.invitation,MySendInvitationAct.class));
         comLists.add(new NameImgEntity("推荐给好友",R.mipmap.recommend,RecommendAct.class));
         comLists.add(new NameImgEntity("修改密码",R.mipmap.edit_pwd,UpdatePwdAct.class));
         comLists.add(new NameImgEntity("关于",R.mipmap.about,AboutAct.class));
-        comLists.add(new NameImgEntity("意见反馈",R.mipmap.feedback,AffairEditAct.class));
+        comLists.add(new NameImgEntity("意见反馈",R.mipmap.feedback,FeedbackAct.class));
         comLists.add(new NameImgEntity("退出",R.mipmap.exit,User.class));
     }
 
