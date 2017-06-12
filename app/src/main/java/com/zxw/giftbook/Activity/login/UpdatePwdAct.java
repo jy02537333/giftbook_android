@@ -86,12 +86,12 @@ public class UpdatePwdAct extends MyBaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.a_update_pwd);
-		mobileStr = getIntent().getExtras().getString(FindPwdAct.RESET_PWD_KEY);
-		if (mobileStr == null || mobileStr.trim().length() == 0) {
-			ToastShowTool.myToastShort(UpdatePwdAct.this, "您的账号异常！");
-			finish();
-			return;
-		}
+//		mobileStr = getIntent().getExtras().getString(FindPwdAct.RESET_PWD_KEY);
+//		if (mobileStr == null || mobileStr.trim().length() == 0) {
+//			ToastShowTool.myToastShort(UpdatePwdAct.this, "您的账号异常！");
+//			finish();
+//			return;
+//		}
 		initView();
 		initTool();
 		initListener();

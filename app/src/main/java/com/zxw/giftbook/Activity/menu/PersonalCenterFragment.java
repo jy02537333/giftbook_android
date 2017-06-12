@@ -27,16 +27,9 @@ import com.zxw.giftbook.R;
 import com.zxw.giftbook.adapter.PersonalCenterAdapter;
 import com.zxw.giftbook.config.ResConstants;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import pri.zxw.library.entity.User;
-import pri.zxw.library.tool.ImgLoad.ImageLoadTool;
 import pri.zxw.library.tool.ImgLoad.MyImgLoadTool;
-import pri.zxw.library.view.CircleImageView;
-import pri.zxw.library.view.TitleBar;
-import pri.zxw.mysetting.MySettingInfo;
-import pri.zxw.mysetting.MysettingAdapter;
 
 public class PersonalCenterFragment extends Fragment implements
         AdapterView.OnItemClickListener, View.OnClickListener {
@@ -50,14 +43,12 @@ public class PersonalCenterFragment extends Fragment implements
     private boolean isLogined = false;
     private View mView;
     private ImageView  titleRecentImg;
-    private CircleImageView userImg;
+    private ImageView userImg;
     private TextView userNameTv;
     private GridView gv;
     private LinearLayout  headLay;
     private int currentVersion;
     private PersonalCenterAdapter adapter;
-    private ImageLoader imageLoader;
-    private DisplayImageOptions options;
 
     /**
      * 登录
@@ -96,19 +87,19 @@ public class PersonalCenterFragment extends Fragment implements
 
     private void initView(View view) {
 //        headLay = (LinearLayout) view.findViewById(R.id.f_personal_center_img);
-        userImg=(CircleImageView) view.findViewById(R.id.f_personal_center_img);
+        userImg=(ImageView) view.findViewById(R.id.f_personal_center_img);
         gv=(GridView) view.findViewById(R.id.f_personal_center_gv);
         userNameTv = (TextView) view.findViewById(R.id.f_personal_center_name);
         createMysetting();
-       if( FtpApplication.getInstance().getUser().isLogin(getActivity()))
-       {
-           MyImgLoadTool.loadNetHeadImg(getActivity(),FtpApplication.getInstance().getUser().getPortrait(),userImg,100,100,"");
-           if(FtpApplication.getInstance().getUser().getUsername().trim().length()==0)
-           {
-               userNameTv.setText(FtpApplication.getInstance().getUser().getUserphone());
-           }else
-           userNameTv.setText(FtpApplication.getInstance().getUser().getUsername());
-       }
+//       if( FtpApplication.getInstance().getUser().isLogin(getActivity()))
+//       {
+//           MyImgLoadTool.loadNetHeadImg(getActivity(),FtpApplication.getInstance().getUser().getPortrait(),userImg,100,100,"");
+//           if(FtpApplication.getInstance().getUser().getUsername().trim().length()==0)
+//           {
+//               userNameTv.setText(FtpApplication.getInstance().getUser().getUserphone());
+//           }else
+//           userNameTv.setText(FtpApplication.getInstance().getUser().getUsername());
+//       }
 
     }
     private void createMysetting()
@@ -121,8 +112,6 @@ public class PersonalCenterFragment extends Fragment implements
         IntentFilter myIntentFilter = new IntentFilter();
         myIntentFilter.addAction(FragmentMyBroadcast.FRAGMENTMYBROADCAST_UPDATE);
         getActivity().registerReceiver(new FragmentMyBroadcast(), myIntentFilter);
-        imageLoader=ImageLoader.getInstance();
-        options=ImageLoadTool.userHeadImgOptionsInit(options, ResConstants.HEAD_DEFAULT_ID);
     }
 
     private void initData() {
@@ -179,8 +168,8 @@ public class PersonalCenterFragment extends Fragment implements
             return ;
         User user = FtpApplication.getInstance().getUser();
         if (user!=null) {
-            imageLoader.displayImage(user.getPortraitThumbnail(),userImg,options);
-
+            MyImgLoadTool.loadNetHeadThumbnailImg(getActivity(),user.getPortrait(),userImg,80,80,"");
+            userNameTv.setText(user.getLoginname());
             isLogined = true;
         }else {
             userNameTv.setText("登陆更多精彩");

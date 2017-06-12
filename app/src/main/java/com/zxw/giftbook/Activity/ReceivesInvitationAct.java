@@ -49,13 +49,7 @@ import pri.zxw.library.view.TitleBar;
  */
 
 public class ReceivesInvitationAct extends MyPullToRefreshBaseActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.a_receives_invitation);
-    }
     TitleBar titleBar;
-    View view;
     AppServerTool mServicesTool;
     ReceivesInvitationAdapter adapter;
     PullToRefreshListView listView;
@@ -84,8 +78,8 @@ public class ReceivesInvitationAct extends MyPullToRefreshBaseActivity {
     };
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.a_receives_invitation);
         initView();
         initTool();
@@ -95,11 +89,11 @@ public class ReceivesInvitationAct extends MyPullToRefreshBaseActivity {
 
     public void initView()
     {
-        titleBar=(TitleBar) view.findViewById(R.id.a_receives_invitation_title_bar);
-        listView=(PullToRefreshListView)view.findViewById(R.id.a_receives_invitation_lv);
-        Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
-        top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
-        titleBar.setRightDrawable(top_edit,null,null,null);
+        titleBar=(TitleBar) findViewById(R.id.a_receives_invitation_title_bar);
+        listView=(PullToRefreshListView)findViewById(R.id.a_receives_invitation_lv);
+//        Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
+//        top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
+//        titleBar.setRightDrawable(top_edit,null,null,null);
 
 
     }

@@ -9,7 +9,14 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@color/com_color1">
-    <pri.zxw.library.view.CircleImageView
+    <!--<pri.zxw.library.view.CircleImageView-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:scaleType="centerInside"-->
+        <!--android:id="@+id/f_personal_center_img"-->
+        <!--android:src="@mipmap/big_user_default"/>-->
+    <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="20dp"

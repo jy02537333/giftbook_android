@@ -21,11 +21,13 @@ import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.zxw.giftbook.Activity.login.LoginAct;
+import com.zxw.giftbook.Activity.menu.PersonalCenterFragment;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
+import com.zxw.giftbook.utils.LoginUserInfoHandlerTool;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,8 +116,16 @@ public class MyInfoEditAct extends MyBaseActivity {
                 int ret=   messageHandlerTool.handler(msg,MyInfoEditAct.this);
                 if(ret==1)
                 {
+                    operateType=2;
+                    LoginUserInfoHandlerTool loginUserInfoHandlerTool=new LoginUserInfoHandlerTool(MyInfoEditAct.this,
+                            serverTool);
+                     loginUserInfoHandlerTool.loginedHandler(msg,FtpApplication.getInstance().getUser().getLoginpassword());
                     ToastShowTool.myToastShort(MyInfoEditAct.this,"修改成功！");
                    changeEditState();
+                    setViewValue();
+                    Intent intent = new Intent();
+                    intent.setAction(PersonalCenterFragment.FragmentMyBroadcast.FRAGMENTMYBROADCAST_UPDATE);
+                    sendBroadcast(intent);
                 }
             }
             else if(msg.what==COMPRESS_ONE_CODE)
@@ -141,6 +151,9 @@ public class MyInfoEditAct extends MyBaseActivity {
         img=(ImageView) this.findViewById(R.id.a_my_info_edit_img);
         accountTv=(TextView) this.findViewById(R.id.a_my_info_edit_account_tv);
         sexRadio=(RadioGroup) this.findViewById(R.id.a_my_info_edit_sex_rbog);
+        rbo1=(RadioButton) this.findViewById(R.id.a_my_info_edit_sex_rbo1);
+        rbo2=(RadioButton) this.findViewById(R.id.a_my_info_edit_sex_rbo2);
+        sexRadio=(RadioGroup) this.findViewById(R.id.a_my_info_edit_sex_rbog);
         nameTv=(TextView) this.findViewById(R.id.a_my_info_edit_name_tv);
         nameEdit=(EditText) this.findViewById(R.id.a_my_info_edit_name_edit);
         sexTv=(TextView) this.findViewById(R.id.a_my_info_edit_sex_tv);
@@ -161,12 +174,14 @@ public class MyInfoEditAct extends MyBaseActivity {
             if(user.getSex()!=null&&user.getSex()==1)
             {
                 sexTv.setText("男");
-              rbo1.setSelected(true);
+                rbo1.setSelected(true);
+                rbo1.setChecked(true);
             }
             else if(user.getSex()!=null&&user.getSex()==2)
                 {
                     sexTv.setText("女");
                     rbo2.setSelected(true);
+                    rbo2.setChecked(true);
                 }
             else
                 sexTv.setText("未知");
@@ -200,19 +215,22 @@ public class MyInfoEditAct extends MyBaseActivity {
 
             }
         });
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                noScrollGridTool.pickImage(true);
-            }
-        });
+
         titleBar.setRightClickListener(new TitleOnClickListener() {
             @Override
             public void onClick(View view) {
                 if(operateType==1)
                 {
+                    operateType=2;
+                    img.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            noScrollGridTool.pickImage(true);
+                        }
+                    });
                 }else
                 {
+                    operateType=1;
                     getQiniuToken();
                 }
                 changeEditState();
@@ -230,7 +248,6 @@ public class MyInfoEditAct extends MyBaseActivity {
     {
         if(operateType==1)
         {
-            operateType=2;
             titleBar.setRightText("保存");
             lay1.setVisibility(View.GONE);
             lay2.setVisibility(View.VISIBLE);
@@ -238,7 +255,6 @@ public class MyInfoEditAct extends MyBaseActivity {
             nameLay2.setVisibility(View.VISIBLE);
         }else
         {
-            operateType=1;
             titleBar.setRightText("编辑");
             lay1.setVisibility(View.VISIBLE);
             lay2.setVisibility(View.GONE);
@@ -266,7 +282,9 @@ public class MyInfoEditAct extends MyBaseActivity {
             if(data!=null) {
                 ArrayList<String> path = data.getStringArrayListExtra(MultiImageSelector.EXTRA_RESULT);
                 oneImgPath=path.get(0);
-                ImgLoadMipmapTool.load(oneImgPath, img);
+                MyImgLoadTool.loadLocalRoundImg(MyInfoEditAct.this, new File(oneImgPath),
+                        R.mipmap.default_bg,img,80,80,"");
+//                ImgLoadMipmapTool.load(oneImgPath, img);
             }
         }
     }

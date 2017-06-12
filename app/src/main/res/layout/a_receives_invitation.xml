@@ -7,6 +7,7 @@
         android:id="@+id/a_receives_invitation_title_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_h"
+        titleBarStyle:visibility="true"
         titleBarStyle:text="请帖" />
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/a_receives_invitation_lv"

@@ -58,6 +58,7 @@ import pri.zxw.library.myinterface.IServicesCallback;
 import pri.zxw.library.tool.Common;
 import pri.zxw.library.tool.DateCommon;
 import pri.zxw.library.tool.ImgLoad.ImgLoadMipmapTool;
+import pri.zxw.library.tool.ImgLoad.MyImgLoadTool;
 import pri.zxw.library.tool.MessageHandlerTool;
 import pri.zxw.library.tool.ToastShowTool;
 import pri.zxw.library.tool.dialogTools.CustomDialog;
@@ -361,7 +362,9 @@ public class AffairEditAct extends MyBaseActivity {
             if(data!=null) {
                 ArrayList<String> path = data.getStringArrayListExtra(MultiImageSelector.EXTRA_RESULT);
                 oneImgPath=path.get(0);
-                ImgLoadMipmapTool.load(oneImgPath, coverImg);
+                MyImgLoadTool.loadLocalImg(AffairEditAct.this, new File(oneImgPath),
+                        R.mipmap.default_bg,coverImg,80,80,"");
+//                ImgLoadMipmapTool.load(oneImgPath, coverImg);
             }
         }else if(ImgScrollGridTool.REQUEST_MULTI_IMAGE==requestCode&&resultCode==RESULT_OK)
              noScrollGridTool.imgActivityResult(resultCode,requestCode,data);

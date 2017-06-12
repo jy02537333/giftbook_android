@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -36,13 +35,8 @@ import pri.zxw.library.view.TitleBar;
  */
 
 public class MySendInvitationAct extends MyPullToRefreshBaseActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.a_send_invitation);
-    }
+
     TitleBar titleBar;
-    View view;
     AppServerTool mServicesTool;
     SendInvitationAdapter adapter;
     PullToRefreshListView listView;
@@ -70,19 +64,19 @@ public class MySendInvitationAct extends MyPullToRefreshBaseActivity {
     };
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-//        setContentView(R.layout.a_send_invitation);
-//        initView();
-//        initTool();
-//        initListener();
-//        listLoad(mHandler);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.a_send_invitation);
+        initView();
+        initTool();
+        initListener();
+        listLoad(mHandler);
     }
 
     public void initView()
     {
-        titleBar=(TitleBar) view.findViewById(R.id.a_send_invitation_title_bar);
-        listView=(PullToRefreshListView)view.findViewById(R.id.a_send_invitation_lv);
+        titleBar=(TitleBar) findViewById(R.id.a_send_invitation_title_bar);
+        listView=(PullToRefreshListView)findViewById(R.id.a_send_invitation_lv);
         Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
         top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
         titleBar.setRightDrawable(top_edit,null,null,null);

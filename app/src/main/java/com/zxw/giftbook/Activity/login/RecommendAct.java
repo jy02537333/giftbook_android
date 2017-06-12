@@ -17,6 +17,7 @@ import pri.zxw.library.tool.ImgLoad.ImgLoadMipmapTool;
 import pri.zxw.library.view.TitleBar;
 
 /**
+ *  推荐
  * Created by Administrator on 2017/5/31.
  */
 
@@ -32,7 +33,8 @@ public class RecommendAct extends MyBaseActivity {
         String url= NetworkConfig.api_url+""+ FtpApplication.getInstance().getUser().getLoginname();
         initListener();
         Bitmap bitmap= ImgLoadMipmapTool.loadBitmap(R.mipmap.logo,this);
-        ZxingQRImgTool.createQRImage(this,url,bitmap);
+        Bitmap bitmap2 = ZxingQRImgTool.createQRImage(this,url,bitmap);
+        img.setImageBitmap(bitmap2);
     }
     void initListener()
     {
