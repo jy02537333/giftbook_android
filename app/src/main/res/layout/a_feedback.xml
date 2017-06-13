@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<LinearLayout 
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
@@ -13,14 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_bar_h"
         titleBarStyle:left_visibility="visible"
+        titleBarStyle:text="意见反馈"
         />
-    
  <!-- 分离 -->
        <WebView     android:layout_width="match_parent"
     android:layout_height="match_parent"
+     android:paddingBottom="5dp"
      android:id="@+id/a_feedback_wv" />
-      <TextView
-             android:layout_width="match_parent"
-            android:layout_height="5dp" />
 </LinearLayout>
-</ScrollView>

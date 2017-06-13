@@ -40,7 +40,7 @@ public class MySendInvitationAct extends MyPullToRefreshBaseActivity {
     AppServerTool mServicesTool;
     SendInvitationAdapter adapter;
     PullToRefreshListView listView;
-    public static final String GET_DATA_URL="apiVSendInvitationController.do?getList";
+    public static final String GET_DATA_URL="apiVSendInvitationController.do?datagrid";
     Handler mHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {

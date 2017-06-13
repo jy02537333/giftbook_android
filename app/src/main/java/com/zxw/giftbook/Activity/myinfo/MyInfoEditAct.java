@@ -88,6 +88,7 @@ public class MyInfoEditAct extends MyBaseActivity {
     /**s是否单选*/
     boolean isOne=false;
     boolean isSubPic=false;
+    /**1=编辑，2=保存*/
     int operateType=1;
     MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
     UploadManager uploadManager = new UploadManager();
@@ -116,12 +117,12 @@ public class MyInfoEditAct extends MyBaseActivity {
                 int ret=   messageHandlerTool.handler(msg,MyInfoEditAct.this);
                 if(ret==1)
                 {
-                    operateType=2;
+                    operateType=1;
+                    changeEditState();
                     LoginUserInfoHandlerTool loginUserInfoHandlerTool=new LoginUserInfoHandlerTool(MyInfoEditAct.this,
                             serverTool);
                      loginUserInfoHandlerTool.loginedHandler(msg,FtpApplication.getInstance().getUser().getLoginpassword());
                     ToastShowTool.myToastShort(MyInfoEditAct.this,"修改成功！");
-                   changeEditState();
                     setViewValue();
                     Intent intent = new Intent();
                     intent.setAction(PersonalCenterFragment.FragmentMyBroadcast.FRAGMENTMYBROADCAST_UPDATE);
@@ -166,9 +167,8 @@ public class MyInfoEditAct extends MyBaseActivity {
     {
         if(FtpApplication.getInstance().getUser().isLogin(this)) {
             User user=FtpApplication.getInstance().getUser();
-            MyImgLoadTool.loadNetHeadImg(this, user.getPortrait(),img,80,80,"");
+            MyImgLoadTool.loadNetHeadThumbnailImg(this, user.getPortrait(),img,80,80,"");
             nameTv.setText(user.getUsername());
-//            nameEdit.setText(user.getUsername());
             nameEdit.setHint(user.getUsername());
             accountTv.setText(user.getLoginname());
             if(user.getSex()!=null&&user.getSex()==1)
@@ -246,7 +246,7 @@ public class MyInfoEditAct extends MyBaseActivity {
     }
     void changeEditState()
     {
-        if(operateType==1)
+        if(operateType==2)
         {
             titleBar.setRightText("保存");
             lay1.setVisibility(View.GONE);
@@ -295,8 +295,7 @@ public class MyInfoEditAct extends MyBaseActivity {
             ToastShowTool.myToastShort(this,"请选择性别！");
             return ;
         }
-        if(nameEdit.getText().toString().trim().length()<=1&&
-                !nameEdit.getText().toString().trim().equals(nameTv.getText().toString().trim()))
+        if(nameEdit.getText().toString().trim().length()==1)
         {
             ToastShowTool.myToastShort(this,"请输入正确姓名！");
             return ;
@@ -304,7 +303,7 @@ public class MyInfoEditAct extends MyBaseActivity {
         Map<String,String> param= ComParamsAddTool.getParam();
         param.put("info", FtpApplication.getInstance().getUser().toSignString(this));
         param.put("id", FtpApplication.getInstance().getUser().getId());
-        if(!nameEdit.getText().toString().trim().equals(nameTv.getText().toString().trim()))
+        if(nameEdit.getText().toString().trim().length()>0)
         param.put("username", nameEdit.getText().toString().trim());
         param.put("sex",type+"");
         if(upimg_key_list.size()>0) {

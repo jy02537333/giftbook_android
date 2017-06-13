@@ -48,16 +48,19 @@ public class MyImgLoadTool {
      */
     public static void loadLocalRoundImg(Context context, File file,  int errorId, ImageView img,int width,int height,String tag)
     {
-        Glide
-                .with(context)
+//        Glide
+//                .with(context)
+//                .load(file)
+//                .override(width, height)
+//                .bitmapTransform(
+//                        new CropCircleTransformation(context))
+//                .crossFade(1000)
+//                .centerCrop()
+//                .into(img);
+        Glide.with(context)
                 .load(file)
-                .placeholder(errorId)
-//                .error(errorId)
-                .override(width, height)
-                .bitmapTransform(
-                        new CropCircleTransformation(context))
-                .crossFade(1000)
-                .centerCrop()
+                .error(R.mipmap.big_user_default)
+                .bitmapTransform(new CropCircleTransformation(context))
                 .into(img);
     }
 
@@ -103,20 +106,24 @@ public class MyImgLoadTool {
     public static void loadNetHeadThumbnailImg(Context context, String path, ImageView img,int width,int height,String tag)
     {
         path=ImgUrlUtil.getFullHeadImgUrl(path)+"?imageView2/1/w/240/h/240/q/75|imageslim";
-        Glide
-                .with(context)
+//        Glide
+//                .with(context)
+//                .load(path)
+//                .placeholder(R.mipmap.big_user_default)
+//                .error(R.mipmap.big_user_default)
+//                .bitmapTransform(new GlideCircleTransform(context))
+//                .crossFade(1000)
+//                .bitmapTransform(
+//                        new CropCircleTransformation(context))
+//                .override(width, height)
+//                .centerCrop()
+//                .into(img);
+        Glide.with(context)
                 .load(path)
                 .placeholder(R.mipmap.big_user_default)
                 .error(R.mipmap.big_user_default)
-//                .bitmapTransform(new GlideCircleTransform(context))
-                .crossFade(1000)
-                .bitmapTransform(
-                        new CropCircleTransformation(context))
-                .override(width, height)
-                .centerCrop()
+                .bitmapTransform(new CropCircleTransformation(context))
                 .into(img);
-
-
     }
 
 

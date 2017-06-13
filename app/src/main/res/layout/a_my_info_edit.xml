@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <pri.zxw.library.view.CircleImageView
+            <ImageView
                 android:id="@+id/a_my_info_edit_img"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
