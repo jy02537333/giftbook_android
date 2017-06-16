@@ -24,11 +24,11 @@ public class VSendInvitationEntity extends BaseEntity {
 	/**状态(0=删除，1正常)*/
 	private Integer state;
 	/**创建时间*/
-	private String create_date;
+	private String createDate;
 	/**创建人编号*/
-	private String create_by;
+	private String createBy;
 	/**创建人姓名*/
-	private String create_name;
+	private String createName;
 	/**邀请人编号*/
 	private String inviterid;
 	/**邀请人电话*/
@@ -108,7 +108,7 @@ public class VSendInvitationEntity extends BaseEntity {
 	 *@return: java.util.Date  创建时间
 	 */
 	public String getCreateDate(){
-		return this.create_date;
+		return this.createDate;
 	}
 
 	/**
@@ -116,14 +116,14 @@ public class VSendInvitationEntity extends BaseEntity {
 	 *@param: java.util.Date  创建时间
 	 */
 	public void setCreateDate(String createDate){
-		this.create_date = createDate;
+		this.createDate = createDate;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  创建人编号
 	 */
 	public String getCreateBy(){
-		return this.create_by;
+		return this.createBy;
 	}
 
 	/**
@@ -131,14 +131,14 @@ public class VSendInvitationEntity extends BaseEntity {
 	 *@param: java.lang.String  创建人编号
 	 */
 	public void setCreateBy(String createBy){
-		this.create_by = createBy;
+		this.createBy = createBy;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  创建人姓名
 	 */
 	public String getCreateName(){
-		return this.create_name;
+		return this.createName;
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class VSendInvitationEntity extends BaseEntity {
 	 *@param: java.lang.String  创建人姓名
 	 */
 	public void setCreateName(String createName){
-		this.create_name = createName;
+		this.createName = createName;
 	}
 	/**
 	 *方法: 取得java.lang.String

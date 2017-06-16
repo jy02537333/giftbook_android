@@ -84,9 +84,9 @@ public class SendInvitationDetailListAdapter extends MyBaseAdapter {
             mHolder = (ViewHolder) view.getTag();
         }
        final VInvitationListAndGroupEntity comInfo =comLists.get(position);
-        mHolder.phoneTv.setText("("+comInfo.getInviteephone()+")");
-        mHolder.nameTv.setText("("+comInfo.getInviteename()+")");
-        mHolder.groupTv.setText("("+comInfo.getGroupname()+")");
+        mHolder.phoneTv.setText(comInfo.getInviteephone());
+        mHolder.nameTv.setText(comInfo.getInviteename());
+        mHolder.groupTv.setText(comInfo.getGroupname());
         return view;
     }
 

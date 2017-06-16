@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/item_send_invitation_lay"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:background="@color/com_background_color"
         android:gravity="center_vertical"
         android:orientation="vertical"
@@ -20,19 +20,36 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp">
-
-            <TextView
-                android:id="@+id/item_send_invitation_type_tv"
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp">
+                <ImageView
+                    android:id="@+id/item_send_invitation_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/user_default"/>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="婚宴" />
-
-            <TextView
-                android:id="@+id/item_send_invitation_date_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_marginLeft="15dp"
-                android:text="6.30" />
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/item_send_invitation_type_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/font_com_title_black_color"
+                    android:text="婚宴" />
+
+                <TextView
+                    android:id="@+id/item_send_invitation_date_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="6.30" />
+            </LinearLayout>
+
 
             <TextView
                 android:layout_width="0dp"
@@ -40,10 +57,11 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:layout_marginTop="5dp"
                 android:id="@+id/item_send_invitation_num_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0人" />
+                android:text="邀请0人" />
         </LinearLayout>
 
         <TextView
@@ -52,7 +70,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            android:paddingRight="10dp"
+            android:text="waegawegwae"
+            />
     </LinearLayout>
 
     <TextView

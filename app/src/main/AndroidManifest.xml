@@ -120,6 +120,9 @@
         <activity android:name=".Activity.login.PersonalInfoAct"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".Activity.login.RegisterAct"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".Activity.myinfo.MyInfoEditAct"
             android:screenOrientation="portrait">
         </activity>
@@ -140,6 +143,9 @@
         </activity>
 
         <activity android:name=".Activity.MySendInvitationAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.SendInvitationListAct"
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".Activity.contact.PhoneContactListSelectActivity"

@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 
 import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.zxw.giftbook.Activity.entitiy.ReceivesInvitationEntity;
 import com.zxw.giftbook.Activity.entitiy.VSendInvitationEntity;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
@@ -48,7 +47,7 @@ public class MySendInvitationAct extends MyPullToRefreshBaseActivity {
             if(msg.what==GET_DATA_CODE)
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
-                Type type=new TypeToken<List<ReceivesInvitationEntity>>(){}.getType();
+                Type type=new TypeToken<List<VSendInvitationEntity>>(){}.getType();
                 MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,MySendInvitationAct.this,adapter,listView,type);
                 String sum=  msgInfo.getRetMap().get("sumCount");
                 if(sum!=null)
@@ -122,7 +121,7 @@ public class MySendInvitationAct extends MyPullToRefreshBaseActivity {
     @Override
     public void getWebData() {
         Map<String,String> params= ComParamsAddTool.getPageParam(this);
-        params.put("create_id", FtpApplication.getInstance().getUser().getId());
+        params.put("createby", FtpApplication.getInstance().getUser().getId());
         mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
     }
 

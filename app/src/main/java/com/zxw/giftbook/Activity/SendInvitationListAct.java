@@ -37,13 +37,8 @@ import pri.zxw.library.view.TitleBar;
  */
 
 public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.a_send_invitation_detail_list);
-    }
+
     TitleBar titleBar;
-    View view;
     String parentId;
     AppServerTool mServicesTool;
     SendInvitationDetailListAdapter adapter;
@@ -56,7 +51,7 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
             if(msg.what==GET_DATA_CODE)
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
-                Type type=new TypeToken<List<ReceivesInvitationEntity>>(){}.getType();
+                Type type=new TypeToken<List<VInvitationListAndGroupEntity>>(){}.getType();
                 MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,SendInvitationListAct.this,adapter,listView,type);
                 String sum=  msgInfo.getRetMap().get("sumCount");
                 if(sum!=null)
@@ -72,8 +67,8 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
     };
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.a_send_invitation_detail_list);
         parentId=getIntent().getStringExtra("parentid");
         initView();
@@ -84,11 +79,11 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
 
     public void initView()
     {
-        titleBar=(TitleBar) view.findViewById(R.id.a_send_invitation_detail_list_title_bar);
-        listView=(PullToRefreshListView)view.findViewById(R.id.a_send_invitation_detail_list_lv);
-        Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
-        top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
-        titleBar.setRightDrawable(top_edit,null,null,null);
+        titleBar=(TitleBar) findViewById(R.id.a_send_invitation_detail_list_title_bar);
+        listView=(PullToRefreshListView)findViewById(R.id.a_send_invitation_detail_list_lv);
+//        Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
+//        top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
+//        titleBar.setRightDrawable(top_edit,null,null,null);
 
 
     }

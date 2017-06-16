@@ -60,6 +60,8 @@ public abstract class ServicesTool {
 	 * 线程id
 	 */
 	private String mThreadId;
+	/**是否key验证失败要跳转login界面 **/
+	private boolean isGoLogin=true;
 
 	/**
 	 * 上传文件，name相同时，使用该属性
@@ -81,6 +83,12 @@ public abstract class ServicesTool {
 
 	public void setmThreadId(String mThreadId) {
 		this.mThreadId = mThreadId;
+	}
+	public boolean isGoLogin() {
+		return isGoLogin;
+	}
+	public void setIsGoLogin(boolean goLogin) {
+		isGoLogin = goLogin;
 	}
 
 	/**
@@ -347,7 +355,7 @@ public abstract class ServicesTool {
 					if (map.get(JsonParse.STATUS).equals("1")) {
 						msg.arg1 = 1;
 					}
-					if(map.get(JsonParse.STATUS).equals("5"))
+					if(map.get(JsonParse.STATUS).equals("5")&&isGoLogin)
 					{
 						tokenVerifyCallback(mContext);
 					}

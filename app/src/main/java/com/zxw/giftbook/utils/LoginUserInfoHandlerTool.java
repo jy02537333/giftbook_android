@@ -40,6 +40,8 @@ public class LoginUserInfoHandlerTool {
 	 */
 	private boolean mIsDistribution;
 	private User user;
+	private int ret=-1;
+	private String msgStr="";
 	JsonStrHistoryDao dao;
 	public LoginUserInfoHandlerTool(Activity activity, ServicesTool servicesTool) {
 		mActivity = activity;
@@ -63,6 +65,8 @@ public class LoginUserInfoHandlerTool {
 		Gson gson=new Gson();
 		try {
 			Map<String, String> map = (Map<String, String>) msg.obj;
+			ret=Integer.parseInt( map.get(JsonParse.STATUS) ) ;
+			msgStr=map.get(JsonParse.MSG);
 			if(map.get(JsonParse.STATUS).equals("1")) {
 				JSONObject jsonArray = new JSONObject(map.get(JsonParse.CONTEXT));
 				//JSONObject tokenJson=(JSONObject) jsonArray.get("data");
@@ -113,5 +117,19 @@ public class LoginUserInfoHandlerTool {
 		}
 	}
 
+	public int getRet() {
+		return ret;
+	}
 
+	public void setRet(int ret) {
+		this.ret = ret;
+	}
+
+	public String getMsg() {
+		return msgStr;
+	}
+
+	public void setMsg(String msg) {
+		this.msgStr = msg;
+	}
 }

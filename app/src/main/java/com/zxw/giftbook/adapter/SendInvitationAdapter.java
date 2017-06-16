@@ -8,18 +8,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zxw.giftbook.Activity.MySendInvitationAct;
-import com.zxw.giftbook.Activity.SendInvitationAct;
-import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
 import com.zxw.giftbook.Activity.entitiy.VSendInvitationEntity;
-import com.zxw.giftbook.Activity.menu.SidekickerGroup2Fragment;
 import com.zxw.giftbook.R;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import me.nereo.multi_image_selector.bean.Image;
 import pri.zxw.library.base.MyBaseAdapter;
 import pri.zxw.library.tool.DateCommon;
+import pri.zxw.library.tool.ImgLoad.ImgUrlUtil;
+import pri.zxw.library.tool.ImgLoad.MyImgLoadTool;
 
 /**
  * 我发送的请帖 适配器
@@ -85,6 +85,7 @@ public class SendInvitationAdapter extends MyBaseAdapter {
             mHolder.numTv = (TextView) view.findViewById(R.id.item_send_invitation_num_tv);
             mHolder.addrTv = (TextView) view.findViewById(R.id.item_send_invitation_addr_tv);
             mHolder.typeTv = (TextView) view.findViewById(R.id.item_send_invitation_type_tv);
+            mHolder.img = (ImageView) view.findViewById(R.id.item_send_invitation_img);
             view.setTag(mHolder);
         } else {
             mHolder = (ViewHolder) view.getTag();
@@ -92,9 +93,11 @@ public class SendInvitationAdapter extends MyBaseAdapter {
        final VSendInvitationEntity comInfo =comLists.get(position);
         long dateL=Long.parseLong(comInfo.getFeastdate());
         mHolder.dateTv.setText(DateCommon.formatDateTime(new Date( dateL),DateCommon.YYYY_P_MM_P_DD));
-        mHolder.numTv.setText("("+comInfo.getNum()+")");
-        mHolder.addrTv.setText("("+comInfo.getFeastaddress()+")");
-        mHolder.typeTv.setText("("+comInfo.getFeasttype()+")");
+        mHolder.numTv.setText("邀请"+comInfo.getNum()+"人");
+        mHolder.addrTv.setText(comInfo.getFeastaddress());
+        mHolder.typeTv.setText(comInfo.getFeasttype());
+        String imgUrl= ImgUrlUtil.getFullImgUrl(comInfo.getCoverimg());
+        MyImgLoadTool.loadNetHeadThumbnailImg(mContext,imgUrl,mHolder.img,60,60,"");
         return view;
     }
 
@@ -103,7 +106,7 @@ public class SendInvitationAdapter extends MyBaseAdapter {
 
     class ViewHolder {
         LinearLayout lay;
-        ImageView operateImg;
+        ImageView img;
        TextView dateTv,typeTv,addrTv;
         TextView numTv;
     }

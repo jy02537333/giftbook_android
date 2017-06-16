@@ -6,10 +6,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Pattern;
 
+import pri.zxw.library.entity.User;
+import pri.zxw.library.myinterface.IServicesCallback;
 import pri.zxw.library.tool.JsonParse;
 import pri.zxw.library.tool.MessageHandlerTool;
 import pri.zxw.library.tool.ProgressDialogTool;
-import pri.zxw.library.tool.ServicesTool;
 import pri.zxw.library.tool.ToastShowTool;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,9 +32,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.zxw.giftbook.MainAct;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
+import com.zxw.giftbook.utils.LoginUserInfoHandlerTool;
 
 import pri.zxw.library.base.MyBaseActivity;
 import pri.zxw.library.view.TitleBar;
@@ -41,16 +44,18 @@ import pri.zxw.library.view.TitleBar;
 
 /**
  * 注册
- * 
+ *
  * @Author RA
  * @Blog http://blog.csdn.net/vipzjyno1
  */
 public class RegisterAct extends MyBaseActivity {
 	private TitleBar titleBar;
-	private TextView canelBtn, titleTv, registerTv;
-	private EditText accountEdit;
+	private TextView
+//			canelBtn,
+			registerTv;
+	private EditText accountEdit,pwdEdit;
 	private EditText codeEdit;
-	private Button nextBtn, getCodeBtn;
+	private Button subBtn, getCodeBtn;
 	private ImageView registerCheck;
 	private boolean isCheck = false;
 	private LinearLayout registerLay;
@@ -64,7 +69,7 @@ public class RegisterAct extends MyBaseActivity {
 	private final static int TIMER_CODE = 2623;
 	public static final String REG_ACCOUNT_KEY = "REG_ACCOUNT_KEY";
 	public static final String REG_VERIFICATION_CODO_KEY = "REG_VERIFICATION_CODO_KEY";
-	public static final String REG_PWD_KEY = "REG_PWD_KEY";
+	private final String SUB_URL="apiSysUserCtrl.do?doAdd";
 	private Timer timer;
 	private int timerInt = 30;
 	private String verificCode="";
@@ -72,21 +77,21 @@ public class RegisterAct extends MyBaseActivity {
 		@Override
 		public void handleMessage(Message msg) {
 			try {
-				if (msg.what == VERIFICATION_CODE) {   
-					nextBtn.setEnabled(true);
-//					nextBtn.setBackgroundColor(Color.rgb(207, 73, 72));
-					nextBtn.setBackgroundColor(getResources().getColor(R.color.com_color1));
+				if (msg.what == VERIFICATION_CODE) {
+					subBtn.setEnabled(true);
+//					subBtn.setBackgroundColor(Color.rgb(207, 73, 72));
+					subBtn.setBackgroundColor(getResources().getColor(R.color.com_color1));
 					isVerifaction=true;
 					if (msg.arg1 == 1) {
 //{ when=-39s711ms what=5341 arg1=1 obj={data=0714, msg=成功, code=0} target=com. dxcm.news.RegisterAct$1 }
-					
+
 						@SuppressWarnings("unchecked")
 						Map<String, String> map=(Map<String, String>)msg.obj;
 						verificCode=map.get(JsonParse.CONTEXT);
 					}else {
-							handlerTool.requestResultPrompt(msg, RegisterAct.this,null);
-							handlerTool.getIsNetworkError();
-								timerCanel();
+						handlerTool.requestResultPrompt(msg, RegisterAct.this,null);
+						handlerTool.getIsNetworkError();
+						timerCanel();
 					}
 				} else if (msg.what == TIMER_CODE) {
 					String getCodeStr = null;
@@ -96,7 +101,18 @@ public class RegisterAct extends MyBaseActivity {
 						getCodeStr = timerInt + "";
 						getCodeBtn.setText(getCodeStr);
 					}
-				
+
+				}
+				else if (msg.what == GET_ADD_CODE) {
+					LoginUserInfoHandlerTool loginUserInfoHandlerTool=new LoginUserInfoHandlerTool(RegisterAct.this,mServicesTool);
+					User user= loginUserInfoHandlerTool.loginedHandler(msg,pwdEdit.getText().toString());
+					if(user!=null) {
+						ToastShowTool.myToastShort(RegisterAct.this, "注册成功！");
+						Intent intent = new Intent(RegisterAct.this, MainAct.class);
+						startActivity(intent);
+						finish();
+					}else
+						ToastShowTool.myToastShort(RegisterAct.this, loginUserInfoHandlerTool.getMsg());
 				}
 				ProgressDialogTool.getInstance(RegisterAct.this).dismissDialog();
 			} catch (Exception e) {
@@ -125,36 +141,37 @@ public class RegisterAct extends MyBaseActivity {
 
 	/** 初始化布局 */
 	private void initView() {
-		titleBar = (TitleBar) findViewById(R.id.a_register_pwd_title);
+		titleBar = (TitleBar) findViewById(R.id.a_register_title_bar);
 		accountEdit = (EditText) findViewById(R.id.a_register_username_edit);
+		pwdEdit = (EditText) findViewById(R.id.a_register_pwd_edit);
 		codeEdit = (EditText) findViewById(R.id.a_register_barcode_edit);
-		nextBtn = (Button) findViewById(R.id.a_register_btn);
+		subBtn = (Button) findViewById(R.id.a_register_btn);
 		registerTv = (TextView) findViewById(R.id.a_register_register);
 		registerCheck = (ImageView) findViewById(R.id.a_register_check);
 		registerLay = (LinearLayout) findViewById(R.id.a_register_layout1);
 		getCodeBtn = (Button) findViewById(R.id.a_register_get_code);
 		titleBar.setTitle("注册");
-		
-		SpannableString ss = new SpannableString("我已阅读并同意《新用户注册协议》"); 
+
+		SpannableString ss = new SpannableString("我已阅读并同意《新用户注册协议》");
 		int buleColor=Color.rgb(112, 144, 186);
 		int grayColor=Color.rgb(128, 128, 128);
 		int grayLength="我已阅读并同意《".length();
 		int buleLength="新用户注册协议".length();
-	
+
 //		ss.setSpan(new ForegroundColorSpan(grayColor),14
 //				,15, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-		
-		
+
+
 		ss.setSpan(new chekcClick(),0,grayLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 		ss.setSpan(   new UserRegisterClick(),grayLength,grayLength+buleLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-		ss.setSpan(new ForegroundColorSpan(grayColor),0,  
-				grayLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); 
-		ss.setSpan(new ForegroundColorSpan(buleColor),grayLength, 
-				grayLength+buleLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); 
-		
+		ss.setSpan(new ForegroundColorSpan(grayColor),0,
+				grayLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		ss.setSpan(new ForegroundColorSpan(buleColor),grayLength,
+				grayLength+buleLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
 		registerTv.setText(ss);
 		registerTv.setMovementMethod(LinkMovementMethod.getInstance());
-		
+
 	}
 	class UserRegisterClick  extends ClickableSpan implements OnClickListener
 	{
@@ -175,7 +192,7 @@ public class RegisterAct extends MyBaseActivity {
 			ds.setUnderlineText(false);//取消下划线
 		}
 	}
-	
+
 	private void timerCanel()
 	{
 		setGetCodeBtnEnabled(true);
@@ -184,10 +201,9 @@ public class RegisterAct extends MyBaseActivity {
 	}
 
 	private void initListener() {
-		canelBtn.setOnClickListener(new MOnClickListener());
 //		registerLay.setOnClickListener(new MonReadListener());
 		registerCheck.setOnClickListener(new MonReadListener());
-		nextBtn.setOnClickListener(new OnClickListener() {
+		subBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				String account = getAccount();
@@ -196,27 +212,52 @@ public class RegisterAct extends MyBaseActivity {
 				} else if (codeEdit.getText().toString().trim().length() == 0) {
 					ToastShowTool.myToastShort(RegisterAct.this, "请输入验证码！");
 					return;
-				} 
-				if(!isClickVerifaction)
-				{
-					runGetVerifaction();
-					return ;
 				}
-				else if (!isCheck) {   
-					ToastShowTool.myToastShort(RegisterAct.this, "请阅读用户手册！");
-					return;
-				}else if(!isVerifaction||
-						!verificCode.equals(codeEdit.getText().toString().trim()))
-				{
-					ToastShowTool.myToastShort(RegisterAct.this, "验证码不正确！");
+				else if (pwdEdit.getText().toString().trim().length() == 0) {
+					ToastShowTool.myToastShort(RegisterAct.this, "请输入密码！");
 					return;
 				}
-				Intent intent = new Intent(RegisterAct.this,
-						RegisterPwdAct.class);
-				intent.putExtra(REG_ACCOUNT_KEY, account);
-				intent.putExtra(REG_VERIFICATION_CODO_KEY, codeEdit.getText()
-						.toString().trim());
-				startActivityForResult(intent, REGISTER_CODE);
+				else if (pwdEdit.getText().toString().trim().length() <6) {
+					ToastShowTool.myToastShort(RegisterAct.this, "密码不能少于6位！");
+					return;
+				}
+//				if(!isClickVerifaction)
+//				{
+//					runGetVerifaction();
+//					return ;
+//				}
+//				else if (!isCheck) {
+//					ToastShowTool.myToastShort(RegisterAct.this, "请阅读用户手册！");
+//					return;
+//				}
+//				else if(!isVerifaction||
+//						!verificCode.equals(codeEdit.getText().toString().trim()))
+//				{
+//					ToastShowTool.myToastShort(RegisterAct.this, "验证码不正确！");
+//					return;
+//				}
+				if(isSub)
+					return;
+				User userEntity=new User();
+				userEntity.setLoginpassword(pwdEdit.getText().toString().trim());
+				userEntity.setLoginname(accountEdit.getText().toString().trim());
+				Map<String,String > param=new HashMap<String, String>();
+				param.put("info",userEntity.toSignString(RegisterAct.this));
+				param.put("code",codeEdit.getText().toString().trim());
+				mServicesTool.setIsGoLogin(false);
+				mServicesTool.doPostAndalysisDataCall(SUB_URL,param , GET_ADD_CODE, new IServicesCallback() {
+					@Override
+					public void onStart() {
+						isSub=true;
+						ProgressDialogTool.getInstance(RegisterAct.this).showDialog("注册...");
+					}
+
+					@Override
+					public void onEnd() {
+						ProgressDialogTool.getInstance(RegisterAct.this).dismissDialog();
+						isSub=false;
+					}
+				});
 			}
 		});
 		getCodeBtn.setOnClickListener(new OnClickListener() {
@@ -229,26 +270,26 @@ public class RegisterAct extends MyBaseActivity {
 	/**
 	 * 开始获取验证码
 	 */
-	private void runGetVerifaction()   
+	private void runGetVerifaction()
 	{
 		isClickVerifaction=true;
 		String account = getAccount();
 		if (account != null) {
-			Map<String, String> param = new HashMap<String, String>(); 
-			param.put("mobile", account);
+			Map<String, String> param = new HashMap<String, String>();
+			param.put("phone", account);
 			mServicesTool.doPostAndalysisData(
-					"/UserInfo/GetMessageCode", param, VERIFICATION_CODE);
+					"apiSmsSendCtrl.do?sendSmsCode", param, VERIFICATION_CODE);
 			setGetCodeBtnEnabled(false);
 		}
 	}
 
-	private void setGetCodeBtnEnabled(Boolean isEnable) {   
+	private void setGetCodeBtnEnabled(Boolean isEnable) {
 		if (!isEnable) {
 			getCodeBtn.setText("30");
 			getCodeBtn.setEnabled(false);
 			getCodeBtn.setBackgroundColor(Color.GRAY);
-			nextBtn.setBackgroundColor(Color.GRAY);
-			nextBtn.setEnabled(false);
+			subBtn.setBackgroundColor(Color.GRAY);
+			subBtn.setEnabled(false);
 			TimerTask task = new TimerTask() {
 				public void run() {
 					Message message = new Message();
@@ -261,8 +302,8 @@ public class RegisterAct extends MyBaseActivity {
 			timerInt = 30;
 			timer.schedule(task, 1000, 1000);
 		} else {
-			nextBtn.setEnabled(true);
-			nextBtn.setBackgroundColor(getResources().getColor(R.color.com_color1));
+			subBtn.setEnabled(true);
+			subBtn.setBackgroundColor(getResources().getColor(R.color.com_color1));
 			getCodeBtn.setEnabled(true);
 			getCodeBtn.setBackgroundColor(getResources().getColor(R.color.com_color1));
 		}
@@ -296,21 +337,10 @@ public class RegisterAct extends MyBaseActivity {
 			registerCheck.setImageResource(R.drawable.register_checked);
 		}
 	}
-	private class MOnClickListener implements OnClickListener {
-		@Override
-		public void onClick(View arg0) {
-			RegisterAct.this.finish();
-		}
-
-	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == REGISTER_CODE && resultCode == 1) {
-			setResult(1);
-			finish();
-		}
 
 	}
 
@@ -319,10 +349,10 @@ public class RegisterAct extends MyBaseActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		return true;
 	}
-@Override
-protected void onDestroy() {
-	super.onDestroy();
-}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
