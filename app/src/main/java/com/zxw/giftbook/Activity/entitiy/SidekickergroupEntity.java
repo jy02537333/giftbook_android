@@ -1,6 +1,8 @@
 package com.zxw.giftbook.Activity.entitiy;
 
 
+import java.util.List;
+
 import pri.zxw.library.base.BaseEntity;
 
 /**   
@@ -41,6 +43,15 @@ public class SidekickergroupEntity extends BaseEntity {
 //	private String updateBy;
 //	/**更信任姓名*/
 //	private String updateName;
+	private List<GroupmemberEntity> groupmemberList;
+
+	public List<GroupmemberEntity> getGroupmemberList() {
+		return groupmemberList;
+	}
+	public void setGroupmemberList(List<GroupmemberEntity> groupmemberList) {
+		this.groupmemberList = groupmemberList;
+	}
+
 	/**亲友团，适配器添加按钮，分类使用*/
 	public int getAddType() {
 		return addType;

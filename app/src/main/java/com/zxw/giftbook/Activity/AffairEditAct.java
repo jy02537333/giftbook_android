@@ -189,7 +189,7 @@ public class AffairEditAct extends MyBaseActivity {
     }
     void initView()
     {
-        titleBar=(TitleBar)findViewById(R.id.act_gift_money_add_title_bar);
+        titleBar=(TitleBar)findViewById(R.id.a_affair_edit_title_bar);
         a_affair_edit_cover_Tv=(TextView)findViewById(R.id.a_affair_edit_cover_tv);
         a_affair_edit_noScrollgridview=(GridView)findViewById(R.id.a_affair_edit_noScrollgridview);
         rootLay=(LinearLayout) findViewById(R.id.a_affair_edit_root_lay);

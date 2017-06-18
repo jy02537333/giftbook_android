@@ -4,31 +4,19 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 
 import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.builder.GetBuilder;
-import com.zhy.http.okhttp.builder.OkHttpRequestBuilder;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import pri.zxw.library.entity.FileByteEntity;
-import pri.zxw.library.entity.FileEntity;
+import pri.zxw.library.myinterface.INotHandlerReturn;
 import pri.zxw.library.myinterface.IServicesCallback;
 
 
@@ -570,5 +558,65 @@ public abstract class ServicesTool {
 	}
 
 
+	public void notHandlerReturn(String subUrl, Map<String,String> param,final INotHandlerReturn iNotHandlerReturn)
+	{
+		if (baseUrl == null || subUrl == null) {
+			return;
+		}
+		initProperty(subUrl, param, 0);
+		OkHttpUtils.post()
+				.url(baseUrl + subUrl)
+				.params(param)
+				.build()
+				.execute(new StringCallback() {
+					@Override
+					public void onError(Call call, Exception error, int id) {
+						iNotHandlerReturn.onFailure(call,error,id);
+					}
+					@Override
+					public void onResponse(String responseBody, int id) {
+
+						try {
+							Message msg = new Message();
+							msg.what = 99999;
+							msg.arg1 = 0;
+							if (notNetword(responseBody, msg, "")) {
+								return;
+							}
+							// Log.v("result", "result=" + responseBody);
+							if (responseBody.indexOf("http://404.safedog.cn") != -1) {
+								msg.arg2 = AppConstantError.WEBSEVICE_SOAP_FAULT;
+								iNotHandlerReturn.onSuccess(msg,id);
+								return;
+							}
+							Map<String, String> map = null;
+							try {
+								map = JsonParse.parseReturnValue(responseBody);
+								if (map != null && !map.isEmpty()) {
+									if (map.get(JsonParse.STATUS).equals("1")) {
+										msg.arg1 = 1;
+									}
+									if(map.get(JsonParse.STATUS).equals("5")&&isGoLogin)
+									{
+										return;
+									}
+									if(map.containsKey(JsonParse.CONTEXT)&& map.get(JsonParse.CONTEXT).equals("null"))
+										map.put(JsonParse.CONTEXT,"");
+									if(map.containsKey(JsonParse.SUM_COUNT)&&map.get(JsonParse.SUM_COUNT).equals("null"))
+										map.put(JsonParse.SUM_COUNT,"");
+									msg.obj = map;
+								} else
+									msg.arg2 = AppConstantError.WEBSEVICE_SOAP_FAULT;
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							iNotHandlerReturn.onSuccess(msg,id);
+						} catch (Exception e) {
+							e.printStackTrace();
+						} finally {
+						}
+					}
+				});
+	}
 
 }

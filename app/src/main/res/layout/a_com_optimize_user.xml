@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/a_optimize_lay"
+	android:fitsSystemWindows="true"
     android:orientation="vertical" >
 	<pri.zxw.library.view.TitleBar
 		android:id="@+id/a_com_optimize_user_title_bar"

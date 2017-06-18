@@ -20,6 +20,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zxw.giftbook.Activity.GiftMoneyAddAct;
 import com.zxw.giftbook.Activity.GiftMoneyAddNewAct;
 import com.zxw.giftbook.Activity.entitiy.MembergiftmoneyEntity;
+import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.adapter.HomeJournalAccountAdapter;
 import com.zxw.giftbook.config.NetworkConfig;
@@ -132,7 +133,7 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
         titleBar.setRightClickListener(new TitleOnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), GiftMoneyAddNewAct.class);
+                Intent intent=new Intent(getActivity(), GiftMoneyAddAct.class);
                 startActivityForResult(intent,GET_ADD_CODE);
             }
         });
@@ -183,7 +184,7 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
             params.put("month",monthTv.getTag().toString());
         else
             params.put("month","0");
-        params.put("isexpenditure","1");
+        params.put("createBy", FtpApplication.getInstance().getUser().getId());
         params.put("getCount","10");
         mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
     }

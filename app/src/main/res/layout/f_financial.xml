@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent">
     <pri.zxw.library.view.TitleBar
         xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
         android:id="@+id/f_financial_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/title_bar_h"
         titleBarStyle:text="金融超市"
         titleBarStyle:left_visibility="gone" />
     <android.support.v4.widget.SwipeRefreshLayout

@@ -89,7 +89,7 @@ public class RegisterAct extends MyBaseActivity {
 						Map<String, String> map=(Map<String, String>)msg.obj;
 						verificCode=map.get(JsonParse.CONTEXT);
 					}else {
-						handlerTool.requestResultPrompt(msg, RegisterAct.this,null);
+						handlerTool.requestResultPrompt(msg, RegisterAct.this,"获取验证码出现异常！");
 						handlerTool.getIsNetworkError();
 						timerCanel();
 					}

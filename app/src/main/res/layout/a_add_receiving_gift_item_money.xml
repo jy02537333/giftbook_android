@@ -2,6 +2,7 @@
   <!--添加收礼详情信息-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent">
     <pri.zxw.library.view.TitleBar
         xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"

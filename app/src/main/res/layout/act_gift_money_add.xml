@@ -2,13 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <pri.zxw.library.view.TitleBar
         xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
         android:id="@+id/act_gift_money_add_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/title_bar_h"
         titleBarStyle:left_visibility="visible"
         titleBarStyle:text="记一笔" />
 
@@ -25,7 +26,6 @@
             android:id="@+id/act_gift_money_add_name_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:background="@android:drawable/edit_text"
             android:hint="收礼人"
             android:textColorHint="@color/com_hint_font_gray_color"

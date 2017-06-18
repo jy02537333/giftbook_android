@@ -210,7 +210,12 @@ public class MessageHandlerTool {
 								}
 							else
 								adapter.notifyDataSetChanged();
-							double sumCount=Double.parseDouble(map.get("sumCount"));
+							String sumCountStr=map.get("sumCount");
+							double sumCount=0;
+							if(sumCountStr==null)
+								sumCount=0;
+							else
+								sumCount=Double.parseDouble(sumCountStr);
 							double currCount=contenxt.getRows()*contenxt.getCur_page();
 							if(sumCount<=currCount){//已经滑动到最后一页时
 								listView.onRefreshComplete();

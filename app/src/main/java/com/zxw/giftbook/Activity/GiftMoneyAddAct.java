@@ -14,11 +14,13 @@ import android.widget.TextView;
 import com.google.gson.reflect.TypeToken;
 import com.zxw.giftbook.Activity.entitiy.GifttypeEntity;
 import com.zxw.giftbook.Activity.entitiy.GroupmemberEntity;
+import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
+import com.zxw.giftbook.utils.DataMapUtil;
 
 import org.json.JSONArray;
 
@@ -245,10 +247,17 @@ public class GiftMoneyAddAct extends MyBaseActivity {
 
     public void getDropDownData()
     {
-        Map<String,String > params= ComParamsAddTool.getParam();
-        params.put("userid", FtpApplication.user.getId());
-        ProgressDialogTool.getInstance(GiftMoneyAddAct.this).showDialog("提交中...");
-        mServicesTool.doPostAndalysisData("apiAllTypeCtrl.do?getAll",params,MyPullToRefreshBaseFragment.GET_DATA_CODE);
+        Map<String, SidekickergroupEntity> obj= DataMapUtil.getGroupMemberData(this);
+        if(obj!=null)
+        {
+            for (Map.Entry<String, SidekickergroupEntity> item:obj.entrySet()                 ) {
+                sidekickerGroups.put(item.getKey(),item.getValue().getGroupname());
+            }
+        }
+//        Map<String,String > params= ComParamsAddTool.getParam();
+//        params.put("userid", FtpApplication.user.getId());
+//        ProgressDialogTool.getInstance(GiftMoneyAddAct.this).showDialog("提交中...");
+//        mServicesTool.doPostAndalysisData("apiAllTypeCtrl.do?getAll",params,MyPullToRefreshBaseFragment.GET_DATA_CODE);
     }
     public void showType()
     {

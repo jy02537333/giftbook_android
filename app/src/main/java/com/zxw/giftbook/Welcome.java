@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import com.zxw.giftbook.Activity.login.LoginAct;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
+import com.zxw.giftbook.utils.DataMapUtil;
 import com.zxw.giftbook.utils.LoginUserInfoHandlerTool;
 
 import java.util.HashMap;
@@ -74,7 +75,12 @@ public class Welcome extends MyBaseActivity {
 	}
 
 	private void initData() {
-		loginUserInfoHandlerTool.loginVerifity(USER_VALIDATE_CODE,mHandler,this,mServicesTool);
+//		loginUserInfoHandlerTool.loginVerifity(USER_VALIDATE_CODE,mHandler,this,mServicesTool);
+		if(FtpApplication.user==null||!FtpApplication.user.isLogin(this))
+		{
+		}else {
+			DataMapUtil.getGroupMemberData(this);
+		}
 		start_anima = new AlphaAnimation(0.3f, 1.0f);
 		start_anima.setDuration(2000);
 		view.startAnimation(start_anima);
