@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import pri.zxw.library.refresh_tool.SwipeRecyclerView;
 import com.zxw.giftbook.Activity.entitiy.ReceivingGiftEntity;
 import com.zxw.giftbook.Activity.entitiy.ReceivingGiftsMoneyEntity;
 import com.zxw.giftbook.Activity.menu.ReceivingGIftFragment;
@@ -46,7 +46,7 @@ public class ReceivingGiftItemMoneyListAct  extends MyPullToRefreshBaseActivity{
     TitleBar titleBar;
     AppServerTool mServicesTool;
     ReceivingGiftItemMoneyAdapter adapter;
-    PullToRefreshListView listView;
+    SwipeRecyclerView listView;
     String id;
     String typeId="";
     String typeName="";
@@ -61,7 +61,7 @@ public class ReceivingGiftItemMoneyListAct  extends MyPullToRefreshBaseActivity{
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 Type type=new TypeToken<List<ReceivingGiftsMoneyEntity>>(){}.getType();
-                MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,ReceivingGiftItemMoneyListAct.this,adapter,listView,type);
+                MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,ReceivingGiftItemMoneyListAct.this,adapter,type);
             }
             else if(msg.what==LOAD_CODE)
             {
@@ -94,7 +94,7 @@ public class ReceivingGiftItemMoneyListAct  extends MyPullToRefreshBaseActivity{
     public void initView()
     {
         titleBar=(TitleBar) findViewById(R.id.a_receives_gift_item_money_title_bar);
-        listView=(PullToRefreshListView)findViewById(R.id.a_receives_gift_item_money_lv);
+        listView=(SwipeRecyclerView)findViewById(R.id.a_receives_gift_item_money_lv);
         titleBar.setText(title);
     }
     void initTool()

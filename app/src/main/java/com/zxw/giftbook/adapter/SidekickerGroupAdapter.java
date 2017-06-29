@@ -2,6 +2,7 @@ package com.zxw.giftbook.adapter;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import android.widget.TextView;
 
 import com.zxw.giftbook.Activity.GroupMemberAct;
 import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
-import com.zxw.giftbook.Activity.menu.SidekickerGroupFragment;
+import com.zxw.giftbook.Activity.menu.SidekickerGroup2Fragment;
 import com.zxw.giftbook.R;
 
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ import pri.zxw.library.tool.MyAlertDialog;
  * 亲友团 ，组名称 适配器
  *
  */
-public class SidekickerGroupAdapter extends MyBaseAdapter {
-    private SidekickerGroupFragment mContext;
+public class SidekickerGroupAdapter extends MyBaseAdapter<SidekickergroupEntity> {
+    private SidekickerGroup2Fragment mContext;
     private List<SidekickergroupEntity> comLists;
     private LayoutInflater inflater = null;
     /**grid列数*/
@@ -51,46 +52,27 @@ public class SidekickerGroupAdapter extends MyBaseAdapter {
         comLists.clear();
     }
 
-    public SidekickerGroupAdapter(SidekickerGroupFragment context) {
+    public SidekickerGroupAdapter(SidekickerGroup2Fragment context) {
         this.mContext = context;
         inflater= LayoutInflater.from(context.getContext());
         comLists=new ArrayList<SidekickergroupEntity>();
     }
 
     @Override
-    public int getCount() {
-        if(comLists!=null)
-            return comLists.size();
-        return 0;
-    }
-    @Override
-    public SidekickergroupEntity getItem(int position) {
-        return comLists.get(position);
+    public void addData(SidekickergroupEntity info) {
+        comLists.add(info);
     }
 
     @Override
-    public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return position;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext.getContext()).inflate(R.layout.item_receiving_gift, parent, false);
+        return new MViewHolder(view);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder mHolder;
-        View view = convertView;
-        if (view == null) {
-            view = inflater.inflate(R.layout.item_griv_group_type, null);
-            mHolder = new ViewHolder();
-            mHolder.lay = (RelativeLayout) view.findViewById(R.id.item_griv_group_type_lay);
-            mHolder.frameLayout = (RelativeLayout) view.findViewById(R.id.item_griv_group_type_framelay);
-            mHolder.addImg=(ImageView)view.findViewById(R.id.item_griv_group_type_add_img);
-            mHolder.nameTv = (TextView) view.findViewById(R.id.item_griv_group_type_name_tv);
-            mHolder.numTv = (TextView) view.findViewById(R.id.item_griv_group_type_num_tv);
-            view.setTag(mHolder);
-        } else {
-            mHolder = (ViewHolder) view.getTag();
-        }
-       final SidekickergroupEntity comInfo =comLists.get(position);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        MViewHolder mHolder=(MViewHolder)holder;
+        final SidekickergroupEntity comInfo =comLists.get(position);
 
         if(comInfo.getId()==null||comInfo.getId().equals(""))
         {
@@ -111,7 +93,9 @@ public class SidekickerGroupAdapter extends MyBaseAdapter {
                         if (comInfo.getAddType() == 1)
                             showAddView();
                         else
-                            mContext.addMember(comInfo.getId(), comInfo.getGroupname());
+                        {
+//                            mContext.addMember(comInfo.getId(), comInfo.getGroupname());
+                        }
                     }
                 });
             }
@@ -145,8 +129,26 @@ public class SidekickerGroupAdapter extends MyBaseAdapter {
         {
             mHolder.lay.setBackgroundResource(R.drawable.shape_layout_right_border);
         }
-        return view;
     }
+
+    @Override
+    public int getItemCount() {
+        if(comLists!=null)
+            return comLists.size();
+        return 0;
+    }
+
+    @Override
+    public SidekickergroupEntity getItem(int position) {
+        return comLists.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        // TODO Auto-generated method stub
+        return position;
+    }
+
     void addView(FrameLayout frameLayout)
     {
         ImageView imageView=new ImageView(mContext.getContext());
@@ -192,12 +194,33 @@ public class SidekickerGroupAdapter extends MyBaseAdapter {
     }
 
 
-    class ViewHolder {
+    class MViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener
+    {
+        @Override
+        public void onClick(View v) {
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return false;
+        }
+        public MViewHolder(View view) {
+            super(view);
+            lay = (RelativeLayout) view.findViewById(R.id.item_griv_group_type_lay);
+            frameLayout = (RelativeLayout) view.findViewById(R.id.item_griv_group_type_framelay);
+            addImg=(ImageView)view.findViewById(R.id.item_griv_group_type_add_img);
+            nameTv = (TextView) view.findViewById(R.id.item_griv_group_type_name_tv);
+            numTv = (TextView) view.findViewById(R.id.item_griv_group_type_num_tv);
+            rootView=view;
+            rootView.setOnClickListener(this);
+            rootView.setOnLongClickListener(this);
+        }
        RelativeLayout lay;
         ImageView addImg;
         RelativeLayout frameLayout;
        TextView nameTv;
         TextView numTv;
+        View rootView;
     }
 
 }

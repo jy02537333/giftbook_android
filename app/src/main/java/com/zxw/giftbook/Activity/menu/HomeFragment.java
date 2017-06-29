@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import pri.zxw.library.refresh_tool.SwipeRecyclerView;
 import com.zxw.giftbook.Activity.GiftMoneyAddAct;
 import com.zxw.giftbook.Activity.GiftMoneyAddNewAct;
 import com.zxw.giftbook.Activity.entitiy.MembergiftmoneyEntity;
@@ -37,7 +37,9 @@ import java.util.Map;
 
 import pri.zxw.library.base.MyPullToRefreshBaseFragment;
 import pri.zxw.library.listener.TitleOnClickListener;
+import pri.zxw.library.refresh_tool.footerView.SimpleFooterView;
 import pri.zxw.library.tool.MessageHandlerTool;
+import pri.zxw.library.tool.ToastShowTool;
 import pri.zxw.library.tool.dialogTools.DropDownBoxTool;
 import pri.zxw.library.view.TitleBar;
 
@@ -56,7 +58,7 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
     String defaultYear="0";
     String defaultMonth="0";
     HomeJournalAccountAdapter adapter;
-    PullToRefreshListView listView;
+    SwipeRecyclerView listView;
     public static final String ADD_URL="apiMembergiftmoneyCtrl.do?doAdd";
     public static final String GET_DATA_URL="apiMembergiftmoneyCtrl.do?getList";
     Handler mHandler=new Handler(){
@@ -65,15 +67,28 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
             super.handleMessage(msg);
             if(msg.what==GET_DATA_CODE)
             {
+//                if(!HomeFragment.super.getUpfalg())
+//                {
+//                    listView.stopLoadingMore();
+//                    adapter.notifyDataSetChanged();
+//                    ToastShowTool.myToastShort(getActivity(),"停止加载！");
+//                    return ;
+//                }
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 Type type=new TypeToken<List<MembergiftmoneyEntity>>(){}.getType();
-                MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,HomeFragment.this,adapter,listView,type);
+                MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,HomeFragment.this,adapter,type);
                String sum=  msgInfo.getRetMap().get("sumCount");
                 if(sum!=null)
                 {
                     SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("合计："+sum+" 元");
                   int color=  getResources().getColor(R.color.com_font_money_red);
                     spannableStringBuilder.setSpan(new ForegroundColorSpan(color), 3, 3+sum.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    sumTv.setText(spannableStringBuilder);
+                }else
+                {
+                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("合计："+0+" 元");
+                    int color=  getResources().getColor(R.color.com_font_money_red);
+                    spannableStringBuilder.setSpan(new ForegroundColorSpan(color), 3, 3+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     sumTv.setText(spannableStringBuilder);
                 }
             }
@@ -106,7 +121,7 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
     public void initView()
     {
         titleBar=(TitleBar) view.findViewById(R.id.f_home_journal_account_title_bar);
-        listView=(PullToRefreshListView)view.findViewById(R.id.f_home_journal_account_lv);
+        listView=(SwipeRecyclerView)view.findViewById(R.id.f_home_journal_account_lv);
         Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
         top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
         titleBar.setRightDrawable(top_edit,null,null,null);
@@ -115,7 +130,8 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
          monthTv=(TextView) view.findViewById(R.id.f_home_journal_account_month_tv);
          sumTv=(TextView) view.findViewById(R.id.f_home_journal_account_sum_tv);
         yearTv.setText(Calendar.getInstance().get(Calendar.YEAR)+"年");
-        yearTv.setTag(defaultYear);
+        yearTv.setTag(Calendar.getInstance().get(Calendar.YEAR));
+        defaultYear= Calendar.getInstance().get(Calendar.YEAR)  +"";
         monthTv.setText("1-12月");
         monthTv.setTag(defaultMonth);
 
@@ -123,9 +139,10 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
     void initTool()
     {
         mServicesTool=new AppServerTool(NetworkConfig.api_url,getActivity(),mHandler);
-        adapter=new HomeJournalAccountAdapter(getActivity());
+        adapter=new HomeJournalAccountAdapter(this);
         listView.setAdapter(adapter);
         this.initListener(listView,adapter);
+        listView.setFooterView(new SimpleFooterView(getActivity()));
 
     }
     public void initListener()

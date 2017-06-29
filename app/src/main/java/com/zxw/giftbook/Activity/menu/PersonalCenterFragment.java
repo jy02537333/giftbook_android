@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +30,13 @@ import com.zxw.giftbook.adapter.PersonalCenterAdapter;
 import com.zxw.giftbook.config.ResConstants;
 
 
+import pri.zxw.library.base.BaseFragment;
+import pri.zxw.library.base.MyPullToRefreshBaseFragment;
 import pri.zxw.library.entity.User;
+import pri.zxw.library.refresh_tool.SwipeRecyclerView;
 import pri.zxw.library.tool.ImgLoad.MyImgLoadTool;
 
-public class PersonalCenterFragment extends Fragment implements
+public class PersonalCenterFragment extends MyPullToRefreshBaseFragment implements
         AdapterView.OnItemClickListener, View.OnClickListener {
 
     public static final String TAG = PersonalCenterFragment.class.getSimpleName();
@@ -45,7 +50,7 @@ public class PersonalCenterFragment extends Fragment implements
     private ImageView  titleRecentImg;
     private ImageView userImg;
     private TextView userNameTv;
-    private GridView gv;
+    private SwipeRecyclerView gv;
     private LinearLayout  headLay;
     private int currentVersion;
     private PersonalCenterAdapter adapter;
@@ -88,7 +93,7 @@ public class PersonalCenterFragment extends Fragment implements
     private void initView(View view) {
 //        headLay = (LinearLayout) view.findViewById(R.id.f_personal_center_img);
         userImg=(ImageView) view.findViewById(R.id.f_personal_center_img);
-        gv=(GridView) view.findViewById(R.id.f_personal_center_gv);
+        gv=(SwipeRecyclerView) view.findViewById(R.id.f_personal_center_gv);
         userNameTv = (TextView) view.findViewById(R.id.f_personal_center_name);
         createMysetting();
 //       if( FtpApplication.getInstance().getUser().isLogin(getActivity()))
@@ -112,6 +117,8 @@ public class PersonalCenterFragment extends Fragment implements
         IntentFilter myIntentFilter = new IntentFilter();
         myIntentFilter.addAction(FragmentMyBroadcast.FRAGMENTMYBROADCAST_UPDATE);
         getActivity().registerReceiver(new FragmentMyBroadcast(), myIntentFilter);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
+        initListener(gv,adapter, layoutManager, SwipeRecyclerView.Mode.NOT_REFRESH);
     }
 
     private void initData() {
@@ -216,6 +223,21 @@ public class PersonalCenterFragment extends Fragment implements
     public void onDestroy() {
         // mActivity.unregisterReceiver(siteSalesCollectionReceiver);
         super.onDestroy();
+    }
+
+    @Override
+    public String getFragmentName() {
+        return "PersonalCenterFragment";
+    }
+
+    @Override
+    public boolean getIsSpecial() {
+        return false;
+    }
+
+    @Override
+    public void getWebData() {
+
     }
 
     public class FragmentMyBroadcast extends BroadcastReceiver

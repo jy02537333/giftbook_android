@@ -79,7 +79,7 @@ public class Welcome extends MyBaseActivity {
 		if(FtpApplication.user==null||!FtpApplication.user.isLogin(this))
 		{
 		}else {
-			DataMapUtil.getGroupMemberData(this);
+			DataMapUtil.getAllTypeData(this);
 		}
 		start_anima = new AlphaAnimation(0.3f, 1.0f);
 		start_anima.setDuration(2000);

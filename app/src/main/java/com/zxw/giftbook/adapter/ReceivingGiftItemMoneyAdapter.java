@@ -1,6 +1,7 @@
 package com.zxw.giftbook.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,10 +35,6 @@ public class ReceivingGiftItemMoneyAdapter extends MyBaseAdapter<ReceivingGiftsM
         list=new ArrayList<>();
         mContext=context;
     }
-    @Override
-    public int getCount() {
-        return list.size();
-    }
     public ReceivingGiftsMoneyEntity getItem(int position)
     {
         return list.get(position);
@@ -48,31 +45,27 @@ public class ReceivingGiftItemMoneyAdapter extends MyBaseAdapter<ReceivingGiftsM
         list.remove(position);
     }
     @Override
-    public void addDataAll(List<ReceivingGiftsMoneyEntity> infos) {
+    public void addDataAll(List infos) {
         list.addAll(infos);
         notifyDataSetChanged();
 
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ReceivesGiftView holder = null;
-        if(convertView==null)
-        {
-            holder=new ReceivesGiftView();
-            convertView = inflater.inflate(R.layout.item_receiving_gift_item_money_list, null);
-            holder.typeTv =
-                    (TextView) convertView.findViewById(R.id.item_receiving_gift_item_type_tv);
-            holder.nameTv =
-                    (TextView) convertView.findViewById(R.id.item_receiving_gift_item_money_name_tv);
-            holder.moneyTv =
-                    (TextView) convertView.findViewById(R.id.item_receiving_gift_item_money_tv);
-            holder.delBtn =
-                    (Button) convertView.findViewById(R.id.item_receiving_gift_item_money_del_btn);
-            convertView.setTag(holder);
-        }else
-            holder= (ReceivesGiftView)convertView.getTag();
-       final ReceivingGiftsMoneyEntity entity=list.get(position);
+    public void addData(ReceivingGiftsMoneyEntity info) {
+        list.add(info);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_receiving_gift_item_money_list, parent, false);
+        return new ReceivesGiftView(view);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
+        ReceivesGiftView holder=(ReceivesGiftView)holder1;
+        final ReceivingGiftsMoneyEntity entity=list.get(position);
         holder.nameTv.setText(entity.getGroupmember());
         holder.typeTv.setText(entity.getExpendituretypename());
 //        if(entity.getCreateDate()!=null )
@@ -90,17 +83,47 @@ public class ReceivingGiftItemMoneyAdapter extends MyBaseAdapter<ReceivingGiftsM
                 mContext.del(entity.getId());
             }
         });
-        return super.getView(position, convertView, parent);
     }
+
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
 
     @Override
     public void remove() {
         list.clear();
     }
-    class ReceivesGiftView
+    class ReceivesGiftView extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener
     {
+        @Override
+        public void onClick(View v) {
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return false;
+        }
+        public ReceivesGiftView(View convertView)
+        {
+            super(convertView);
+            convertView = inflater.inflate(R.layout.item_receiving_gift_item_money_list, null);
+            typeTv =
+                    (TextView) convertView.findViewById(R.id.item_receiving_gift_item_type_tv);
+            nameTv =
+                    (TextView) convertView.findViewById(R.id.item_receiving_gift_item_money_name_tv);
+            moneyTv =
+                    (TextView) convertView.findViewById(R.id.item_receiving_gift_item_money_tv);
+            delBtn =
+                    (Button) convertView.findViewById(R.id.item_receiving_gift_item_money_del_btn);
+            mRootView=convertView;
+            mRootView.setOnClickListener(this);
+            mRootView.setOnLongClickListener(this);
+        }
         TextView nameTv,moneyTv,typeTv;
         Button delBtn;
+        View mRootView;
     }
 
 

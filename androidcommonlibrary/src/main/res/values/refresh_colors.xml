@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="refresh_colorPrimary">#3F51B5</color>
+    <color name="refresh_colorPrimaryDark">#90ED7D</color>
+    <color name="refresh_colorAccent">#FF4081</color>
+</resources>

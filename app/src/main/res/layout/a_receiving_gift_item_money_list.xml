@@ -11,7 +11,7 @@
         titleBarStyle:left_visibility="visible"
         titleBarStyle:right_text="加一笔"
         titleBarStyle:text="收礼明细" />
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <pri.zxw.library.refresh_tool.SwipeRecyclerView
         android:id="@+id/a_receives_gift_item_money_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.google.gson.reflect.TypeToken;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import pri.zxw.library.refresh_tool.SwipeRecyclerView;
 import com.zxw.giftbook.Activity.entitiy.ReceivesInvitationEntity;
 import com.zxw.giftbook.Activity.entitiy.VInvitationListAndGroupEntity;
 import com.zxw.giftbook.FtpApplication;
@@ -42,7 +42,7 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
     String parentId;
     AppServerTool mServicesTool;
     SendInvitationDetailListAdapter adapter;
-    PullToRefreshListView listView;
+    SwipeRecyclerView listView;
     public static final String GET_DATA_URL="apiVInvitationListAndGroupController.do?datagrid";
     Handler mHandler=new Handler(){
         @Override
@@ -52,7 +52,7 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 Type type=new TypeToken<List<VInvitationListAndGroupEntity>>(){}.getType();
-                MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,SendInvitationListAct.this,adapter,listView,type);
+                MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,SendInvitationListAct.this,adapter,type);
                 String sum=  msgInfo.getRetMap().get("sumCount");
                 if(sum!=null)
                 {
@@ -80,7 +80,7 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
     public void initView()
     {
         titleBar=(TitleBar) findViewById(R.id.a_send_invitation_detail_list_title_bar);
-        listView=(PullToRefreshListView)findViewById(R.id.a_send_invitation_detail_list_lv);
+        listView=(SwipeRecyclerView)findViewById(R.id.a_send_invitation_detail_list_lv);
 //        Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
 //        top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
 //        titleBar.setRightDrawable(top_edit,null,null,null);
@@ -104,17 +104,18 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
             }
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                position=position-1;
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                position=position-1;
 //                VInvitationListAndGroupEntity invitationEntity= adapter.getItem(position);
 //                Intent intent= new Intent(SendInvitationListAct.this,ReceivesInvitationDetailAct.class);
 //                intent.putExtra("invitationId",invitationEntity.getId());
 //                intent.putExtra("inviterId",invitationEntity.getInvitationlistEntityList().get(0).getId());
 //                startActivity(intent);
-            }
-        });
+//            }
+//        });
+
 //        titleBar.setRightClickListener(new TitleOnClickListener() {
 //            @Override
 //            public void onClick(View view) {

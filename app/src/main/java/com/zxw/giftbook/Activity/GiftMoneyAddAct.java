@@ -1,7 +1,6 @@
 package com.zxw.giftbook.Activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +17,7 @@ import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.config.NetworkConfig;
+import com.zxw.giftbook.myinterface.IDataMapUtilCallback;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
 import com.zxw.giftbook.utils.DataMapUtil;
@@ -148,7 +148,7 @@ public class GiftMoneyAddAct extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_gift_money_add);
+        setContentView(R.layout.act_gift_money_add_old);
         initView();
         initTool();
         initListener();
@@ -247,17 +247,34 @@ public class GiftMoneyAddAct extends MyBaseActivity {
 
     public void getDropDownData()
     {
-        Map<String, SidekickergroupEntity> obj= DataMapUtil.getGroupMemberData(this);
+        Map<String, SidekickergroupEntity> obj= DataMapUtil.getAllTypeData(this, new IDataMapUtilCallback() {
+            @Override
+            public void onSuccess(boolean isSuccess) {
+                if(isSuccess)
+                {
+                    Map<String, SidekickergroupEntity> obj1= DataMapUtil.getAllTypeData(GiftMoneyAddAct.this, null);
+                    initData(obj1);
+                }
+            }
+
+            @Override
+            public void onFailure(boolean isFailure) {
+                ToastShowTool.myToastShort(GiftMoneyAddAct.this,"加载异常！");
+            }
+        });
+        initData(obj);
+    }
+    void initData( Map<String, SidekickergroupEntity> obj){
         if(obj!=null)
         {
             for (Map.Entry<String, SidekickergroupEntity> item:obj.entrySet()                 ) {
-                sidekickerGroups.put(item.getKey(),item.getValue().getGroupname());
+                sidekickerGroups.put(item.getKey(),item.getValue().getGroupname()+"("+item.getValue().getGroupmembersnum()+")");
+                membersNum.put(item.getKey(),item.getValue().getGroupmembersnum());
+            }
+            for (Map.Entry<String, GifttypeEntity> item:   DataMapUtil.getGiftTypeMap() .entrySet()             ) {
+                giftTypeMap.put(item.getKey(),item.getValue().getTypename());
             }
         }
-//        Map<String,String > params= ComParamsAddTool.getParam();
-//        params.put("userid", FtpApplication.user.getId());
-//        ProgressDialogTool.getInstance(GiftMoneyAddAct.this).showDialog("提交中...");
-//        mServicesTool.doPostAndalysisData("apiAllTypeCtrl.do?getAll",params,MyPullToRefreshBaseFragment.GET_DATA_CODE);
     }
     public void showType()
     {
@@ -328,17 +345,17 @@ public class GiftMoneyAddAct extends MyBaseActivity {
                 this, null, new DropDownBoxTool.Callback() {
                     @Override
                     public void complate(String key, String value) {
-                        if(membersNum.get(key)>0)
+                        if(membersNum.get(key)==0)
                         {
                             ToastShowTool.myToastShort(GiftMoneyAddAct.this,"该组下未有亲友！");
                             isGetGroupMembering=false;
                             return ;
                         }
-                        Map<String, String> params = ComParamsAddTool.getParam();
-                        params.put("userid", FtpApplication.user.getId());
-                        params.put("gourpid", key);
-                        ProgressDialogTool.getInstance(GiftMoneyAddAct.this).showDialog("获取收礼人");
-                        mServicesTool.doPostAndalysisData("apiGroupmemberCtrl.do?datagrid", params, GET_GROUP_MEMBER_CODE);
+                       for(GroupmemberEntity entity : DataMapUtil.getGroupMember().get(key).getGroupmemberList())
+                       {
+                           groupmembers.put(entity.getId(),entity.getGroupmember());
+                       }
+                        showGroupMember();
                     }
                 }, new DialogSheetzAction.CanelCallback() {
                     @Override

@@ -11,7 +11,7 @@ import android.webkit.WebView;
 import android.widget.AdapterView;
 
 import com.google.gson.reflect.TypeToken;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import pri.zxw.library.refresh_tool.SwipeRecyclerView;
 import com.zxw.giftbook.Activity.entitiy.ReceivesInvitationEntity;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;

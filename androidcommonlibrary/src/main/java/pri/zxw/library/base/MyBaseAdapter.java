@@ -1,35 +1,24 @@
 package pri.zxw.library.base;
 
-import java.util.ArrayList;
+import android.app.Activity;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
 import java.util.List;
 
-import pri.zxw.library.entity.AbstractStartDateEntity;
+import pri.zxw.library.refresh_tool.SwipeRecyclerView;
 
-
-import android.app.Activity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-
-public abstract class MyBaseAdapter<T extends BaseEntity> extends BaseAdapter {
+public abstract class MyBaseAdapter<T extends BaseEntity> extends RecyclerView.Adapter< RecyclerView.ViewHolder> {
 	Activity mActivity;
-	private List<T> mList=new ArrayList<>();
 	public int adapterWidth=0;
 	protected MyBaseAdapter()
 	{
-		
+		this.notifyDataSetChanged();
 	}
 	public MyBaseAdapter(Activity activity)
 	{
-		mList=new ArrayList<T>();
 		mActivity=activity;
 	}
-	 @Override  
-	 public View getView(final int position, View convertView, ViewGroup parent) { 
-	 
-	 	 return convertView;  
-	 }  
-	@Override
 	public abstract Object getItem(int position) ;
 	@Override
 	public long getItemId(int arg0) {
@@ -43,18 +32,18 @@ public abstract class MyBaseAdapter<T extends BaseEntity> extends BaseAdapter {
 	{
 		return adapterWidth;
 	}
-	public void addData(T info) { 
-		if(mList!=null) 
-	   	mList.add(info); 
-	} 
+	public abstract void addData(T info);
 	/**
 	 * 批量添加对象方法
 	 * @param infos
 	 */
-	public abstract void addDataAll(List<T> infos);
-	public abstract void removeItem(int position) ;
+	public abstract void addDataAll(List<? extends BaseEntity> infos);
+	public abstract void removeItem(int postion) ;
 	/**
 	 * 批量清空对象方法
 	 */
 	public abstract void remove();
+	public interface  OnItemClickListener{
+		public void onItemClick(View rootView, int position, long id);
+	}
 }

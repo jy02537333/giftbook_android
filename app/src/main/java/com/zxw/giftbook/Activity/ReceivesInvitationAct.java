@@ -17,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import pri.zxw.library.refresh_tool.SwipeRecyclerView;
 import com.zxw.giftbook.Activity.entitiy.MembergiftmoneyEntity;
 import com.zxw.giftbook.Activity.entitiy.ReceivesInvitationEntity;
 import com.zxw.giftbook.Activity.menu.HomeFragment;
@@ -52,7 +52,7 @@ public class ReceivesInvitationAct extends MyPullToRefreshBaseActivity {
     TitleBar titleBar;
     AppServerTool mServicesTool;
     ReceivesInvitationAdapter adapter;
-    PullToRefreshListView listView;
+    SwipeRecyclerView listView;
     public static final String ADD_URL="apiInvitationController.do?doAdd";
     public static final String GET_DATA_URL="apiInvitationController.do?getList";
     Handler mHandler=new Handler(){
@@ -63,7 +63,7 @@ public class ReceivesInvitationAct extends MyPullToRefreshBaseActivity {
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 Type type=new TypeToken<List<ReceivesInvitationEntity>>(){}.getType();
-                MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,ReceivesInvitationAct.this,adapter,listView,type);
+                MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,ReceivesInvitationAct.this,adapter,type);
                 String sum=  msgInfo.getRetMap().get("sumCount");
                 if(sum!=null)
                 {
@@ -90,7 +90,7 @@ public class ReceivesInvitationAct extends MyPullToRefreshBaseActivity {
     public void initView()
     {
         titleBar=(TitleBar) findViewById(R.id.a_receives_invitation_title_bar);
-        listView=(PullToRefreshListView)findViewById(R.id.a_receives_invitation_lv);
+        listView=(SwipeRecyclerView)findViewById(R.id.a_receives_invitation_lv);
 //        Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
 //        top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
 //        titleBar.setRightDrawable(top_edit,null,null,null);
@@ -113,17 +113,19 @@ public class ReceivesInvitationAct extends MyPullToRefreshBaseActivity {
                 onBackPressed();
             }
         });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                position=position-1;
-                ReceivesInvitationEntity invitationEntity= adapter.getItem(position);
-                Intent intent= new Intent(ReceivesInvitationAct.this,ReceivesInvitationDetailAct.class);
-                intent.putExtra("invitationId",invitationEntity.getId());
-                intent.putExtra("inviterId",invitationEntity.getInvitationlistEntityList().get(0).getId());
-                startActivity(intent);
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                position=position-1;
+//                ReceivesInvitationEntity invitationEntity= adapter.getItem(position);
+//                Intent intent= new Intent(ReceivesInvitationAct.this,ReceivesInvitationDetailAct.class);
+//                intent.putExtra("invitationId",invitationEntity.getId());
+//                intent.putExtra("inviterId",invitationEntity.getInvitationlistEntityList().get(0).getId());
+//                startActivity(intent);
+//            }
+//        });
+
+
 //        titleBar.setRightClickListener(new TitleOnClickListener() {
 //            @Override
 //            public void onClick(View view) {

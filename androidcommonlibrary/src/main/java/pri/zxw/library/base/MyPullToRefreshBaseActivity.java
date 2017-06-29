@@ -1,46 +1,47 @@
 package pri.zxw.library.base;
 
-import com.handmark.pulltorefresh.library.DateCommon;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-import pri.zxw.library.entity.AbstractStartDateEntity;
-import pri.zxw.library.tool.WebGetDataTool;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
-import android.os.Message;
+import android.support.v7.widget.LinearLayoutManager;
+
+import pri.zxw.library.entity.AbstractStartDateEntity;
+import pri.zxw.library.refresh_tool.SwipeRecyclerView;
+import pri.zxw.library.tool.DateCommon;
 
 
 @SuppressLint("NewApi")
 public abstract class MyPullToRefreshBaseActivity<T  extends AbstractStartDateEntity>
-extends MyBaseActivity implements PullToRefreshBase.OnRefreshListener2
-,MyPullToRefreshBaseInterface{
+extends MyBaseActivity implements MyPullToRefreshBaseInterface {
 	protected  int rows = 10; // 页面大小
 	protected String startDate = DateCommon.getCurrentDateStr(); // 开始查找的时间节
 	protected Boolean mUpfalg = true;
 	public int cur_page = 1; // 当前页的索引
-	protected PullToRefreshBase mPullToRefreshBase; 
+	protected SwipeRecyclerView mPullToRefreshBase;
 	protected MyBaseAdapter mAdapter;
-   
 
+	@Override
 	public Boolean getUpfalg() {
 		return mUpfalg;
 	}
+	@Override
 	public void setUpfalg(Boolean mUpfalg) {
 		this.mUpfalg = mUpfalg;
 	}
+	@Override
 	public int getCur_page() {
 		return cur_page;
 	}
+	@Override
 	public void setCur_page(int cur_page) {
 		this.cur_page = cur_page;
 	}
-	
+	@Override
 	public String getStartDate() {
 		return startDate;
 	}
+	@Override
 	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
@@ -49,63 +50,75 @@ extends MyBaseActivity implements PullToRefreshBase.OnRefreshListener2
 		// TODO Auto-generated method stub
 		return this;
 	}
+	public void setSwipeRecyclerView(SwipeRecyclerView swipeRecyclerView)
+	{
+		this.mPullToRefreshBase=swipeRecyclerView;
+	}
+	public SwipeRecyclerView getSwipeRecyclerView()
+	{
+		return mPullToRefreshBase;
+	}
+	public void setAdapter(MyBaseAdapter adapter)
+	{
+		this.mAdapter=adapter;
+	}
 	/**
 	 * 获取数据的操作
 	 */
 	public abstract void getWebData();
-	
+
 	/**
 	 * 绑定事件
 	 */
-	protected void initListener(PullToRefreshBase pullToRefreshBase,MyBaseAdapter myBaseAdapter)
+	protected void initListener(SwipeRecyclerView pullToRefreshBase,MyBaseAdapter myBaseAdapter)
 	{
-		mPullToRefreshBase=pullToRefreshBase;
-		mPullToRefreshBase.setMode(Mode.BOTH);
-		mPullToRefreshBase.setOnRefreshListener(this);
-		mAdapter=myBaseAdapter;
+		MyPullToRefreshBaseMethod.initListener(this,pullToRefreshBase,myBaseAdapter);
+	}
+	/**
+	 * 绑定事件
+	 */
+	protected void initListener(SwipeRecyclerView pullToRefreshBase,MyBaseAdapter myBaseAdapter, SwipeRecyclerView.Mode mode)
+	{
+		MyPullToRefreshBaseMethod.initListener(this,pullToRefreshBase,myBaseAdapter,mode);
+	}
+	/**
+	 * 绑定事件
+	 */
+	protected void initListener(SwipeRecyclerView pullToRefreshBase, MyBaseAdapter myBaseAdapter, LinearLayoutManager linearLayoutManager, SwipeRecyclerView.Mode mode)
+	{
+		MyPullToRefreshBaseMethod.initListener(this,pullToRefreshBase,myBaseAdapter,linearLayoutManager,mode);
 	}
 	public void listLoad(final Handler handler)
 	{
-		Thread t=new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Thread.sleep(500);
-					Message msg=new Message();
-					msg.what=LOAD_CODE;
-					handler.sendMessage(msg);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		t.start();
+
 	}
-	/**
-	 * 绑定事件
-	 */
-	protected void initListener(PullToRefreshBase pullToRefreshBase,MyBaseAdapter myBaseAdapter
-			,Mode mode)
-	{
-		mPullToRefreshBase=pullToRefreshBase;
-		mPullToRefreshBase.setMode(mode);
-		mPullToRefreshBase.setOnRefreshListener(this);
-		mAdapter=myBaseAdapter;
-	}
+
 	/**
 	 * 修改pullListView的高和宽
 	 * @param listView
 	 * @param adapter
 	 */
-	protected void setPullListViewParam(PullToRefreshListView listView,MyBaseAdapter adapter)
+	public void setPullListViewParam(SwipeRecyclerView listView, MyBaseAdapter adapter)
 	{
-		mPullToRefreshBase=listView;  
-		MyPullToRefreshBaseMethod.setPullListViewParam(getResources(), listView, adapter);
+		mPullToRefreshBase=listView;
+//		MyPullToRefreshBaseMethod.setPullListViewParam(getResources(), listView, adapter);
 	}
 	/**关闭下拉刷新*/
-	protected void closePullDownToRefresh(int totale,int size)
+	@Override
+	public void closePullDownToRefresh()
 	{
-	 cur_page= MyPullToRefreshBaseMethod.closePullDownToRefresh(cur_page, totale, size, mPullToRefreshBase);
+		mPullToRefreshBase.setRefreshEnable(false);
+	}
+	/**关闭上拉加载*/
+	@Override
+	public void closePullUpToRefresh() {
+		mPullToRefreshBase.setLoadMoreEnable(false);
+	}
+	@Override
+	public void enableUpRefresh()
+	{
+		//禁止加载更多
+		mPullToRefreshBase.setLoadMoreEnable(true);
 	}
 	/**
 	 * 属性初始值
@@ -114,7 +127,7 @@ extends MyBaseActivity implements PullToRefreshBase.OnRefreshListener2
 	{
 		cur_page = 1;
 		mUpfalg=true;
-		startDate=DateCommon.getCurrentDateStr();
+		startDate= DateCommon.getCurrentDateStr();
 	}
 	/**
 	 * @Title: onRefrsh
@@ -122,15 +135,16 @@ extends MyBaseActivity implements PullToRefreshBase.OnRefreshListener2
 	 * @return void 返回类型
 	 * @throws
 	 */
-	@Override
-	public void onPullDownToRefresh(PullToRefreshBase refreshView) {
+	public void onPullDownToRefresh() {
 		initParameter();
 		getWebData();
 	}
+	/**停止刷新动画**/
 	@Override
-	public void enableUpRefresh()
+	public void onComplete()
 	{
-		mPullToRefreshBase.setMode(Mode.BOTH);
+		mPullToRefreshBase.complete();
+		mPullToRefreshBase.stopLoadingMore();
 	}
 	/**
 	 * @Title: onLoadMore
@@ -138,8 +152,7 @@ extends MyBaseActivity implements PullToRefreshBase.OnRefreshListener2
 	 * @return void 返回类型
 	 * @throws
 	 */
-	@Override
-	public void onPullUpToRefresh(PullToRefreshBase refreshView) {
+	public void onPullUpToRefresh() {
 		mUpfalg = false;
 		cur_page  ++;
 		getWebData();
@@ -149,7 +162,6 @@ extends MyBaseActivity implements PullToRefreshBase.OnRefreshListener2
 		cur_page--;
 		return cur_page;
 	}
-
 	@Override
 	public int getRows() {
 		return rows;
@@ -157,6 +169,25 @@ extends MyBaseActivity implements PullToRefreshBase.OnRefreshListener2
 
 	@Override
 	public void setRows(int rows) {
-		this.rows = rows;
+		this.rows=rows;
 	}
+
+	@Override
+	public void onStopLoadingMore() {
+		mPullToRefreshBase.stopLoadingMore();
+	}
+	@Override
+	public void setFootText(CharSequence footStr){
+		mPullToRefreshBase.onNoMore(footStr);
+	}
+	@Override
+	public void onNetChange() {
+		mPullToRefreshBase.onNetChange(true);
+	}
+	//设置错误信息
+	@Override
+	public void onError(CharSequence msgStr) {
+		mPullToRefreshBase.onError(msgStr);
+	}
+
 }

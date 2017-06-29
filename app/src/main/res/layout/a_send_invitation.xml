@@ -11,7 +11,7 @@
         titleBarStyle:text="我的请帖"
         titleBarStyle:right_text="发请帖"
         titleBarStyle:left_visibility="visible"/>
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <pri.zxw.library.refresh_tool.SwipeRecyclerView
         android:id="@+id/a_send_invitation_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

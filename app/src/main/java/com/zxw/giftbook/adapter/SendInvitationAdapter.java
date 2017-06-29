@@ -1,5 +1,7 @@
 package com.zxw.giftbook.adapter;
 
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zxw.giftbook.Activity.MySendInvitationAct;
+import com.zxw.giftbook.Activity.SendInvitationListAct;
 import com.zxw.giftbook.Activity.entitiy.VSendInvitationEntity;
 import com.zxw.giftbook.R;
 
@@ -25,7 +28,7 @@ import pri.zxw.library.tool.ImgLoad.MyImgLoadTool;
  * 我发送的请帖 适配器
  *
  */
-public class SendInvitationAdapter extends MyBaseAdapter {
+public class SendInvitationAdapter extends MyBaseAdapter<VSendInvitationEntity> {
     private MySendInvitationAct mContext;
     private List<VSendInvitationEntity> comLists;
     private LayoutInflater inflater = null;
@@ -52,11 +55,37 @@ public class SendInvitationAdapter extends MyBaseAdapter {
     }
 
     @Override
-    public int getCount() {
+    public void addData(VSendInvitationEntity info) {
+        comLists.add(info);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_receiving_gift, parent, false);
+        return new MViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
+        MViewHolder mHolder=(MViewHolder)holder1;
+        final VSendInvitationEntity comInfo =comLists.get(position);
+        long dateL=Long.parseLong(comInfo.getFeastdate());
+        mHolder.dateTv.setText(DateCommon.formatDateTime(new Date( dateL),DateCommon.YYYY_P_MM_P_DD));
+        mHolder.numTv.setText("邀请"+comInfo.getNum()+"人");
+        mHolder.addrTv.setText(comInfo.getFeastaddress());
+        mHolder.typeTv.setText(comInfo.getFeasttype());
+        String imgUrl= ImgUrlUtil.getFullImgUrl(comInfo.getCoverimg());
+        MyImgLoadTool.loadNetHeadThumbnailImg(mContext,imgUrl,mHolder.img,60,60,"");
+    }
+
+    @Override
+    public int getItemCount() {
         if(comLists!=null)
             return comLists.size();
         return 0;
     }
+
+
     @Override
     public VSendInvitationEntity getItem(int position) {
         return comLists.get(position);
@@ -72,43 +101,42 @@ public class SendInvitationAdapter extends MyBaseAdapter {
         return position;
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder mHolder;
-        View view = convertView;
-        if (view == null) {
-            view = inflater.inflate(R.layout.item_send_invitation, null);
-            mHolder = new ViewHolder();
-            mHolder.lay = (LinearLayout) view.findViewById(R.id.item_send_invitation_lay);
-//            mHolder.operateImg=(ImageView)view.findViewById(R.id.item_send_invitation);
-            mHolder.dateTv = (TextView) view.findViewById(R.id.item_send_invitation_date_tv);
-            mHolder.numTv = (TextView) view.findViewById(R.id.item_send_invitation_num_tv);
-            mHolder.addrTv = (TextView) view.findViewById(R.id.item_send_invitation_addr_tv);
-            mHolder.typeTv = (TextView) view.findViewById(R.id.item_send_invitation_type_tv);
-            mHolder.img = (ImageView) view.findViewById(R.id.item_send_invitation_img);
-            view.setTag(mHolder);
-        } else {
-            mHolder = (ViewHolder) view.getTag();
+
+
+
+    class MViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener
+    {
+        @Override
+        public void onClick(View v) {
+            VSendInvitationEntity invitationEntity= getItem(getLayoutPosition());
+            Intent intent= new Intent(mContext,SendInvitationListAct.class);
+            intent.putExtra("parentId",invitationEntity.getId());
+            mContext.startActivity(intent);
+
         }
-       final VSendInvitationEntity comInfo =comLists.get(position);
-        long dateL=Long.parseLong(comInfo.getFeastdate());
-        mHolder.dateTv.setText(DateCommon.formatDateTime(new Date( dateL),DateCommon.YYYY_P_MM_P_DD));
-        mHolder.numTv.setText("邀请"+comInfo.getNum()+"人");
-        mHolder.addrTv.setText(comInfo.getFeastaddress());
-        mHolder.typeTv.setText(comInfo.getFeasttype());
-        String imgUrl= ImgUrlUtil.getFullImgUrl(comInfo.getCoverimg());
-        MyImgLoadTool.loadNetHeadThumbnailImg(mContext,imgUrl,mHolder.img,60,60,"");
-        return view;
-    }
 
-
-
-
-    class ViewHolder {
+        @Override
+        public boolean onLongClick(View v) {
+            return false;
+        }
+        public MViewHolder(View view) {
+            super(view);
+            lay = (LinearLayout) view.findViewById(R.id.item_send_invitation_lay);
+//            mHolder.operateImg=(ImageView)view.findViewById(R.id.item_send_invitation);
+            dateTv = (TextView) view.findViewById(R.id.item_send_invitation_date_tv);
+            numTv = (TextView) view.findViewById(R.id.item_send_invitation_num_tv);
+            addrTv = (TextView) view.findViewById(R.id.item_send_invitation_addr_tv);
+            typeTv = (TextView) view.findViewById(R.id.item_send_invitation_type_tv);
+            img = (ImageView) view.findViewById(R.id.item_send_invitation_img);
+            rootView=view;
+            rootView.setOnClickListener(this);
+            rootView.setOnLongClickListener(this);
+        }
         LinearLayout lay;
         ImageView img;
        TextView dateTv,typeTv,addrTv;
         TextView numTv;
+        View rootView;
     }
 
 }

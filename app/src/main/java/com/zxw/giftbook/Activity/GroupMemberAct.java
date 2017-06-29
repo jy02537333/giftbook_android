@@ -7,25 +7,16 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 
 import com.google.gson.reflect.TypeToken;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.zxw.giftbook.Activity.entitiy.GroupmemberEntity;
-import com.zxw.giftbook.Activity.entitiy.MembergiftmoneyEntity;
-import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
-import com.zxw.giftbook.Activity.menu.HomeFragment;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.adapter.GroupMemberAdapter;
-import com.zxw.giftbook.adapter.HomeJournalAccountAdapter;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
-import com.zxw.giftbook.utils.MenuSettingViewInit;
 import com.zxw.giftbook.utils.PopShowDelAndEditOperateTool;
 import com.zxw.giftbook.view.ListViewEmptyView;
 
@@ -35,14 +26,12 @@ import java.util.Map;
 
 import pri.zxw.library.base.MyPullToRefreshBaseActivity;
 import pri.zxw.library.listener.TitleOnClickListener;
-import pri.zxw.library.listener.TxtLengthRestrictTool;
 import pri.zxw.library.myinterface.IServicesCallback;
+import pri.zxw.library.refresh_tool.SwipeRecyclerView;
 import pri.zxw.library.tool.MessageHandlerTool;
 import pri.zxw.library.tool.MyAlertDialog;
 import pri.zxw.library.tool.ProgressDialogTool;
-import pri.zxw.library.tool.ServicesTool;
 import pri.zxw.library.tool.ToastShowTool;
-import pri.zxw.library.tool.WebGetDataTool;
 import pri.zxw.library.view.TitleBar;
 
 /**
@@ -54,7 +43,7 @@ import pri.zxw.library.view.TitleBar;
 public class GroupMemberAct extends MyPullToRefreshBaseActivity {
     GroupMemberAdapter mAdapter;
     AppServerTool mServicesTool;
-    com.handmark.pulltorefresh.library.PullToRefreshListView listView;
+    SwipeRecyclerView listView;
     TitleBar titleBar;
     ListViewEmptyView emptyView;
     String id,groupName;
@@ -98,7 +87,7 @@ public class GroupMemberAct extends MyPullToRefreshBaseActivity {
                     mAdapter.addDataAll(list);
                     mAdapter.notifyDataSetChanged();
                 }
-                listView.onRefreshComplete();
+                onComplete();
             }
             else if(msg.what==DEL_CODE)
             {
@@ -128,7 +117,7 @@ public class GroupMemberAct extends MyPullToRefreshBaseActivity {
     public void initView()
     {
         titleBar=(TitleBar) findViewById(R.id.act_group_member_list_title_bar);
-        listView=(com.handmark.pulltorefresh.library.PullToRefreshListView)findViewById(R.id.act_group_member_list_lv);
+        listView=(SwipeRecyclerView) findViewById(R.id.act_group_member_list_lv);
         emptyView=(ListViewEmptyView) findViewById(R.id.act_group_member_list_empty);
         titleBar.setText(groupName);
         rootView=titleBar.getRootView();

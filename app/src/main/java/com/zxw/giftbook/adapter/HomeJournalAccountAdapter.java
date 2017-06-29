@@ -1,18 +1,25 @@
 package com.zxw.giftbook.adapter;
 
+import android.app.Fragment;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.zxw.giftbook.Activity.entitiy.MembergiftmoneyEntity;
+import com.zxw.giftbook.Activity.menu.HomeFragment;
 import com.zxw.giftbook.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import pri.zxw.library.base.BaseFragment;
 import pri.zxw.library.base.MyBaseAdapter;
 import pri.zxw.library.tool.DateCommon;
 import pri.zxw.library.tool.ImgLoad.ImgLoadMipmapTool;
@@ -25,20 +32,51 @@ import pri.zxw.library.tool.ImgLoad.ImgLoadMipmapTool;
 public class HomeJournalAccountAdapter extends MyBaseAdapter<MembergiftmoneyEntity> {
     List<MembergiftmoneyEntity> list;
     LayoutInflater inflater;
-    Context mContext;
-    public HomeJournalAccountAdapter(Context context)
+    BaseFragment mContext;
+
+
+    public HomeJournalAccountAdapter(BaseFragment context)
     {
-        this.inflater = LayoutInflater.from(context);
+        this.inflater = LayoutInflater.from(context.getActivity());
         list=new ArrayList<>();
         mContext=context;
     }
 
     @Override
-    public int getCount() {
+    public void addData(MembergiftmoneyEntity info) {
+        list.add(info);
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext.getActivity()).inflate(R.layout.item_list_f_home_journal_account, parent, false);
+        return new MViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
+        MViewHolder holder=(MViewHolder)holder1;
+        MembergiftmoneyEntity entity=list.get(position);
+        if(entity.getIsexpenditure().equals("1"))
+        {
+            ImgLoadMipmapTool.load(R.mipmap.minus_alt ,holder.item_list_f_home_journal_account_alt_img);
+        }else{
+            ImgLoadMipmapTool.load(R.mipmap.plus_alt ,holder.item_list_f_home_journal_account_alt_img);
+        }
+
+        String date= DateCommon.dateToYYYY_P_MM_P_dd(entity.getCreateDate());
+        holder.item_list_f_home_journal_account_date_tv.setText(date);
+        holder.item_list_f_home_journal_account_fee_tv.setText(entity.getMoney()+"");
+        holder.item_list_f_home_journal_account_name_tv.setText(entity.getGroupmember());
+        holder.item_list_f_home_journal_account_type_tv.setText(entity.getExpendituretypename());
+    }
+
+    @Override
+    public int getItemCount() {
         return list.size();
     }
 
-    public void addDataAll(List<MembergiftmoneyEntity> infos) {
+    public void addDataAll(List infos) {
         if(list!=null)
             list.addAll(infos);
     }
@@ -55,53 +93,45 @@ public class HomeJournalAccountAdapter extends MyBaseAdapter<MembergiftmoneyEnti
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
-        if(convertView==null)
-        {
-            holder=new ViewHolder();
-            convertView = inflater.inflate(R.layout.item_list_f_home_journal_account, null);
-            holder.item_list_f_home_journal_account_alt_img =
-                    (ImageView) convertView.findViewById(R.id.item_list_f_home_journal_account_alt_img);
-            holder.item_list_f_home_journal_account_fee_tv =
-                    (TextView) convertView.findViewById(R.id.item_list_f_home_journal_account_fee_tv);
-            holder.item_list_f_home_journal_account_name_tv =
-                    (TextView) convertView.findViewById(R.id.item_list_f_home_journal_account_name_tv);
-            holder.item_list_f_home_journal_account_type_tv =
-                    (TextView) convertView.findViewById(R.id.item_list_f_home_journal_account_type_tv);
-            holder.item_list_f_home_journal_account_date_tv =
-                    (TextView) convertView.findViewById(R.id.item_list_f_home_journal_account_date_tv);
-            convertView.setTag(holder);
-        }else
-            holder= (ViewHolder)convertView.getTag();
-        MembergiftmoneyEntity entity=list.get(position);
-        if(entity.getIsexpenditure().equals("1"))
-        {
-            ImgLoadMipmapTool.load(R.mipmap.minus_alt ,holder.item_list_f_home_journal_account_alt_img);
-        }else{
-            ImgLoadMipmapTool.load(R.mipmap.plus_alt ,holder.item_list_f_home_journal_account_alt_img);
-        }
-
-       String date= DateCommon.dateToYYYY_P_MM_P_dd(entity.getCreateDate());
-        holder.item_list_f_home_journal_account_date_tv.setText(date);
-        holder.item_list_f_home_journal_account_fee_tv.setText(entity.getMoney()+"");
-        holder.item_list_f_home_journal_account_name_tv.setText(entity.getGroupmember());
-        holder.item_list_f_home_journal_account_type_tv.setText(entity.getExpendituretypename());
-
-        return super.getView(position, convertView, parent);
-    }
-
-    @Override
     public Object getItem(int position) {
         return list.get(position);
     }
 
-
-    class ViewHolder{
+    class MViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{
+        public MViewHolder(View rootView)
+        {
+            super( rootView);
+//            ButterKnife.inject(mContext.getActivity());
+            ButterKnife.inject(this, rootView);
+            mRootView=rootView;
+            mRootView.setOnClickListener(this);
+            mRootView.setOnLongClickListener(this);
+//            item_list_f_home_journal_account_alt_img=(ImageView)rootView.findViewById(R.id.item_list_f_home_journal_account_alt_img);
+//            item_list_f_home_journal_account_fee_tv=(TextView)rootView.findViewById(R.id.item_list_f_home_journal_account_fee_tv);
+//            item_list_f_home_journal_account_name_tv=(TextView)rootView.findViewById(R.id.item_list_f_home_journal_account_name_tv);
+//            item_list_f_home_journal_account_type_tv=(TextView)rootView.findViewById(R.id.item_list_f_home_journal_account_type_tv);
+//            item_list_f_home_journal_account_date_tv=(TextView)rootView.findViewById(R.id.item_list_f_home_journal_account_date_tv);
+        }
+        @InjectView(R.id.item_list_f_home_journal_account_alt_img)
         ImageView item_list_f_home_journal_account_alt_img;
+        @InjectView(R.id.item_list_f_home_journal_account_fee_tv)
         TextView   item_list_f_home_journal_account_fee_tv;
+        @InjectView(R.id.item_list_f_home_journal_account_name_tv)
         TextView  item_list_f_home_journal_account_name_tv;
+        @InjectView(R.id.item_list_f_home_journal_account_type_tv)
         TextView  item_list_f_home_journal_account_type_tv;
+        @InjectView(R.id.item_list_f_home_journal_account_date_tv)
         TextView  item_list_f_home_journal_account_date_tv;
+        View mRootView;
+        @Override
+        public void onClick(View v) {
+
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return false;
+        }
     }
 }
+

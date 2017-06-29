@@ -22,14 +22,11 @@ import pri.zxw.library.entity.User;
 import pri.zxw.library.tool.AppConstantError;
 import pri.zxw.library.tool.ProgressDialogTool;
 
-import com.zxw.giftbook.Activity.AffairEditAct;
 import com.zxw.giftbook.Activity.menu.FinancialFragment;
-import com.zxw.giftbook.Activity.menu.MyFragment;
 import com.zxw.giftbook.Activity.menu.HomeFragment;
 import com.zxw.giftbook.Activity.menu.PersonalCenterFragment;
 import com.zxw.giftbook.Activity.menu.ReceivingGIftFragment;
 import com.zxw.giftbook.Activity.menu.SidekickerGroup2Fragment;
-import com.zxw.giftbook.Activity.menu.SidekickerGroupFragment;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ExitTool;

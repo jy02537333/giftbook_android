@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:background="@color/com_line_color"/>
-    <GridView
+    <pri.zxw.library.refresh_tool.SwipeRecyclerView
         android:numColumns="3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

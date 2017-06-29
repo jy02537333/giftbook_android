@@ -3,6 +3,7 @@ package com.zxw.giftbook.adapter;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,9 @@ import android.widget.TextView;
 
 import com.zxw.giftbook.Activity.AffairEditAct;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import pri.zxw.library.base.BaseEntity;
 import pri.zxw.library.entity.NameImgEntity;
 
 import com.zxw.giftbook.Activity.MySendInvitationAct;
@@ -40,7 +44,7 @@ import pri.zxw.library.tool.ImgLoad.ImgLoadMipmapTool;
  * 个人中心
  *
  */
-public class PersonalCenterAdapter extends MyBaseAdapter {
+public class PersonalCenterAdapter extends MyBaseAdapter<NameImgEntity> {
     private PersonalCenterFragment mContext;
     private List<NameImgEntity> comLists;
     private LayoutInflater inflater = null;
@@ -53,62 +57,20 @@ public class PersonalCenterAdapter extends MyBaseAdapter {
     }
 
     @Override
-    public void removeItem(int position) {
-        comLists.remove(position);
+    public void addData(NameImgEntity info) {
+
     }
 
     @Override
-    public void remove() {
-        comLists.clear();
-    }
-
-    public PersonalCenterAdapter(PersonalCenterFragment context) {
-        this.mContext = context;
-        inflater= LayoutInflater.from(context.getActivity());
-        comLists=new ArrayList<>();
-        comLists.add(new NameImgEntity("个人中心",R.mipmap.personal_center,MyInfoEditAct.class));
-        comLists.add(new NameImgEntity("收到的请帖",R.mipmap.receive_invitation,ReceivesInvitationAct.class));
-        comLists.add(new NameImgEntity("发送的请帖",R.mipmap.invitation,MySendInvitationAct.class));
-        comLists.add(new NameImgEntity("推荐给好友",R.mipmap.recommend,RecommendAct.class));
-        comLists.add(new NameImgEntity("修改密码",R.mipmap.edit_pwd,UpdatePwdAct.class));
-        comLists.add(new NameImgEntity("关于",R.mipmap.about,AboutAct.class));
-        comLists.add(new NameImgEntity("意见反馈",R.mipmap.feedback,FeedbackAct.class));
-        comLists.add(new NameImgEntity("退出",R.mipmap.exit,User.class));
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext.getContext()).inflate(R.layout.item_griv_name_img, parent, false);
+        return new MViewHolder(view);
     }
 
     @Override
-    public int getCount() {
-        if(comLists!=null)
-            return comLists.size();
-        return 0;
-    }
-    @Override
-    public NameImgEntity getItem(int position) {
-        return comLists.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder mHolder;
-        View view = convertView;
-        if (view == null) {
-            view = inflater.inflate(R.layout.item_griv_name_img, null);
-            mHolder = new ViewHolder();
-            mHolder.lay = (RelativeLayout) view.findViewById(R.id.item_griv_name_img_lay);
-            mHolder.frameLayout = (RelativeLayout) view.findViewById(R.id.item_griv_name_img_framelay);
-            mHolder.addImg=(ImageView)view.findViewById(R.id.item_griv_name_img_add_img);
-            mHolder.nameTv = (TextView) view.findViewById(R.id.item_griv_name_img_name_tv);
-            view.setTag(mHolder);
-        } else {
-            mHolder = (ViewHolder) view.getTag();
-        }
-       final NameImgEntity comInfo =comLists.get(position);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        MViewHolder mHolder=(MViewHolder)holder;
+        final NameImgEntity comInfo =comLists.get(position);
         ImgLoadMipmapTool.load(comInfo.getImgId(),mHolder.addImg);
         mHolder.nameTv.setText(comInfo.getName());
         mHolder.lay.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +102,7 @@ public class PersonalCenterAdapter extends MyBaseAdapter {
                             });
                     builder.create().show();
                 } else
-                mContext.startActivity(new Intent(mContext.getActivity(), comInfo.getClassName()));
+                    mContext.startActivity(new Intent(mContext.getActivity(), comInfo.getClassName()));
             }
         });
         /**用来计算的索引*/
@@ -159,8 +121,50 @@ public class PersonalCenterAdapter extends MyBaseAdapter {
         {
             mHolder.lay.setBackgroundResource(R.drawable.shape_layout_right_border);
         }
-        return view;
     }
+
+    @Override
+    public int getItemCount() {
+        if(comLists!=null)
+            return comLists.size();
+        return 0;
+    }
+
+    @Override
+    public void removeItem(int position) {
+        comLists.remove(position);
+    }
+
+    @Override
+    public void remove() {
+        comLists.clear();
+    }
+
+    public PersonalCenterAdapter(PersonalCenterFragment context) {
+        this.mContext = context;
+        inflater= LayoutInflater.from(context.getActivity());
+        comLists=new ArrayList<>();
+        comLists.add(new NameImgEntity("个人中心",R.mipmap.personal_center,MyInfoEditAct.class));
+        comLists.add(new NameImgEntity("收到的请帖",R.mipmap.receive_invitation,ReceivesInvitationAct.class));
+        comLists.add(new NameImgEntity("发送的请帖",R.mipmap.invitation,MySendInvitationAct.class));
+        comLists.add(new NameImgEntity("推荐给好友",R.mipmap.recommend,RecommendAct.class));
+        comLists.add(new NameImgEntity("修改密码",R.mipmap.edit_pwd,UpdatePwdAct.class));
+        comLists.add(new NameImgEntity("关于",R.mipmap.about,AboutAct.class));
+        comLists.add(new NameImgEntity("意见反馈",R.mipmap.feedback,FeedbackAct.class));
+        comLists.add(new NameImgEntity("退出",R.mipmap.exit,User.class));
+    }
+
+    @Override
+    public NameImgEntity getItem(int position) {
+        return comLists.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        // TODO Auto-generated method stub
+        return position;
+    }
+
     void addView(FrameLayout frameLayout)
     {
         ImageView imageView=new ImageView(mContext.getActivity());
@@ -171,12 +175,33 @@ public class PersonalCenterAdapter extends MyBaseAdapter {
 
 
 
-    class ViewHolder {
+    class MViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
+
+        @Override
+        public void onClick(View v) {
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return false;
+        }
+
+        public MViewHolder(View rootView) {
+            super(rootView);
+            ButterKnife.inject(rootView);
+            mRootView = rootView;
+            mRootView.setOnClickListener(this);
+            mRootView.setOnLongClickListener(this);
+        }
+        @InjectView(R.id.item_griv_name_img_lay)
        RelativeLayout lay;
+        @InjectView(R.id.item_griv_name_img_add_img)
         ImageView addImg;
+        @InjectView(R.id.item_griv_name_img_framelay)
         RelativeLayout frameLayout;
+        @InjectView(R.id.item_griv_name_img_name_tv)
        TextView nameTv;
-        TextView numTv;
+        View mRootView;
     }
 
 }

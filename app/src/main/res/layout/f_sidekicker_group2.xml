@@ -13,7 +13,7 @@
         titleBarStyle:text="亲友团"
         titleBarStyle:right_text="添加组"
         titleBarStyle:left_visibility="gone" />
-      <com.handmark.pulltorefresh.library.PullToRefreshListView
+      <pri.zxw.library.refresh_tool.SwipeRecyclerView
           android:id="@+id/f_sidekicker_group2_lv"
           android:layout_width="match_parent"
           android:layout_height="match_parent"

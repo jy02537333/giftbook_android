@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.google.gson.reflect.TypeToken;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import pri.zxw.library.refresh_tool.SwipeRecyclerView;
 import com.zxw.giftbook.Activity.entitiy.VSendInvitationEntity;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
@@ -38,7 +38,7 @@ public class MySendInvitationAct extends MyPullToRefreshBaseActivity {
     TitleBar titleBar;
     AppServerTool mServicesTool;
     SendInvitationAdapter adapter;
-    PullToRefreshListView listView;
+    SwipeRecyclerView listView;
     public static final String GET_DATA_URL="apiVSendInvitationController.do?datagrid";
     Handler mHandler=new Handler(){
         @Override
@@ -48,7 +48,7 @@ public class MySendInvitationAct extends MyPullToRefreshBaseActivity {
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 Type type=new TypeToken<List<VSendInvitationEntity>>(){}.getType();
-                MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,MySendInvitationAct.this,adapter,listView,type);
+                MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,MySendInvitationAct.this,adapter,type);
                 String sum=  msgInfo.getRetMap().get("sumCount");
                 if(sum!=null)
                 {
@@ -75,7 +75,7 @@ public class MySendInvitationAct extends MyPullToRefreshBaseActivity {
     public void initView()
     {
         titleBar=(TitleBar) findViewById(R.id.a_send_invitation_title_bar);
-        listView=(PullToRefreshListView)findViewById(R.id.a_send_invitation_lv);
+        listView=(SwipeRecyclerView)findViewById(R.id.a_send_invitation_lv);
         Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
         top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
         titleBar.setRightDrawable(top_edit,null,null,null);
@@ -103,16 +103,6 @@ public class MySendInvitationAct extends MyPullToRefreshBaseActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(MySendInvitationAct.this,AffairEditAct.class);
                 startActivityForResult(intent,ADD_CHILD_CODE);
-            }
-        });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                position=position-1;
-                VSendInvitationEntity invitationEntity= adapter.getItem(position);
-                Intent intent= new Intent(MySendInvitationAct.this,SendInvitationListAct.class);
-                intent.putExtra("parentId",invitationEntity.getId());
-                startActivity(intent);
             }
         });
     }

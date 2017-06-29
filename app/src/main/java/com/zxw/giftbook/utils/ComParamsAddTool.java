@@ -1,6 +1,5 @@
 package com.zxw.giftbook.utils;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.zxw.giftbook.FtpApplication;
 
 import java.util.HashMap;

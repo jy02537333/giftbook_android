@@ -2,6 +2,7 @@ package com.zxw.giftbook.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,49 +33,32 @@ public class GroupMemberAdapter extends MyBaseAdapter<GroupmemberEntity> {
         list=new ArrayList<>();
         mContext=context;
     }
-    @Override
-    public int getCount() {
-        return list.size();
-    }
     public GroupmemberEntity getItem(int position)
     {
         return list.get(position);
     }
     @Override
-    public void addDataAll(List<GroupmemberEntity> infos) {
+    public void addDataAll(List infos) {
         list.addAll(infos);
         notifyDataSetChanged();
 
     }
 
     @Override
-    public void removeItem(int position) {
-        list.remove(position);
+    public void addData(GroupmemberEntity info) {
+        list.add(info);
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        GroupMemberView holder = null;
-        if(convertView==null)
-        {
-            holder=new GroupMemberView();
-            convertView = inflater.inflate(R.layout.item_list_group_member_list, null);
-            holder.affiliatedPersonTv =
-                    (TextView) convertView.findViewById(R.id.item_list_group_member_list_affiliated_person_tv);
-            holder.giftMoneyTv =
-                    (TextView) convertView.findViewById(R.id.item_list_group_member_list_gift_money_tv);
-            holder.nameTv =
-                    (TextView) convertView.findViewById(R.id.item_list_group_member_list_name_tv);
-            holder.phoneTv =
-                    (TextView) convertView.findViewById(R.id.item_list_group_member_list_phone_tv);
-            holder.phoneTv =
-                    (TextView) convertView.findViewById(R.id.item_list_group_member_list_phone_tv);
-            holder.operateBtn =
-                    (Button) convertView.findViewById(R.id.item_list_group_member_list_gift_operate_btn);
-            convertView.setTag(holder);
-        }else
-            holder= (GroupMemberView)convertView.getTag();
-       final GroupmemberEntity entity=list.get(position);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext.getContext()).inflate(R.layout.item_list_group_member_list, parent, false);
+        return new GroupMemberView(view);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder1,final int position) {
+        GroupMemberView holder=(GroupMemberView)holder1;
+        final GroupmemberEntity entity=list.get(position);
         holder.nameTv.setText(entity.getGroupmember());
         holder.giftMoneyTv.setText(entity.getTotalmoney()+"");
         holder.phoneTv.setText(entity.getMemberphone());
@@ -98,15 +82,51 @@ public class GroupMemberAdapter extends MyBaseAdapter<GroupmemberEntity> {
                 mContext.operate(entity.getId(),entity.getGroupmember(),position);
             }
         });
-        return super.getView(position, convertView, parent);
+    }
+
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+    @Override
+    public void removeItem(int position) {
+        list.remove(position);
     }
 
     @Override
     public void remove() {
         list.clear();
     }
-    class GroupMemberView
+    class GroupMemberView extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener
     {
+        @Override
+        public void onClick(View v) {
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return false;
+        }
+        public GroupMemberView(View convertView)
+        {
+            super(convertView);
+            affiliatedPersonTv =
+                    (TextView) convertView.findViewById(R.id.item_list_group_member_list_affiliated_person_tv);
+            giftMoneyTv =
+                    (TextView) convertView.findViewById(R.id.item_list_group_member_list_gift_money_tv);
+            nameTv =
+                    (TextView) convertView.findViewById(R.id.item_list_group_member_list_name_tv);
+            phoneTv =
+                    (TextView) convertView.findViewById(R.id.item_list_group_member_list_phone_tv);
+            phoneTv =
+                    (TextView) convertView.findViewById(R.id.item_list_group_member_list_phone_tv);
+            operateBtn =
+                    (Button) convertView.findViewById(R.id.item_list_group_member_list_gift_operate_btn);
+            mRootView = convertView;
+            mRootView.setOnClickListener(this);
+            mRootView.setOnLongClickListener(this);
+        }
         Button operateBtn;
         TextView nameTv;
         TextView phoneTv;
@@ -114,6 +134,7 @@ public class GroupMemberAdapter extends MyBaseAdapter<GroupmemberEntity> {
         TextView affiliatedPersonTv;
         /**礼金总和*/
         TextView giftMoneyTv;
+        View mRootView;
     }
 
 

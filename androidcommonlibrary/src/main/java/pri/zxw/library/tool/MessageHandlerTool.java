@@ -10,30 +10,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import pri.zxw.library.base.BaseApp;
-import pri.zxw.library.base.BaseEntity;
 import pri.zxw.library.base.MyBaseAdapter;
+import pri.zxw.library.base.MyPullToRefreshBaseActivity;
 import pri.zxw.library.base.MyPullToRefreshBaseInterface;
 import pri.zxw.library.db.JsonStrHistoryDao;
-import pri.zxw.library.tool.AppConstantError;
-import pri.zxw.library.tool.JsonParse;
-import pri.zxw.library.tool.ToastShowTool;
 
 import android.content.Context;
-import android.content.Entity;
 import android.os.Message;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
-import com.handmark.pulltorefresh.library.DateCommon;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 
 /**
  * 处理 android.os.Message的返回值
- * 
+ *
  * @author 张相伟
- * 
+ *
  */
 public class MessageHandlerTool {
 	public static final int HASH_VALUE = 1;
@@ -45,7 +38,7 @@ public class MessageHandlerTool {
 	 */
 	private boolean isNetworkError = false;
 	/**
-	 * 是否启动上拉刷新
+	 * 是否启动上拉加载
 	 */
 	private boolean mIsEnableUpRefresh = true;
 	/**
@@ -61,7 +54,7 @@ public class MessageHandlerTool {
 	}
 
 	public MessageHandlerTool() {
-		
+
 	}
 
 	/**
@@ -74,21 +67,21 @@ public class MessageHandlerTool {
 		Object obj = null;
 		try {
 			if (msg.arg1 == 1) {
-                @SuppressWarnings("unchecked")
-                Map<String, String> map = (Map<String, String>) msg.obj;
-                Gson gson = new Gson();
-                if (map != null) {
-                    String status = map.get(JsonParse.STATUS);
-                        if (status.equals("1")) {
-                            String data=map.get(JsonParse.CONTEXT);
-							this.jsonStr=data;
-                            Object retObj = gson.fromJson(data, type);
-                            return retObj;
-                        }
-                }
-            }else {//处理网络错误提示
-                networkErrorShow(msg,context);
-            }
+				@SuppressWarnings("unchecked")
+				Map<String, String> map = (Map<String, String>) msg.obj;
+				Gson gson = new Gson();
+				if (map != null) {
+					String status = map.get(JsonParse.STATUS);
+					if (status.equals("1")) {
+						String data=map.get(JsonParse.CONTEXT);
+						this.jsonStr=data;
+						Object retObj = gson.fromJson(data, type);
+						return retObj;
+					}
+				}
+			}else {//处理网络错误提示
+				networkErrorShow(msg,context);
+			}
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
 		}
@@ -151,9 +144,8 @@ public class MessageHandlerTool {
 	 */
 	@SuppressWarnings("rawtypes")
 	public MessageInfo handler(Message msg,
-			MyPullToRefreshBaseInterface contenxt, MyBaseAdapter adapter,
-			PullToRefreshBase listView, Type type) {
-		return handler(msg,contenxt,adapter,listView, type,null);
+							   MyPullToRefreshBaseInterface contenxt, MyBaseAdapter adapter, Type type) {
+		return handler(msg,contenxt,adapter, type,null);
 	}
 
 	/**
@@ -164,15 +156,27 @@ public class MessageHandlerTool {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public MessageInfo handler(Message msg,
-			MyPullToRefreshBaseInterface contenxt, MyBaseAdapter adapter,
-			PullToRefreshBase listView, Type type,String key) {
+							   MyPullToRefreshBaseInterface contenxt, MyBaseAdapter adapter, Type type,String key) {
 		MessageInfo messageInfo = new MessageInfo();
 		if (adapter == null)
 			return messageInfo;
 		try {
+			Map<String, String> map = (Map<String, String>) msg.obj;
 			List tList = null;
+			if (msg.arg1 == 0&&map!=null&&map.get(JsonParse.STATUS).equals("2")) {
+				messageInfo.isHashValue = false;
+				messageInfo.isEnd = true;
+				if(!contenxt.getUpfalg()) {
+//					contenxt.closePullUpToRefresh();
+					contenxt.setFootText("已加载完");
+				}else
+				{
+					adapter.remove();
+					contenxt.onComplete();
+					adapter.notifyDataSetChanged();
+				}
+			}
 			if (msg.arg1 == 1) {
-				Map<String, String> map = (Map<String, String>) msg.obj;
 				messageInfo.retMap=map;
 				Gson gson = new Gson();
 				if (map != null) {
@@ -194,51 +198,49 @@ public class MessageHandlerTool {
 						if (tList != null && tList.size() > 0) {
 							if (contenxt.getUpfalg()) {
 								adapter.remove();
-								if (mIsEnableUpRefresh)
-									contenxt.enableUpRefresh();
+//								if (mIsEnableUpRefresh)
+//									contenxt.enableUpRefresh();
 							}
 							adapter.addDataAll(tList);
-							if (contenxt.getUpfalg())
-								{
-								adapter.notifyDataSetInvalidated();
+							if (contenxt.getUpfalg())//下拉刷新成功，数据添加到数据库
+							{
 								contenxt.enableUpRefresh();
 								JsonStrHistoryDao dao=new JsonStrHistoryDao();
-								dao.updateUserHistory(contenxt.getClass().getName()+"_time", 
+								dao.updateUserHistory(contenxt.getClass().getName()+"_time",
 										DateCommon.getCurrentDateStr());
-								dao.updateUserHistory(contenxt.getClass().getName()+"_json", 
+								dao.updateUserHistory(contenxt.getClass().getName()+"_json",
 										map.get(JsonParse.CONTEXT));
-								}
-							else
+								contenxt.onComplete();
 								adapter.notifyDataSetChanged();
-							String sumCountStr=map.get("sumCount");
-							double sumCount=0;
-							if(sumCountStr==null)
-								sumCount=0;
+							}
 							else
-								sumCount=Double.parseDouble(sumCountStr);
-							double currCount=contenxt.getRows()*contenxt.getCur_page();
-							if(sumCount<=currCount){//已经滑动到最后一页时
-								listView.onRefreshComplete();
-								listView.setMode(Mode.PULL_FROM_START);
-								messageInfo.isEnd = true;
+							{
+								if(tList.size()<contenxt.getRows())
+								{
+									contenxt.setFootText("已加载完");
+								}else {
+									contenxt.onStopLoadingMore();
+								}
+								adapter.notifyDataSetChanged();
 							}
 							messageInfo.isHashValue = true;
 							messageInfo.list=tList;
-						
+
 							new Thread(new Runnable() {
 								@Override
 								public void run() {
 									System.gc();
 								}
 							}).start();
-						} else if (!contenxt.getUpfalg()) {
-							listView.onRefreshComplete();
-							listView.setMode(Mode.PULL_FROM_START);
+						} else if (!contenxt.getUpfalg()) {//上啦加载成功，但是没有数据，提示没有数据
+//							contenxt.closePullUpToRefresh();
+							contenxt.setFootText("已加载完");
 							messageInfo.isHashValue = false;
 							messageInfo.isEnd = true;
-						}else if(contenxt.getUpfalg())
+						}else if(contenxt.getUpfalg())//下拉刷新成功，但是没有数据，清空旧数据
 						{
 							adapter.remove();
+							contenxt.onComplete();
 							adapter.notifyDataSetChanged();
 							messageInfo.isHashValue = false;
 							messageInfo.isEnd = true;
@@ -249,21 +251,25 @@ public class MessageHandlerTool {
 			} else {//处理网络错误提示
 				networkErrorShow(msg,contenxt.getContext());
 				if (!contenxt.getUpfalg())
-					contenxt.CurrPageMinus();
-				if(msg.arg1==2&&contenxt.getUpfalg())
 				{
-						adapter.remove();
-						adapter.notifyDataSetChanged();
-						messageInfo.isHashValue = false;
-						messageInfo.isEnd = true;
+					contenxt.CurrPageMinus();
+					contenxt.onStopLoadingMore();
+					adapter.notifyDataSetChanged();
+//					contenxt.onError("加载出现异常");
+//					contenxt.onNetChange();
+				}
+				if(contenxt.getUpfalg())
+				{
+					contenxt.onComplete();
+					adapter.notifyDataSetChanged();
 				}
 			}
-			listView.onRefreshComplete();
-
+//			contenxt.onComplete();
+//			adapter.notifyDataSetChanged();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
-			
+
 		}
 		return messageInfo;
 	}
@@ -277,10 +283,10 @@ public class MessageHandlerTool {
 		if(!isNetworkError)
 			errorShow(msg, context,errorStr);
 	}
-	
+
 	/**
 	 * 错误提示
-	 * 
+	 *
 	 * @param msg
 	 * @param context
 	 */
@@ -290,13 +296,13 @@ public class MessageHandlerTool {
 
 	/**
 	 * 错误提示
-	 * 
+	 *
 	 * @param msg
 	 * @param context
 	 */
 	@SuppressWarnings("unchecked")
 	public void errorShow(Message msg, Context context,
-			String errStr) {
+						  String errStr) {
 		Map<String, String> map = (Map<String, String>) msg.obj;
 		if (map != null) {
 			// 手动设置错误提示语
@@ -315,38 +321,38 @@ public class MessageHandlerTool {
 
 	/**
 	 * 网络错误提示
-	 * 
+	 *
 	 * @param msg
 	 * @param context
 	 */
 	public void networkErrorShow(Message msg, Context context) {
-			int errorStatus = msg.arg2;
-			if (errorStatus == AppConstantError.WEBSEVICE_SOAP_FAULT||errorStatus == AppConstantError.WEBSEVICE_WEB_ERROR)
-			// /请求失败
-			{
-				
-				ToastShowTool.showNetError(context);
-				isNetworkError = true;
-			} else if (errorStatus == AppConstantError.NOT_NETWORK)
-			// /无网络
-			{
-				ToastShowTool.myToastNotNetwork(context);
-				isNetworkError = true;
-				BaseApp.getInstance().setNetworkDisconnected(true);
-			} else if (errorStatus == AppConstantError.WEB_TIMEOUT)
-			// 连接超时
-			{
-				ToastShowTool.myToastTimeout(context);
-				isNetworkError = true;
-			}else if (errorStatus == AppConstantError.LOAD_NULL)
-			// 加载为空
-			{
-				ToastShowTool.showEmptyPrompt(context);
-				isNetworkError = false;
-			}
+		int errorStatus = msg.arg2;
+		if (errorStatus == AppConstantError.WEBSEVICE_SOAP_FAULT||errorStatus == AppConstantError.WEBSEVICE_WEB_ERROR)
+		// /请求失败
+		{
 
-			else
-				isNetworkError=false;
+			ToastShowTool.showNetError(context);
+			isNetworkError = true;
+		} else if (errorStatus == AppConstantError.NOT_NETWORK)
+		// /无网络
+		{
+			ToastShowTool.myToastNotNetwork(context);
+			isNetworkError = true;
+			BaseApp.getInstance().setNetworkDisconnected(true);
+		} else if (errorStatus == AppConstantError.WEB_TIMEOUT)
+		// 连接超时
+		{
+			ToastShowTool.myToastTimeout(context);
+			isNetworkError = true;
+		}else if (errorStatus == AppConstantError.LOAD_NULL)
+		// 加载为空
+		{
+			ToastShowTool.showEmptyPrompt(context);
+			isNetworkError = false;
+		}
+
+		else
+			isNetworkError=false;
 	}
 	/**
 	 * 获取msg中obj里的某一个值
@@ -365,7 +371,7 @@ public class MessageHandlerTool {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}finally{
-		
+
 		}
 		return value;
 	}

@@ -5,10 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.zxw.giftbook.R;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
 
 import pri.zxw.library.base.MyPullToRefreshBaseActivity;
-import pri.zxw.library.tool.WebGetDataTool;
 
 /**
  * Created by sun on 2016/7/12.

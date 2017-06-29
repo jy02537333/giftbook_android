@@ -7,8 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import android.text.TextUtils;
-
 /**
  * @className 时间处理方法
  * @author 张相伟
@@ -22,11 +20,12 @@ import android.text.TextUtils;
 public class DateCommon {
 	/** 长格式 yyyy.MM.dd  */
 	public static final String YYYY_P_MM_P_DD = "yyyy.MM.dd";
+
+	/** 日期格式：yyyy-MM-dd HH:mm:ss **/
+	public static final String MM_DD_HH_MM_SS="MM-dd HH:mm:ss";
 	/** 日期格式：yyyy-MM-dd HH:mm:ss **/
 	public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 
-	/** 日期格式：yyyy-MM-dd HH:mm:ss **/
-	public static final String MM_DD_HH_MM_SS = "MM-dd HH:mm:ss";
 	/** 日期格式：yyyy-MM-dd HH:mm **/
 	public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
 
@@ -45,6 +44,13 @@ public class DateCommon {
 	private final static long month = 31 * day;// 月
 	private final static long year = 12 * month;// 年
 
+
+	public static String getCurrentDateStr() {
+		Calendar c = Calendar.getInstance();
+		SimpleDateFormat f = new SimpleDateFormat(
+				YYYY_MM_DD_HH_MM_SS);
+		return f.format(c.getTime());
+	}
 	/**
 	 * 将日期格式化成友好的字符串：几分钟前、几小时前、几天前、几月前、几年前、刚刚
 	 * @param date

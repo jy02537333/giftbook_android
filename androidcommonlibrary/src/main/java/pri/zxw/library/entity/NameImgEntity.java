@@ -1,12 +1,14 @@
 package pri.zxw.library.entity;
 
+import pri.zxw.library.base.BaseEntity;
+
 /**
  * 设置图片与名称的实体
  * Createdy 张相伟
  * 2017/5/17.
  */
 
-public class NameImgEntity {
+public class NameImgEntity extends BaseEntity {
     public NameImgEntity(){}
     public NameImgEntity(String name, int imgId,Class className) {
         this.name = name;
@@ -40,5 +42,10 @@ public class NameImgEntity {
 
     public void setImgId(int imgId) {
         this.imgId = imgId;
+    }
+
+    @Override
+    public Class getMyClass() {
+        return this.getClass();
     }
 }

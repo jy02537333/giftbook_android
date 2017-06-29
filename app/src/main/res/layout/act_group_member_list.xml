@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <pri.zxw.library.refresh_tool.SwipeRecyclerView
         android:id="@+id/act_group_member_list_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

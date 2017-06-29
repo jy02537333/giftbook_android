@@ -10,7 +10,7 @@
         android:layout_height="@dimen/title_bar_h"
         titleBarStyle:left_visibility="visible"
         titleBarStyle:text="请帖" />
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <pri.zxw.library.refresh_tool.SwipeRecyclerView
         android:id="@+id/a_receives_invitation_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

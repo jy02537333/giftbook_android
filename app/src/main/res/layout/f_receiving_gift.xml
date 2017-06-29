@@ -12,6 +12,7 @@
         titleBarStyle:left_visibility="gone"
         titleBarStyle:right_text="新建礼薄"/>
     <LinearLayout
+        android:id="@+id/f_receiving_gift_title_lay"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/com_act_gray"
@@ -41,7 +42,7 @@
             android:id="@+id/f_receiving_gift_money_tv"
             android:text="0元"/>
     </LinearLayout>
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <pri.zxw.library.refresh_tool.SwipeRecyclerView
         android:id="@+id/f_receiving_gift_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

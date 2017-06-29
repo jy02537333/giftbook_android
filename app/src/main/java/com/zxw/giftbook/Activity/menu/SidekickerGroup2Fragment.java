@@ -1,34 +1,21 @@
 package com.zxw.giftbook.Activity.menu;
 
-import android.app.ActionBar;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.handmark.pulltorefresh.library.PullToRefreshExpandableListView;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import pri.zxw.library.refresh_tool.SwipeRecyclerView;
 import com.zxw.giftbook.Activity.GroupMemberAct;
-import com.zxw.giftbook.Activity.GroupMemberAddAct;
 import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
@@ -52,7 +39,6 @@ import pri.zxw.library.tool.MessageHandlerTool;
 import pri.zxw.library.tool.MyAlertDialog;
 import pri.zxw.library.tool.ProgressDialogTool;
 import pri.zxw.library.tool.ToastShowTool;
-import pri.zxw.library.tool.dialogTools.DialogSelectBtn;
 import pri.zxw.library.view.TitleBar;
 
 /**
@@ -64,7 +50,7 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
     boolean isSubmit=false;
     View view;
     TitleBar titleBar;
-    PullToRefreshListView lv;
+    SwipeRecyclerView lv;
     SidekickerGroup2Adapter adapter;
     AppServerTool mServicesTool;
     int mPosition=-1;
@@ -81,7 +67,7 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 Type type=new TypeToken<List<SidekickergroupEntity>>(){}.getType();
                 MessageHandlerTool.MessageInfo messageInfo =messageHandlerTool.
-                        handler(msg,SidekickerGroup2Fragment.this,adapter,lv,type);
+                        handler(msg,SidekickerGroup2Fragment.this,adapter,type);
                if(messageInfo.getIsHashValue())
                 {
                     JsonStrHistoryDao dao=new JsonStrHistoryDao();
@@ -134,7 +120,7 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
     private void  initView()
     {
      titleBar=(TitleBar) view.findViewById(R.id.f_sidekicker_group2_title_bar);
-        lv=(PullToRefreshListView) view.findViewById(R.id.f_sidekicker_group2_lv);
+        lv=(SwipeRecyclerView) view.findViewById(R.id.f_sidekicker_group2_lv);
     }
     void initTool()
     {
@@ -142,7 +128,7 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
         mServicesTool=new AppServerTool(NetworkConfig.api_url,getActivity(),mHandler);
         adapter=new SidekickerGroup2Adapter(this);
         lv.setAdapter(adapter);
-        this.initListener(lv,adapter);
+        this.initListener(lv,adapter, SwipeRecyclerView.Mode.CLOSE_END);
     }
     private void  initListener()
     {
@@ -150,16 +136,6 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
             @Override
             public void onClick(View view) {
                 showAddView();
-            }
-        });
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SidekickergroupEntity entity=adapter.getItem(--position);
-                Intent intent=new Intent(getActivity(), GroupMemberAct.class);
-                intent.putExtra("id",entity.getId());
-                intent.putExtra("groupName",entity.getGroupname());
-                startActivity(intent);
             }
         });
     }

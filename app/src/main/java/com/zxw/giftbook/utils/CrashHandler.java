@@ -18,11 +18,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import pri.zxw.library.tool.DateCommon;
 import pri.zxw.library.tool.ServicesTool;
 
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.config.NetworkConfig;
-import com.handmark.pulltorefresh.library.DateCommon;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
