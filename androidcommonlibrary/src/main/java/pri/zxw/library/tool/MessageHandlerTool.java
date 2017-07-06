@@ -110,13 +110,12 @@ public class MessageHandlerTool {
 		return "";
 	}
 
-
 	/**
 	 *
 	 * @param msg
 	 * @return type的对象
 	 */
-	public int handler(Message msg,Context context) {
+	public int handler(Message msg,Context context,String errorStr) {
 		int obj = 0;
 
 		if (msg.arg1 == 1) {
@@ -132,9 +131,17 @@ public class MessageHandlerTool {
 				}
 			}
 		}else {//处理网络错误提示
-			networkErrorShow(msg,context);
+			networkErrorShow(msg,context,errorStr);
 		}
 		return obj;
+	}
+	/**
+	 *
+	 * @param msg
+	 * @return type的对象
+	 */
+	public int handler(Message msg,Context context) {
+		return handler(msg,context,null);
 	}
 
 	/**
@@ -326,13 +333,24 @@ public class MessageHandlerTool {
 	 * @param context
 	 */
 	public void networkErrorShow(Message msg, Context context) {
+		networkErrorShow(msg,context,null);
+	}
+	/**
+	 * 网络错误提示
+	 *
+	 * @param msg
+	 * @param context
+	 */
+	public void networkErrorShow(Message msg, Context context,String errorStr) {
 		int errorStatus = msg.arg2;
 		if (errorStatus == AppConstantError.WEBSEVICE_SOAP_FAULT||errorStatus == AppConstantError.WEBSEVICE_WEB_ERROR)
 		// /请求失败
 		{
-
-			ToastShowTool.showNetError(context);
-			isNetworkError = true;
+			if(errorStr!=null)
+				ToastShowTool.myToastShort(context,errorStr);
+			else
+				ToastShowTool.showNetError(context);
+			isNetworkError = false;
 		} else if (errorStatus == AppConstantError.NOT_NETWORK)
 		// /无网络
 		{

@@ -23,6 +23,7 @@ import com.zxw.giftbook.R;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
+import com.zxw.giftbook.utils.DataMapUtil;
 import com.zxw.giftbook.utils.contact.AddressBooktBean;
 import com.zxw.giftbook.utils.contact.CharacterParser;
 import com.zxw.giftbook.utils.contact.ClearEditText;
@@ -68,6 +69,7 @@ public class PhoneContactListSelectActivity extends MyBaseActivity {
     private LinearLayout imgsLay;
     private Dialog dialog;
     private String ids;
+    private boolean isImport=false;
     private static final int GET_CODE=5341;
      static final String ADD_URL="apiGroupmemberCtrl.do?importMember";
     AppServerTool mServicesTool;
@@ -107,6 +109,7 @@ public class PhoneContactListSelectActivity extends MyBaseActivity {
                 if(ret==1)
                 {
                     ToastShowTool.myToastShort(PhoneContactListSelectActivity.this,"导入成功！");
+                    DataMapUtil.getAllTypeData(PhoneContactListSelectActivity.this,null);
                     setResult(1);
                     finish();
                 }
@@ -123,6 +126,7 @@ public class PhoneContactListSelectActivity extends MyBaseActivity {
         ids = getIntent().getStringExtra("ids");
         typeId=getIntent().getStringExtra("typeid");
         typeName=getIntent().getStringExtra("typename");
+        isImport=getIntent().getBooleanExtra("isImport",false);
         setContentView(R.layout.act_select_contact);
         mClearEditText = (ClearEditText) findViewById(R.id.act_mine_select_contact_filter_edit);
         contactList = (ListView) findViewById(R.id.act_mine_select_contact_list);
@@ -146,7 +150,10 @@ public class PhoneContactListSelectActivity extends MyBaseActivity {
 
     // 初始化标题栏
     private void tableinit() {
-        mTitleBar.setTitle("手机通讯录");// 标题栏
+        if(isImport){
+            mTitleBar.setTitle("手机通讯录");// 标题栏
+        }else
+        mTitleBar.setTitle("手机通讯录-导入"+typeName);// 标题栏
         mTitleBar.setLeftClickListener(new TitleOnClickListener() {
             @Override
             public void onClick(View view) {

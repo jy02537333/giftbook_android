@@ -10,12 +10,16 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
+import com.zxw.giftbook.Activity.entitiy.GifttypeEntity;
 import com.zxw.giftbook.Activity.entitiy.GroupmemberEntity;
+import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.config.NetworkConfig;
+import com.zxw.giftbook.myinterface.IDataMapUtilCallback;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
+import com.zxw.giftbook.utils.DataMapUtil;
 
 import org.json.JSONArray;
 
@@ -76,10 +80,12 @@ public class GroupMemberEditAct extends MyBaseActivity {
             if(msg.what==EDIT_CODE)
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
-                int ret=messageHandlerTool.handler(msg,GroupMemberEditAct.this);
-                if(ret==1)
+                Type type=new TypeToken<GroupmemberEntity>(){}.getType();
+                GroupmemberEntity ret=(GroupmemberEntity)messageHandlerTool.handlerObject(msg,type,GroupMemberEditAct.this);
+                if(ret!=null)
                 {
                     ToastShowTool.myToastShort(GroupMemberEditAct.this,"修改成功！");
+                    DataMapUtil.editChildItem(entity.getGourpid(),ret);
                     setResult(1);
                     finish();
                 }else
@@ -87,25 +93,6 @@ public class GroupMemberEditAct extends MyBaseActivity {
                     ToastShowTool.myToastShort(GroupMemberEditAct.this,"修改失败！");
                 }
                 isSubmit=false;
-            }else if(msg.what==GET_DATA_CODE) {
-                MessageHandlerTool messageHandlerTool = new MessageHandlerTool();
-                String data = messageHandlerTool.handlerData(msg, GroupMemberEditAct.this);
-                if (data.length() > 0) {
-                    try {
-                        org.json.JSONObject jsonObj = new org.json.JSONObject(data);
-                        JSONArray sidekickerGroupJsons=jsonObj.getJSONArray("sidekickerGroups");
-                        for (int i=0;sidekickerGroupJsons!=null&&i<sidekickerGroupJsons.length();i++)
-                        {
-                            org.json.JSONObject obj=(org.json.JSONObject)sidekickerGroupJsons.get(i);
-                            sidekickerGroups.put(obj.getString("id"),obj.getString("groupname"));
-                        }
-
-                    }catch (Exception e)
-                    {
-                    }
-                }
-                typeTv.setText(typeName);
-                typeTv.setTag(typeId);
             }
             else if(msg.what==GET_GROUP_MEMBER_CODE)
             {
@@ -140,7 +127,7 @@ public class GroupMemberEditAct extends MyBaseActivity {
         initTool();
         initListener();
         getDropDownData();
-        titleBar.setText("编辑信息");
+        titleBar.setText("编辑亲友信息");
         submitBtn.setText("修改");
     }
 
@@ -264,10 +251,30 @@ public class GroupMemberEditAct extends MyBaseActivity {
 
     public void getDropDownData()
     {
-        ProgressDialogTool.getInstance(this).showDialog("加载中...");
-        Map<String,String > params= ComParamsAddTool.getParam();
-        params.put("userid", FtpApplication.user.getId());
-        mServicesTool.doPostAndalysisData("apiAllTypeCtrl.do?getAll",params,GET_DATA_CODE);
+        Map<String, SidekickergroupEntity> obj= DataMapUtil.getAllTypeData(this, new IDataMapUtilCallback() {
+            @Override
+            public void onSuccess(boolean isSuccess) {
+                if(isSuccess)
+                {
+                    Map<String, SidekickergroupEntity> obj1= DataMapUtil.getAllTypeData(GroupMemberEditAct.this, null);
+                    initData(obj1);
+                }
+            }
+
+            @Override
+            public void onFailure(boolean isFailure) {
+                ToastShowTool.myToastShort(GroupMemberEditAct.this,"加载异常！");
+            }
+        });
+        initData(obj);
+    }
+    void initData( Map<String, SidekickergroupEntity> obj){
+        if(obj!=null)
+        {
+            for (Map.Entry<String, SidekickergroupEntity> item:obj.entrySet()                 ) {
+                sidekickerGroups.put(item.getKey(),item.getValue().getGroupname()+"("+item.getValue().getGroupmembersnum()+")");
+            }
+        }
     }
     public void showType()
     {
@@ -278,6 +285,8 @@ public class GroupMemberEditAct extends MyBaseActivity {
                     public void complate(String key, String value) {
                         typeId=key;
                         typeName=value;
+                        typeTv.setText(typeName);
+                        typeTv.setTag(typeId);
                     }
                 });
     }
@@ -295,11 +304,11 @@ public class GroupMemberEditAct extends MyBaseActivity {
                     public void complate(String key, String value) {
                         affiliated_personTv.setText("");
                         affiliatedGroup=key;
-                        Map<String,String > params= ComParamsAddTool.getParam();
-                        params.put("userid", FtpApplication.user.getId());
-                        params.put("gourpid", affiliatedGroup);
-                        ProgressDialogTool.getInstance(GroupMemberEditAct.this).showDialog("获取关联人");
-                        mServicesTool.doPostAndalysisData("apiGroupmemberCtrl.do?datagrid",params,GET_GROUP_MEMBER_CODE);
+                        for(GroupmemberEntity entity : DataMapUtil.getGroupMember().get(key).getGroupmemberList())
+                        {
+                            groupmembers.put(entity.getId(),entity.getGroupmember());
+                        }
+                        showGroupMember();
                     }
                 }, new DialogSheetzAction.CanelCallback() {
                     @Override

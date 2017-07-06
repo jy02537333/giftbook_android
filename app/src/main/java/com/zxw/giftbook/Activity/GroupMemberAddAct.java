@@ -19,8 +19,10 @@ import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.adapter.GroupMemberAdapter;
 import com.zxw.giftbook.config.NetworkConfig;
+import com.zxw.giftbook.myinterface.IDataMapUtilCallback;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
+import com.zxw.giftbook.utils.DataMapUtil;
 import com.zxw.giftbook.view.ListViewEmptyView;
 
 import org.json.JSONArray;
@@ -100,23 +102,6 @@ public class GroupMemberAddAct extends MyBaseActivity {
                     ToastShowTool.myToastShort(GroupMemberAddAct.this,"添加失败！");
                 }
                 isSubmit=false;
-            }else if(msg.what==GET_DATA_CODE) {
-                MessageHandlerTool messageHandlerTool = new MessageHandlerTool();
-                String data = messageHandlerTool.handlerData(msg, GroupMemberAddAct.this);
-                if (data.length() > 0) {
-                    try {
-                        org.json.JSONObject jsonObj = new org.json.JSONObject(data);
-                        JSONArray sidekickerGroupJsons=jsonObj.getJSONArray("sidekickerGroups");
-                        for (int i=0;sidekickerGroupJsons!=null&&i<sidekickerGroupJsons.length();i++)
-                        {
-                            org.json.JSONObject obj=(org.json.JSONObject)sidekickerGroupJsons.get(i);
-                            sidekickerGroups.put(obj.getString("id"),obj.getString("groupname"));
-                        }
-
-                    }catch (Exception e)
-                    {
-                    }
-                }
             }
             else if(msg.what==GET_GROUP_MEMBER_CODE)
             {
@@ -220,10 +205,12 @@ public class GroupMemberAddAct extends MyBaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(GroupMemberAddAct.this,PhoneContactListSelectActivity.class);
+                intent.putExtra("isImport",true);
                 intent.putExtra("typeid",typeId);
                 intent.putExtra("typename",typeName);
-                startActivity(intent);
-                finish();
+                startActivityForResult(intent,ADD_IMPORT_CODE);
+//                startActivity(intent);
+//                finish();
             }
         });
     }
@@ -261,10 +248,30 @@ public class GroupMemberAddAct extends MyBaseActivity {
 
     public void getDropDownData()
     {
-        ProgressDialogTool.getInstance(this).showDialog("加载中...");
-        Map<String,String > params= ComParamsAddTool.getParam();
-        params.put("userid", FtpApplication.user.getId());
-        mServicesTool.doPostAndalysisData("apiAllTypeCtrl.do?getAll",params,GET_DATA_CODE);
+        Map<String, SidekickergroupEntity> obj= DataMapUtil.getAllTypeData(this,true,false, new IDataMapUtilCallback() {
+            @Override
+            public void onSuccess(boolean isSuccess) {
+                if(isSuccess)
+                {
+                    Map<String, SidekickergroupEntity> obj1= DataMapUtil.getAllTypeData(GroupMemberAddAct.this, null);
+                    initData(obj1);
+                }
+            }
+
+            @Override
+            public void onFailure(boolean isFailure) {
+                ToastShowTool.myToastShort(GroupMemberAddAct.this,"加载异常！");
+            }
+        });
+        initData(obj);
+    }
+    void initData( Map<String, SidekickergroupEntity> obj){
+        if(obj!=null)
+        {
+            for (Map.Entry<String, SidekickergroupEntity> item:obj.entrySet()                 ) {
+                sidekickerGroups.put(item.getKey(),item.getValue().getGroupname()+"("+item.getValue().getGroupmembersnum()+")");
+            }
+        }
     }
     public void showType()
     {
@@ -292,11 +299,11 @@ public class GroupMemberAddAct extends MyBaseActivity {
                     public void complate(String key, String value) {
                         affiliated_personTv.setText("");
                         affiliatedGroup=key;
-                        Map<String,String > params= ComParamsAddTool.getParam();
-                        params.put("userid", FtpApplication.user.getId());
-                        params.put("gourpid", affiliatedGroup);
-                        ProgressDialogTool.getInstance(GroupMemberAddAct.this).showDialog("获取关联人");
-                        mServicesTool.doPostAndalysisData("apiGroupmemberCtrl.do?datagrid",params,GET_GROUP_MEMBER_CODE);
+                        for(GroupmemberEntity entity : DataMapUtil.getGroupMember().get(key).getGroupmemberList())
+                        {
+                            groupmembers.put(entity.getId(),entity.getGroupmember());
+                        }
+                        showGroupMember();
                     }
                 }, new DialogSheetzAction.CanelCallback() {
                     @Override
@@ -322,7 +329,8 @@ public class GroupMemberAddAct extends MyBaseActivity {
         if(requestCode==ADD_IMPORT_CODE)
         {
             if (resultCode == 1) {
-
+                setResult(1);
+                finish();
             } else {
 
             }

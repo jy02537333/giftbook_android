@@ -438,7 +438,7 @@ public abstract class ServicesTool {
 		Message msg = new Message();
 		msg.what = requestCode;
 		// error.toString() //TimeoutError
-		if (error.toString().indexOf("TimeoutError") != -1) {
+		if (error.toString().indexOf("Timeout") != -1) {
 			msg = setTimeOutMsg(requestCode);
 			mThreadId = null;
 			mHandler.sendMessage(msg);

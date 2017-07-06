@@ -96,7 +96,9 @@ public class Welcome extends MyBaseActivity {
 				redirectTo();
 			}
 		});
-		Log.i("getDeviceInfo",getDeviceInfo(this));
+		String device=getDeviceInfo(this);
+		if(device!=null)
+			Log.i("getDeviceInfo",device);
 	}
 	/**
 	 * 首次启动

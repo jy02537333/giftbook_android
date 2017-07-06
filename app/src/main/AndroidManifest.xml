@@ -129,6 +129,9 @@
         <activity android:name=".Activity.AddReceivingGiftIitemMoneyAct"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".Activity.AddReceivingGiftIitemMoneyOldAct"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".Activity.AddReceivingGiftsAffairAct"
             android:screenOrientation="portrait">
         </activity>
@@ -171,6 +174,9 @@
         <activity android:name=".Test33Act"
             android:screenOrientation="portrait">
         </activity>
+         <meta-data
+            android:name="pri.zxw.library.tool.ImgLoad.GlideConfiguration"
+            android:value="GlideModule" />
     </application>
 
 </manifest>

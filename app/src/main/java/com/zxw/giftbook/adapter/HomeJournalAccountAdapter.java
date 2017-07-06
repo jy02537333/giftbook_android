@@ -101,16 +101,10 @@ public class HomeJournalAccountAdapter extends MyBaseAdapter<MembergiftmoneyEnti
         public MViewHolder(View rootView)
         {
             super( rootView);
-//            ButterKnife.inject(mContext.getActivity());
             ButterKnife.inject(this, rootView);
             mRootView=rootView;
             mRootView.setOnClickListener(this);
             mRootView.setOnLongClickListener(this);
-//            item_list_f_home_journal_account_alt_img=(ImageView)rootView.findViewById(R.id.item_list_f_home_journal_account_alt_img);
-//            item_list_f_home_journal_account_fee_tv=(TextView)rootView.findViewById(R.id.item_list_f_home_journal_account_fee_tv);
-//            item_list_f_home_journal_account_name_tv=(TextView)rootView.findViewById(R.id.item_list_f_home_journal_account_name_tv);
-//            item_list_f_home_journal_account_type_tv=(TextView)rootView.findViewById(R.id.item_list_f_home_journal_account_type_tv);
-//            item_list_f_home_journal_account_date_tv=(TextView)rootView.findViewById(R.id.item_list_f_home_journal_account_date_tv);
         }
         @InjectView(R.id.item_list_f_home_journal_account_alt_img)
         ImageView item_list_f_home_journal_account_alt_img;

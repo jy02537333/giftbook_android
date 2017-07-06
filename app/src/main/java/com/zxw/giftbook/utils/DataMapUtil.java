@@ -22,8 +22,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import okhttp3.Call;
+import pri.zxw.library.db.JsonStrHistoryDao;
 import pri.zxw.library.myinterface.INotHandlerReturn;
 import pri.zxw.library.tool.JsonParse;
 import pri.zxw.library.tool.ProgressDialogTool;
@@ -39,11 +41,11 @@ public class DataMapUtil {
     /**
      * 组成员信息
      */
-    private static Map<String,SidekickergroupEntity> groupMember=new HashMap<>();
+    private static Map<String,SidekickergroupEntity> groupMember=new TreeMap<>();
     /**
      * 组成员信息
      */
-    private static Map<String,GifttypeEntity> giftTypeMap=new HashMap<>();
+    private static Map<String,GifttypeEntity> giftTypeMap=new TreeMap<>();
     public static Map<String, SidekickergroupEntity> getGroupMember() {
         return groupMember;
     }
@@ -65,6 +67,10 @@ public class DataMapUtil {
     public static Map<String,SidekickergroupEntity> handlerJson(Context context,String jsonStr)
     {
         try {
+            if(jsonStr==null||jsonStr.trim().length()==0)
+                return null;
+            JsonStrHistoryDao dao=new JsonStrHistoryDao();
+            dao.addCache("allTypeJson",jsonStr);
             JSONObject jsonObject=new JSONObject(jsonStr);
             JSONArray jsonArray=jsonObject.getJSONArray("sidekickerGroups");
             String oldId="";
@@ -75,7 +81,6 @@ public class DataMapUtil {
                 if(oldId.equals(object.getString("groupid")))
                 {
                     sidekickergroupEntity=groupMember.get(oldId);
-                    num++;
                 }else
                 {
                     num=0;
@@ -90,6 +95,7 @@ public class DataMapUtil {
                 GroupmemberEntity groupmemberEntity=new GroupmemberEntity();
                 if(object.get("id")==null||object.getString("id").equals("null"))//id为空说明该组下没有成员
                     continue;
+                num++;
                  groupmemberEntity.setId(object.getString("id"));
                 groupmemberEntity.setGroupmember(object.getString("groupmember"));
                 if(object.get("affiliatedperson")!=null&&!object.getString("affiliatedperson").equals("null"))
@@ -151,20 +157,33 @@ public class DataMapUtil {
      */
     public static  Map<String, SidekickergroupEntity> getAllTypeData( Activity context)
     {
-        return getAllTypeData(context,null);
+        return getAllTypeData(context,true,false,null);
     }
     /**
      * 获取组成员信息
      * @param context
      * @return
      */
-    public static  Map<String, SidekickergroupEntity> getAllTypeData(final Activity context, final IDataMapUtilCallback callback)
+    public static  Map<String, SidekickergroupEntity> getAllTypeData( Activity context,IDataMapUtilCallback callback)
     {
-        if(groupMember.size()>0)
+        return getAllTypeData(context,true,false,callback);
+    }
+
+    /**
+     * 获取组成员信息
+     * @param context
+     * @param isShowDialog 是否显示加载状态
+     * @param isClearUp 是否清理map
+     * @param callback
+     * @return
+     */
+    public static  Map<String, SidekickergroupEntity> getAllTypeData(final Activity context,boolean isShowDialog,final boolean isClearUp, final IDataMapUtilCallback callback)
+    {
+        if(groupMember.size()>0&&!isClearUp)
         {
             return groupMember;
         }else {
-            if(callback!=null)
+            if(callback!=null&&isShowDialog)
                 ProgressDialogTool.getInstance(context).showDialog("加载中....");
             AppServerTool servicesTool = new AppServerTool(NetworkConfig.api_url, context, null);
             Map<String, String> param = ComParamsAddTool.getParam();
@@ -173,6 +192,11 @@ public class DataMapUtil {
                 @Override
                 public void onSuccess(Message ret, int id) {
                     Map<String, String> map = (Map<String, String>) ret.obj;
+                    if(map!=null&&isClearUp)
+                    {
+                        groupMember.clear();
+                        giftTypeMap.clear();
+                    }
                     handlerJson(context, map.get(JsonParse.CONTEXT));
                     if(callback!=null)
                     {
@@ -192,6 +216,38 @@ public class DataMapUtil {
                 }
             });
             return null;
+        }
+    }
+    public  static void editItem(SidekickergroupEntity sidekickergroupEntity)
+    {
+            groupMember.put(sidekickergroupEntity.getId(),sidekickergroupEntity);
+    }
+    public  static void editChildItem(String parentId,GroupmemberEntity groupmemberEntity)
+    {
+        SidekickergroupEntity sidekickergroupEntity=  groupMember.get(parentId);
+        if(sidekickergroupEntity!=null)
+        {
+            sidekickergroupEntity.getGroupmemberList().add(groupmemberEntity);
+        }
+    }
+    public  static void delItem(SidekickergroupEntity sidekickergroupEntity)
+    {
+        groupMember.remove(sidekickergroupEntity.getId());
+    }
+    public  static void delChildItem(String parentId,GroupmemberEntity groupmemberEntity)
+    {
+        SidekickergroupEntity sidekickergroupEntity=  groupMember.get(parentId);
+        if(sidekickergroupEntity!=null)
+        {
+            for (GroupmemberEntity entity:sidekickergroupEntity.getGroupmemberList())
+            {
+                if(entity.getId().equals(groupmemberEntity.getId()))
+                {
+                    sidekickergroupEntity.getGroupmemberList().remove(entity);
+                    break;
+                }
+            }
+
         }
     }
 }

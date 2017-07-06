@@ -188,7 +188,7 @@ public class PersonalCenterAdapter extends MyBaseAdapter<NameImgEntity> {
 
         public MViewHolder(View rootView) {
             super(rootView);
-            ButterKnife.inject(rootView);
+            ButterKnife.inject(this,rootView);
             mRootView = rootView;
             mRootView.setOnClickListener(this);
             mRootView.setOnLongClickListener(this);

@@ -5,6 +5,8 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 
+import com.bumptech.glide.GlideBuilder;
+
 import java.util.List;
 
 import pri.zxw.library.db.DatabaseContext;
@@ -13,6 +15,7 @@ import pri.zxw.library.entity.AppPropertyInfo;
 import pri.zxw.library.entity.User;
 import pri.zxw.library.tool.ClearActivityTool;
 import pri.zxw.library.tool.DeviceTool;
+import pri.zxw.library.tool.ImgLoad.GlideConfiguration;
 import pri.zxw.library.tool.ImgLoad.ImageLoadTool;
 import pri.zxw.library.tool.SharedSaveUserTool;
 
@@ -32,7 +35,6 @@ public class BaseApp extends AppPropertyInfo{
         super.onCreate();
 //        CrashHandler catchHandler = CrashHandler.getInstance();
 //        catchHandler.init(getApplicationContext());
-        ImageLoadTool.imageLoadConfig(getApplicationContext());
         mAppApplication = this;
         if(user==null)
             user=new User();

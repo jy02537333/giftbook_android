@@ -86,8 +86,11 @@ public class GroupMemberAct extends MyPullToRefreshBaseActivity {
                     tatolMoney=tatolMoney+itemMoney;
                     mAdapter.addDataAll(list);
                     mAdapter.notifyDataSetChanged();
+
                 }
                 onComplete();
+                closePullUpToRefresh();
+
             }
             else if(msg.what==DEL_CODE)
             {
@@ -113,6 +116,7 @@ public class GroupMemberAct extends MyPullToRefreshBaseActivity {
         initTool();
         initListener();
         listLoad(mHandler);
+        closePullUpToRefresh();
     }
     public void initView()
     {
@@ -128,7 +132,7 @@ public class GroupMemberAct extends MyPullToRefreshBaseActivity {
         mAdapter=new GroupMemberAdapter(this);
         listView.setAdapter(mAdapter);
         listView.setEmptyView(emptyView);
-        this.initListener(listView,mAdapter);
+        this.initListener(listView,mAdapter, SwipeRecyclerView.Mode.CLOSE_END);
     }
     public void initListener()
     {
@@ -159,6 +163,7 @@ public class GroupMemberAct extends MyPullToRefreshBaseActivity {
 
     @Override
     public void getWebData() {
+        setRows(200);
         Map<String,String> params= ComParamsAddTool.getPageParam(this);
         params.put("userid", FtpApplication.user.getId());
         params.put("gourpid", id);

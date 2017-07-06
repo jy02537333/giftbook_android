@@ -60,7 +60,11 @@ public class GroupMemberAdapter extends MyBaseAdapter<GroupmemberEntity> {
         GroupMemberView holder=(GroupMemberView)holder1;
         final GroupmemberEntity entity=list.get(position);
         holder.nameTv.setText(entity.getGroupmember());
-        holder.giftMoneyTv.setText(entity.getTotalmoney()+"");
+        if(entity.getTotalmoney()==null)
+        {
+            holder.giftMoneyTv.setText("0");
+        }else
+            holder.giftMoneyTv.setText(entity.getTotalmoney()+"");
         holder.phoneTv.setText(entity.getMemberphone());
         if(entity.getAffiliatedperson()!=null&&entity.getAffiliatedperson().trim().length()>0) {
             holder.affiliatedPersonTv.setText(entity.getAffiliatedperson());

@@ -85,20 +85,6 @@ extends BaseFragment implements MyPullToRefreshBaseInterface{
 	public void listLoad(final Handler handler)
 	{
 		mPullToRefreshBase.setRefreshing(true);
-//		Thread t=new Thread(new Runnable() {
-//			@Override
-//			public void run() {
-//				try {
-//					Thread.sleep(300);
-//					Message msg=new Message();
-//					msg.what=LOAD_CODE;
-//					handler.sendMessage(msg);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//		t.start();
 	}
 
 	/**

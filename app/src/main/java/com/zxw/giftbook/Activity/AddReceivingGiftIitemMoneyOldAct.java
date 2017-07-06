@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 import pri.zxw.library.base.MyBaseActivity;
 import pri.zxw.library.base.MyPullToRefreshBaseFragment;
@@ -82,13 +83,13 @@ public class AddReceivingGiftIitemMoneyOldAct extends MyBaseActivity {
             if(msg.what== MyPullToRefreshBaseFragment.GET_ADD_CODE)
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
-                int ret=messageHandlerTool.handler(msg,AddReceivingGiftIitemMoneyOldAct.this);
+                int ret=messageHandlerTool.handler(msg,AddReceivingGiftIitemMoneyOldAct.this,"添加失败");
                 if(ret==1)
                 {
                     ToastShowTool.myToastShort(AddReceivingGiftIitemMoneyOldAct.this,"添加成功！");
                     setResult(1);
                     finish();
-                }else
+                }else if(msg.arg1<10)
                 {
                     ToastShowTool.myToastShort(AddReceivingGiftIitemMoneyOldAct.this,"添加失败！");
                 }
@@ -159,6 +160,7 @@ public class AddReceivingGiftIitemMoneyOldAct extends MyBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_receiving_gift_add_old);
+        ButterKnife.inject(this);
         initView();
         initTool();
         initListener();

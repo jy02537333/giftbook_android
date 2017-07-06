@@ -81,8 +81,9 @@ public class PersonalCenterFragment extends MyPullToRefreshBaseFragment implemen
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         mView = inflater.inflate(R.layout.f_personal_center, container, false);
-        initTool();
+
         initView(mView);
+        initTool();
         setUserView();
         addListener();
         initData();

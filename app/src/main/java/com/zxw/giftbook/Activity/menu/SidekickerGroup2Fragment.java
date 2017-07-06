@@ -21,8 +21,10 @@ import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.adapter.SidekickerGroup2Adapter;
 import com.zxw.giftbook.config.NetworkConfig;
+import com.zxw.giftbook.myinterface.IDataMapUtilCallback;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
+import com.zxw.giftbook.utils.DataMapUtil;
 import com.zxw.giftbook.utils.PopShowDelAndEditOperateTool;
 
 import java.lang.reflect.Type;
@@ -63,18 +65,20 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
             super.handleMessage(msg);
             if(msg.what==GET_DATA_CODE)
             {
-
+            }
+            else if(msg.what==GET_ADD_CODE)
+            {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
-                Type type=new TypeToken<List<SidekickergroupEntity>>(){}.getType();
-                MessageHandlerTool.MessageInfo messageInfo =messageHandlerTool.
-                        handler(msg,SidekickerGroup2Fragment.this,adapter,type);
-               if(messageInfo.getIsHashValue())
+                Type type=new TypeToken<SidekickergroupEntity>(){}.getType();
+                SidekickergroupEntity retEntity=(SidekickergroupEntity)messageHandlerTool.handlerObject(msg,type,getActivity());
+                if(retEntity!=null)
                 {
-                    JsonStrHistoryDao dao=new JsonStrHistoryDao();
-                    dao.addCache("sidekickerGroup",messageHandlerTool.jsonStr);
+                    adapter.addData(retEntity);
+                    DataMapUtil.editItem(retEntity);
+                    adapter.notifyDataSetChanged();
                 }
-                isData=false;
-            }else if(msg.what==EDIT_CODE)
+            }
+            else if(msg.what==EDIT_CODE)
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 Type type=new TypeToken<SidekickergroupEntity>(){}.getType();
@@ -83,6 +87,7 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
                 {
                     SidekickergroupEntity entity=   adapter.getItem(mPosition);
                     entity.setGroupname(retEntity.getGroupname());
+                    DataMapUtil.editItem(entity);
                     adapter.notifyDataSetChanged();
                 }
             }else if(msg.what==DEL_CODE)
@@ -91,8 +96,10 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
                 int ret=messageHandlerTool.handler(msg,getActivity());
                 if(ret==1)
                 {
+                    SidekickergroupEntity entity=adapter.getItem(mPosition);
                     adapter.removeItem(mPosition);
                     adapter.notifyDataSetChanged();
+                    DataMapUtil.delItem(entity);
                 }
             } else if(msg.what==LOAD_CODE)
             {
@@ -113,7 +120,12 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
             Type type = new TypeToken<List<SidekickergroupEntity>>() {            }.getType();
             List<SidekickergroupEntity> list=  gson.fromJson(str, type);
         }
-        listLoad(mHandler);
+        if(DataMapUtil.getGroupMember()!=null&&DataMapUtil.getGroupMember().size()>0)
+        {
+            setAdapterValue();
+        }else
+          listLoad(mHandler);
+        closePullUpToRefresh();
         return view;
     }
 
@@ -128,7 +140,7 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
         mServicesTool=new AppServerTool(NetworkConfig.api_url,getActivity(),mHandler);
         adapter=new SidekickerGroup2Adapter(this);
         lv.setAdapter(adapter);
-        this.initListener(lv,adapter, SwipeRecyclerView.Mode.CLOSE_END);
+        this.initListener(lv,adapter);
     }
     private void  initListener()
     {
@@ -259,11 +271,39 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
         if(isData)
             return;
         isData=true;
-        Map<String,String> params= ComParamsAddTool.getParam();
-        params.put("page","1");
-        params.put("rows","100");
-        params.put("userid", FtpApplication.getInstance().getUser().getId());
-        mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
+        DataMapUtil.getAllTypeData(getActivity(),false,true, new IDataMapUtilCallback() {
+            @Override
+            public void onSuccess(boolean isSuccess) {
+                setAdapterValue();
+                onComplete();
+                isData=false;
+                closePullUpToRefresh();
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onFailure(boolean isFailure) {
+                JsonStrHistoryDao dao=new JsonStrHistoryDao();
+               String jsonStr=    dao.getCache("allTypeJson");
+                DataMapUtil.handlerJson(getActivity(),jsonStr);
+                setAdapterValue();
+                onComplete();
+                isData=false;
+                closePullUpToRefresh();
+                adapter.notifyDataSetChanged();
+            }
+        });
+//        closePullUpToRefresh();
+//        adapter.notifyDataSetChanged();
+    }
+
+    public void setAdapterValue()
+    {
+        List<SidekickergroupEntity> list=new ArrayList<>();
+        adapter.remove();
+       for(Map.Entry<String,SidekickergroupEntity> enter: DataMapUtil.getGroupMember().entrySet()){
+           list.add(enter.getValue());
+         }
+        adapter.addDataAll(list);
     }
 
 

@@ -156,7 +156,7 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
         titleBar.setRightClickListener(new TitleOnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), GiftMoneyAddAct.class);
+                Intent intent=new Intent(getActivity(), AddReceivingGiftIitemMoneyOldAct.class);
                 startActivityForResult(intent,GET_ADD_CODE);
             }
         });

@@ -61,7 +61,7 @@ public class SendInvitationAdapter extends MyBaseAdapter<VSendInvitationEntity> 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_receiving_gift, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_send_invitation, parent, false);
         return new MViewHolder(view);
     }
 

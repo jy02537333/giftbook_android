@@ -72,13 +72,13 @@ public class GiftMoneyAddAct extends MyBaseActivity {
             if(msg.what== MyPullToRefreshBaseFragment.GET_ADD_CODE)
             {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
-                int ret=messageHandlerTool.handler(msg,GiftMoneyAddAct.this);
+                int ret=messageHandlerTool.handler(msg,GiftMoneyAddAct.this,"添加失败");
                 if(ret==1)
                 {
                     ToastShowTool.myToastShort(GiftMoneyAddAct.this,"添加成功！");
                     setResult(1);
                     finish();
-                }else
+                }else if(msg.arg1<10)
                 {
                     ToastShowTool.myToastShort(GiftMoneyAddAct.this,"添加失败！");
                 }

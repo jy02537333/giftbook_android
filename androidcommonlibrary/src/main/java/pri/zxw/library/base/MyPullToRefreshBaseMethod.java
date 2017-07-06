@@ -51,9 +51,9 @@ public class MyPullToRefreshBaseMethod {
 			base.getSwipeRecyclerView().getRecyclerView().setLayoutManager(linearLayoutManager);
 		MyPullToRefreshBaseMethod.onLoad(base);
 		if(mode==SwipeRecyclerView.Mode.CLOSE_END)
-			base.closePullDownToRefresh();
-		else if(mode==SwipeRecyclerView.Mode.CLOSE_START)
 			base.closePullUpToRefresh();
+		else if(mode==SwipeRecyclerView.Mode.CLOSE_START)
+			base.closePullDownToRefresh();
 		else if(mode==SwipeRecyclerView.Mode.NOT_REFRESH)
 		{
 			base.closePullUpToRefresh();

@@ -90,7 +90,7 @@ extends MyBaseActivity implements MyPullToRefreshBaseInterface {
 	}
 	public void listLoad(final Handler handler)
 	{
-
+		mPullToRefreshBase.setRefreshing(true);
 	}
 
 	/**
@@ -139,11 +139,13 @@ extends MyBaseActivity implements MyPullToRefreshBaseInterface {
 		initParameter();
 		getWebData();
 	}
-	/**停止刷新动画**/
 	@Override
-	public void onComplete()
-	{
+	public void onComplete() {
 		mPullToRefreshBase.complete();
+	}
+
+	@Override
+	public void onStopLoadingMore() {
 		mPullToRefreshBase.stopLoadingMore();
 	}
 	/**
@@ -170,11 +172,6 @@ extends MyBaseActivity implements MyPullToRefreshBaseInterface {
 	@Override
 	public void setRows(int rows) {
 		this.rows=rows;
-	}
-
-	@Override
-	public void onStopLoadingMore() {
-		mPullToRefreshBase.stopLoadingMore();
 	}
 	@Override
 	public void setFootText(CharSequence footStr){
