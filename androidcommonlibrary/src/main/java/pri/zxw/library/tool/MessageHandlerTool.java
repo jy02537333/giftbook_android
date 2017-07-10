@@ -211,6 +211,11 @@ public class MessageHandlerTool {
 							adapter.addDataAll(tList);
 							if (contenxt.getUpfalg())//下拉刷新成功，数据添加到数据库
 							{
+								if(tList.size()<contenxt.getRows())
+								{
+									contenxt.setFootText("已加载完");
+									messageInfo.isEnd = true;
+								}
 								contenxt.enableUpRefresh();
 								JsonStrHistoryDao dao=new JsonStrHistoryDao();
 								dao.updateUserHistory(contenxt.getClass().getName()+"_time",
@@ -225,11 +230,14 @@ public class MessageHandlerTool {
 								if(tList.size()<contenxt.getRows())
 								{
 									contenxt.setFootText("已加载完");
+									messageInfo.isEnd = true;
 								}else {
 									contenxt.onStopLoadingMore();
 								}
 								adapter.notifyDataSetChanged();
 							}
+
+
 							messageInfo.isHashValue = true;
 							messageInfo.list=tList;
 
