@@ -3,6 +3,7 @@ package pri.zxw.library.base;
 import android.content.Context;
 
 import pri.zxw.library.refresh_tool.SwipeRecyclerView;
+import pri.zxw.library.tool.MessageHandlerTool;
 
 public interface MyPullToRefreshBaseInterface {
 	/**
@@ -42,4 +43,8 @@ public interface MyPullToRefreshBaseInterface {
 	public void onNetChange() ;
 	//设置错误信息
 	public void onError(CharSequence msgStr);
+	//获取数据情况
+	public MessageHandlerTool.MessageInfo getMessageInfo();
+	//设置数据情况
+	public void setMessageInfo(MessageHandlerTool.MessageInfo info);
 }

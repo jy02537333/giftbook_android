@@ -5,6 +5,8 @@ package pri.zxw.library.base;
 import pri.zxw.library.entity.AbstractStartDateEntity;
 import pri.zxw.library.refresh_tool.SwipeRecyclerView;
 import pri.zxw.library.tool.DateCommon;
+import pri.zxw.library.tool.MessageHandlerTool;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
@@ -30,7 +32,7 @@ extends BaseFragment implements MyPullToRefreshBaseInterface{
 	public int cur_page = 1; // 当前页的索引
 	protected SwipeRecyclerView mPullToRefreshBase;
 	protected MyBaseAdapter mAdapter;
-
+	private MessageHandlerTool.MessageInfo mMessageInfo;
 	public Boolean getUpfalg() {
 		return mUpfalg;
 	}
@@ -64,7 +66,15 @@ extends BaseFragment implements MyPullToRefreshBaseInterface{
 	public MyPullToRefreshBaseFragment()
 	{}
 
+	@Override
+	public MessageHandlerTool.MessageInfo getMessageInfo() {
+		return mMessageInfo;
+	}
 
+	@Override
+	public void setMessageInfo(MessageHandlerTool.MessageInfo info) {
+		mMessageInfo=info;
+	}
 	public String getStartDate() {
 		return startDate;
 	}

@@ -17,6 +17,7 @@ public class JsonParse {
 	public static final String MSG="msg";
 	public static final String CONTEXT="data";
 	public static final String SUM_COUNT="sumCount";
+	public static final String TOTAL_COUNT="totalCount";
 	public static Map<String, String> parseReturnValueForLogin(String data) throws Exception {
 		if (!isJson(data)) {
 			return null;

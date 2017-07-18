@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import pri.zxw.library.R;
 import pri.zxw.library.refresh_tool.SwipeRecyclerView;
+import pri.zxw.library.tool.MessageHandlerTool;
 
 
 public class MyPullToRefreshBaseMethod {
@@ -143,6 +144,11 @@ public class MyPullToRefreshBaseMethod {
             }
         });
     }
+
+	public static void setMsgInfo(MessageHandlerTool.MessageInfo retMsgInfo)
+	{
+
+	}
 	public  static void onLoad(final MyPullToRefreshBaseInterface base)
 	{
 		base.getSwipeRecyclerView().setOnLoadListener(new SwipeRecyclerView.OnLoadListener() {
@@ -160,7 +166,8 @@ public class MyPullToRefreshBaseMethod {
 
 			@Override
 			public void onLoadMore() {
-				new Handler().postDelayed(new Runnable() {
+				if(base.getMessageInfo()==null||  !base.getMessageInfo().getIsEnd())
+				 	new Handler().postDelayed(new Runnable() {
 					@Override
 					public void run() {
 						base.onPullUpToRefresh();

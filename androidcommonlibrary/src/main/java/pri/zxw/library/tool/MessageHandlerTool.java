@@ -211,12 +211,23 @@ public class MessageHandlerTool {
 							adapter.addDataAll(tList);
 							if (contenxt.getUpfalg())//下拉刷新成功，数据添加到数据库
 							{
-								if(tList.size()<contenxt.getRows())
+
+								int totalCount= 0;
+								try {
+									if(map.get(JsonParse.TOTAL_COUNT) !=null)
+                                    {
+										totalCount= Integer.parseInt( map.get(JsonParse.TOTAL_COUNT) );
+                                    }
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+								if(tList.size()<contenxt.getRows()//判断数据是否加载完
+										||(tList.size()==contenxt.getRows()&&totalCount==contenxt.getCur_page()*contenxt.getRows()))
 								{
 									contenxt.setFootText("已加载完");
 									messageInfo.isEnd = true;
 								}
-								contenxt.enableUpRefresh();
+//								contenxt.enableUpRefresh();
 								JsonStrHistoryDao dao=new JsonStrHistoryDao();
 								dao.updateUserHistory(contenxt.getClass().getName()+"_time",
 										DateCommon.getCurrentDateStr());

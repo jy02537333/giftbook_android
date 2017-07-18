@@ -26,6 +26,9 @@ public class DateCommon {
 	/** 日期格式：yyyy-MM-dd HH:mm:ss **/
 	public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 
+	/** 日期格式：yyyy-MM-dd HH:mm:ss **/
+	public static final String MM_DD_HH_MM="MM-dd HH:mm";
+
 	/** 日期格式：yyyy-MM-dd HH:mm **/
 	public static final String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
 
