@@ -64,6 +64,7 @@ public class ReceivesInvitationAct extends MyPullToRefreshBaseActivity {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 Type type=new TypeToken<List<ReceivesInvitationEntity>>(){}.getType();
                 MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,ReceivesInvitationAct.this,adapter,type);
+                setMessageInfo(msgInfo);
                 String sum=  msgInfo.getRetMap().get("sumCount");
                 if(sum!=null)
                 {
@@ -140,6 +141,7 @@ public class ReceivesInvitationAct extends MyPullToRefreshBaseActivity {
     public void getWebData() {
         Map<String,String> params= ComParamsAddTool.getPageParam(this);
         params.put("userid", FtpApplication.getInstance().getUser().getId());
+        params.put("phone", FtpApplication.getInstance().getUser().getUserphone());
         mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
     }
 

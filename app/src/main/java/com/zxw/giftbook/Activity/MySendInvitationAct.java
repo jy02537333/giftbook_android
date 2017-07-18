@@ -24,6 +24,7 @@ import java.util.Map;
 
 import pri.zxw.library.base.MyPullToRefreshBaseActivity;
 import pri.zxw.library.listener.TitleOnClickListener;
+import pri.zxw.library.refresh_tool.footerView.SimpleFooterView;
 import pri.zxw.library.tool.MessageHandlerTool;
 import pri.zxw.library.view.TitleBar;
 
@@ -49,6 +50,7 @@ public class MySendInvitationAct extends MyPullToRefreshBaseActivity {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 Type type=new TypeToken<List<VSendInvitationEntity>>(){}.getType();
                 MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,MySendInvitationAct.this,adapter,type);
+                setMessageInfo(msgInfo);
                 String sum=  msgInfo.getRetMap().get("sumCount");
                 if(sum!=null)
                 {
@@ -88,6 +90,7 @@ public class MySendInvitationAct extends MyPullToRefreshBaseActivity {
         adapter=new SendInvitationAdapter(this);
         listView.setAdapter(adapter);
         this.initListener(listView,adapter);
+        listView.setFooterView(new SimpleFooterView(this));
 
     }
     public void initListener()

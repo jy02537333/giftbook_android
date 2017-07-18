@@ -32,6 +32,7 @@ import com.zxw.giftbook.Activity.menu.PersonalCenterFragment;
 import com.zxw.giftbook.Activity.myinfo.MyInfoEditAct;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
+import com.zxw.giftbook.utils.DataMapUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +88,7 @@ public class PersonalCenterAdapter extends MyBaseAdapter<NameImgEntity> {
                                     if (null != FtpApplication.getInstance().getUser()) {
                                         Intent intent=new Intent(mContext.getActivity(), LoginAct.class);
                                         FtpApplication.getInstance().getUser().clearUser();
+                                        DataMapUtil.clear();
                                         mContext.startActivity(intent);
                                         mContext.getActivity().finish();
                                         FtpApplication.getInstance().clearActityNotServer();

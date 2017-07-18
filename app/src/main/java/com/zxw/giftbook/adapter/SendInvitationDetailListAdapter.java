@@ -69,7 +69,7 @@ public class SendInvitationDetailListAdapter extends MyBaseAdapter<VInvitationLi
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_receiving_gift, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_send_invitation_detail_list, parent, false);
         return new MViewHolder(view);
     }
 
@@ -77,7 +77,8 @@ public class SendInvitationDetailListAdapter extends MyBaseAdapter<VInvitationLi
     public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
         MViewHolder mHolder=(MViewHolder)holder1;
         final VInvitationListAndGroupEntity comInfo =comLists.get(position);
-        mHolder.phoneTv.setText(comInfo.getInviteephone());
+        if(comInfo.getInviteephone()!=null&&!comInfo.getInviteephone().equals("null"))
+             mHolder.phoneTv.setText(comInfo.getInviteephone());
         mHolder.nameTv.setText(comInfo.getInviteename());
         mHolder.groupTv.setText(comInfo.getGroupname());
     }

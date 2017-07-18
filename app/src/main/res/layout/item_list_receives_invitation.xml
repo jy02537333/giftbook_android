@@ -43,7 +43,7 @@
                     android:textSize="16sp"
                     android:textColor="@color/font_com_content_black_tint_color"
                     android:gravity="center"
-                    android:text="[18985121575]"
+                    android:text="18985121575"
                     />
             </LinearLayout>
             <LinearLayout

@@ -53,6 +53,7 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 Type type=new TypeToken<List<VInvitationListAndGroupEntity>>(){}.getType();
                 MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,SendInvitationListAct.this,adapter,type);
+                setMessageInfo(msgInfo);
                 String sum=  msgInfo.getRetMap().get("sumCount");
                 if(sum!=null)
                 {
@@ -70,7 +71,7 @@ public class SendInvitationListAct extends MyPullToRefreshBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_send_invitation_detail_list);
-        parentId=getIntent().getStringExtra("parentid");
+        parentId=getIntent().getStringExtra("parentId");
         initView();
         initTool();
         initListener();

@@ -130,7 +130,7 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
         Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
         top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
         titleBar.setRightDrawable(top_edit,null,null,null);
-
+        titleBar.setText("收礼");
         yearTv=(TextView) view.findViewById(R.id.f_home_journal_account_year_tv);
         monthTv=(TextView) view.findViewById(R.id.f_home_journal_account_month_tv);
         sumTv=(TextView) view.findViewById(R.id.f_home_journal_account_sum_tv);

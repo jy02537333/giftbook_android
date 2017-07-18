@@ -29,12 +29,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.gson.reflect.TypeToken;
+import com.zxw.giftbook.Activity.GroupMemberAddAct;
 import com.zxw.giftbook.Activity.entitiy.GroupmemberEntity;
+import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.config.NetworkConfig;
+import com.zxw.giftbook.myinterface.IDataMapUtilCallback;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
+import com.zxw.giftbook.utils.DataMapUtil;
 import com.zxw.giftbook.utils.contact.AddressBooktBean;
 import com.zxw.giftbook.utils.contact.CharacterParser;
 import com.zxw.giftbook.utils.contact.ClearEditText;
@@ -46,6 +50,7 @@ import pri.zxw.library.base.MyBaseActivity;
 import pri.zxw.library.listener.TitleOnClickListener;
 import pri.zxw.library.myinterface.IServicesCallback;
 import pri.zxw.library.tool.MessageHandlerTool;
+import pri.zxw.library.tool.ToastShowTool;
 import pri.zxw.library.tool.dialogTools.CustomDialog;
 import pri.zxw.library.view.TitleBar;
 
@@ -220,24 +225,45 @@ public class ContactListSelectActivity extends MyBaseActivity {
     }
 
     private void department() {
-        if(isGetData)
-            return ;
-        Map<String,String> params = ComParamsAddTool.getParam();
-        params.put("userid", FtpApplication.getInstance().getUser().getId());
-        servicesTool.doPostAndalysisDataCall("apiSidekickergroupCtrl.do?getFull", params, GET_CODE, new IServicesCallback() {
+        Map<String, SidekickergroupEntity> obj= DataMapUtil.getAllTypeData(this,true,false, new IDataMapUtilCallback() {
             @Override
-            public void onStart() {
-                dialog = CustomDialog.createLoadingDialog(ContactListSelectActivity.this, "加载数据…");
-                dialog.setCancelable(false);
-                dialog.show();
-                isGetData=true;
+            public void onSuccess(boolean isSuccess) {
+                if(isSuccess)
+                {
+                    Map<String, SidekickergroupEntity> obj1= DataMapUtil.getAllTypeData(ContactListSelectActivity.this, null);
+                    initData(obj1);
+                }
             }
+
             @Override
-            public void onEnd() {
-                isGetData=false;
-                dialog.dismiss();
+            public void onFailure(boolean isFailure) {
+                ToastShowTool.myToastShort(ContactListSelectActivity.this,"加载异常！");
             }
         });
+        initData(obj);
+    }
+    void initData( Map<String, SidekickergroupEntity> obj){
+        if(obj!=null)
+        {
+            List<AddressBooktBean> listContact=new ArrayList<>();
+            for (Map.Entry<String, SidekickergroupEntity> item:obj.entrySet()                 ) {
+                if(item.getValue().getGroupmemberList()==null)
+                    continue;
+                for (GroupmemberEntity entity :item.getValue().getGroupmemberList())
+                {
+                    AddressBooktBean addressBooktBean=new AddressBooktBean();
+                    addressBooktBean.setTfId(entity.getId());
+                    addressBooktBean.setTfName (item.getValue().getGroupname()+"  "+ entity.getGroupmember());
+                    addressBooktBean.setSortKey (entity.getGroupmember());
+                    addressBooktBean.setTfPhone (entity.getMemberphone());
+                    addressBooktBean.setTfPortrait ("");
+                    addressBooktBean.setAffiliatedperson(entity.getAffiliatedperson());
+                    listContact.add(addressBooktBean);
+                }
+            }
+            sortList(listContact);
+            initAdapterVal();
+        }
     }
 
     public void sortList(List<AddressBooktBean> _list1111) {

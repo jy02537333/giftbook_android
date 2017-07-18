@@ -57,6 +57,7 @@ public class SendInvitationAct extends MyPullToRefreshBaseActivity {
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 Type type=new TypeToken<List<VSendInvitationEntity>>(){}.getType();
                 MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,SendInvitationAct.this,adapter,type);
+                setMessageInfo(msgInfo);
                 String sum=  msgInfo.getRetMap().get("sumCount");
                 if(sum!=null)
                 {

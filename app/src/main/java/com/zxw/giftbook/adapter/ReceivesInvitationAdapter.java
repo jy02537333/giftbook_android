@@ -76,18 +76,22 @@ public class ReceivesInvitationAdapter extends MyBaseAdapter<ReceivesInvitationE
     public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
         ReceivesInvitationView holder=(ReceivesInvitationView)holder1;
         ReceivesInvitationEntity entity=list.get(position);
-        holder.nameTv.setText(entity.getInvitername());
+        holder.nameTv.setText(entity.getInvitationlistEntityList().get(0).getInvitationName());
         holder.phoneTv.setText("["+entity.getInviterphone()+"]");
-        Date date=new Date(entity.getFeastdate());
+        Long dateL=Long.parseLong(entity.getFeastdate());
+        Date date=new Date(dateL);
         if( DateCommon.gainCurrentDate().getYear()==date.getYear())
         {
-            holder.dateTv.setText( DateCommon.formatDateTime( date,DateCommon.MM_DD_HH_MM_SS));
+            holder.dateTv.setText( DateCommon.formatDateTime( date,DateCommon.MM_DD_HH_MM));
         }else
         {
-            holder.dateTv.setText( DateCommon.formatDateTime( date,DateCommon.YYYY_MM_DD_HH_MM_SS));
+            holder.dateTv.setText( DateCommon.formatDateTime( date,DateCommon.YYYY_MM_DD_HH_MM));
         }
         holder.addrTv.setText(entity.getFeastaddress());
-        holder.typeTv.setText(entity.getFeasttype());
+        if(entity.getFeasttype().equals("1"))
+             holder.typeTv.setText("婚礼");
+        else
+            holder.typeTv.setText("百日宴");
         MyImgLoadTool.loadNetHeadImg(mContext, FtpApplication.getInstance().getUser().getPortrait(),
                 holder.img,80,80,"ReceivesInvitationAdapter");
     }
@@ -118,7 +122,7 @@ public class ReceivesInvitationAdapter extends MyBaseAdapter<ReceivesInvitationE
         public ReceivesInvitationView(View rootView)
         {
             super(rootView);
-            ButterKnife.inject(rootView);
+            ButterKnife.inject(this,rootView);
             mRootView=rootView;
             mRootView.setOnClickListener(this);
             mRootView.setOnLongClickListener(this);

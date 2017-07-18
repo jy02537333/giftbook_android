@@ -163,6 +163,7 @@ public class AffairEditAct extends MyBaseActivity {
                 if(ret==1)
                 {
                     ToastShowTool.myToastShort(AffairEditAct.this,"发布请帖成功！");
+                    setResult(1);
                     finish();
                 }
             }
@@ -395,10 +396,14 @@ public class AffairEditAct extends MyBaseActivity {
                     param.put("coverimg", upimg_key_list.get(i).value);
                     isAddCoverImg = true;
                 } else {
-                    photoAlbum = photoAlbum + upimg_key_list.get(i).value + ",";
+                    if(i+1==upimg_key_list.size())
+                    {
+                        photoAlbum = photoAlbum + upimg_key_list.get(i).value ;
+                    }else
+                        photoAlbum = photoAlbum + upimg_key_list.get(i).value + ",";
                 }
             }
-            photoAlbum = photoAlbum.substring(0, photoAlbum.length() - 1);
+//            photoAlbum = photoAlbum.substring(0, photoAlbum.length() - 1);
             param.put("photoalbum", photoAlbum);
         }else
             param.put("photoalbum", "");

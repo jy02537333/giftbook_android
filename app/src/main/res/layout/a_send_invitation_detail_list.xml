@@ -8,7 +8,7 @@
         android:id="@+id/a_send_invitation_detail_list_title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        titleBarStyle:text="人员列表"
+        titleBarStyle:text="邀请列表"
         titleBarStyle:left_visibility="visible"/>
     <pri.zxw.library.refresh_tool.SwipeRecyclerView
         android:id="@+id/a_send_invitation_detail_list_lv"

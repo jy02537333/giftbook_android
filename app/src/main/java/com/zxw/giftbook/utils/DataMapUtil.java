@@ -57,6 +57,10 @@ public class DataMapUtil {
     public static Map<String, GifttypeEntity> getGiftTypeMap() {
         return giftTypeMap;
     }
+    public static void clear(){
+        groupMember.clear();
+        giftTypeMap.clear();
+    }
 
     /**
      * 解析组成员信息
@@ -228,6 +232,8 @@ public class DataMapUtil {
         if(sidekickergroupEntity!=null)
         {
             sidekickergroupEntity.getGroupmemberList().add(groupmemberEntity);
+            int num= sidekickergroupEntity.getGroupmembersnum()+1;
+            sidekickergroupEntity.setGroupmembersnum(num);
         }
     }
     public  static void delItem(SidekickergroupEntity sidekickergroupEntity)

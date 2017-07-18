@@ -37,16 +37,9 @@ import pri.zxw.library.view.TitleBar;
  */
 
 public class ReceivesInvitationDetailAct extends MyBaseActivity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.a_invitation_detail);
-    }
     TitleBar titleBar;
     View view;
     WebView wv;
-    public static final String ADD_URL="apiInvitationController.do?doAdd";
-    public static final String GET_DATA_URL="apiInvitationController.do?getList";
     Handler mHandler=new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -61,9 +54,9 @@ public class ReceivesInvitationDetailAct extends MyBaseActivity {
     };
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        setContentView(R.layout.a_receives_invitation);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.a_invitation_detail);
         initView();
         initTool();
         initListener();
@@ -71,8 +64,8 @@ public class ReceivesInvitationDetailAct extends MyBaseActivity {
 
     public void initView()
     {
-        titleBar=(TitleBar) view.findViewById(R.id.a_invitation_detail_title_bar);
-        wv=(WebView)view.findViewById(R.id.a_invitation_detail_wv);
+        titleBar=(TitleBar) findViewById(R.id.a_invitation_detail_title_bar);
+        wv=(WebView)findViewById(R.id.a_invitation_detail_wv);
        String invitationId= getIntent().getStringExtra("invitationId");
       String  inviterId=  getIntent().getStringExtra("inviterId");
         wv.loadUrl(NetworkConfig.api_url+"apiViewInvitationController.do?invitationDetail&invitationid="+invitationId);
