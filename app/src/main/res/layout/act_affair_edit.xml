@@ -169,9 +169,33 @@
                              android:hint="请选择亲友"
                             android:layout_weight="3" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+
+                            android:text="宴席酒店：" />
+
+                        <EditText
+                            android:id="@+id/a_affair_edit_feast_hotel_edit"
+                            style="@style/et_style_commonal_single"
+                            android:layout_width="0dp"
+                            android:hint="输入宴席酒店"
+                            android:maxLength="30"
+                            android:layout_weight="3" />
+                    </LinearLayout>
 
 
-     <LinearLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginLeft="5dp"

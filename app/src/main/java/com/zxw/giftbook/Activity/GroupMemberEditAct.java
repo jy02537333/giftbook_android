@@ -155,6 +155,8 @@ public class GroupMemberEditAct extends MyBaseActivity {
         }
         nameEdit.setText(entity.getGroupmember());
         nameEdit.setTag(entity.getGourpid());
+        typeTv.setText(typeName);
+        typeId=entity.getGourpid();
         if(entity.getMemberphone()!=null&&entity.getMemberphone().trim().length()>0)
              phoneEdit.setText(entity.getMemberphone());
         if(entity.getAffiliatedpersonid()!=null&&entity.getAffiliatedpersonid().trim().length()>0)
@@ -272,7 +274,7 @@ public class GroupMemberEditAct extends MyBaseActivity {
         if(obj!=null)
         {
             for (Map.Entry<String, SidekickergroupEntity> item:obj.entrySet()                 ) {
-                sidekickerGroups.put(item.getKey(),item.getValue().getGroupname()+"("+item.getValue().getGroupmembersnum()+")");
+                sidekickerGroups.put(item.getKey(),item.getValue().getGroupname());//+"("+item.getValue().getGroupmembersnum()+")");
             }
         }
     }

@@ -1,13 +1,21 @@
 package com.zxw.giftbook.Activity.contact;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.AsyncQueryHandler;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.test.mock.MockPackageManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -74,6 +82,7 @@ public class PhoneContactListSelectActivity extends MyBaseActivity {
      static final String ADD_URL="apiGroupmemberCtrl.do?importMember";
     AppServerTool mServicesTool;
     boolean isGetData=false;
+
     /**当前选择的组*/
     String typeId,typeName;
     Handler mHandler=new Handler() {
@@ -147,6 +156,8 @@ public class PhoneContactListSelectActivity extends MyBaseActivity {
             initAdapterVal();
 //        }
     }
+
+
 
     // 初始化标题栏
     private void tableinit() {
@@ -329,18 +340,24 @@ public class PhoneContactListSelectActivity extends MyBaseActivity {
     public List<AddressBooktBean> getPhoneNumberFromMobile() {
         // TODO Auto-generated constructor stub
         List<AddressBooktBean> list = new ArrayList<>();
-        Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                null, null, null, null);
-        //moveToNext方法返回的是一个boolean类型的数据
-        while (cursor.moveToNext()) {
-            //读取通讯录的姓名
-            String name = cursor.getString(cursor
-                    .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            //读取通讯录的号码
-            String number = cursor.getString(cursor
-                    .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            AddressBooktBean phoneInfo = new AddressBooktBean(null,name, name,number,null,null);
-            list.add(phoneInfo);
+        try {
+            Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    null, null, null, null);
+            //moveToNext方法返回的是一个boolean类型的数据
+            while (cursor.moveToNext()) {
+                //读取通讯录的姓名
+                String name = cursor.getString(cursor
+                        .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                //读取通讯录的号码
+                String number = cursor.getString(cursor
+                        .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                AddressBooktBean phoneInfo = new AddressBooktBean(null, name, name, number, null, null);
+                list.add(phoneInfo);
+            }
+        } catch (Exception e) {
+            ToastShowTool.myToastLong(this,"访问联系人授权异常！");
+            finish();
+            return null;
         }
         return list;
     }

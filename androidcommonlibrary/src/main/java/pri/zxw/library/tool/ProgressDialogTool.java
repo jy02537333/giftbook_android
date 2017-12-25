@@ -77,6 +77,14 @@ public class ProgressDialogTool {
 		});
 	}
 
+	/**
+	 * 是否显示
+	 * @return
+     */
+	public static boolean isShow()
+	{
+		return isShow;
+	}
 	public  void dismissDialog() {
 		isShow=false;
 		for (ProgressDialog item : mDialogs) {
@@ -99,9 +107,14 @@ public class ProgressDialogTool {
 		if(mDialogs!=null)
 		mDialogs.clear();
 		mContext=null;
-		isShow=false;
 		mDialogTool = null;
 	}
+	public static void dismissDialog(Activity context) {
+     if(isShow())
+		 getInstance(context).dismissDialog();
+	}
+
+
 	public boolean getIsShow()
 	{
 		return isShow;

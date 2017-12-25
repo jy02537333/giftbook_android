@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PersistableBundle;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 
@@ -68,7 +69,21 @@ public class ReceivesInvitationDetailAct extends MyBaseActivity {
         wv=(WebView)findViewById(R.id.a_invitation_detail_wv);
        String invitationId= getIntent().getStringExtra("invitationId");
       String  inviterId=  getIntent().getStringExtra("inviterId");
-        wv.loadUrl(NetworkConfig.api_url+"apiViewInvitationController.do?invitationDetail&invitationid="+invitationId);
+//        apiInvitationController.do?invitationDetail&invitationid=
+        //apiViewInvitationController.do?invitationDetail&invitationid=
+        WebSettings settings = wv.getSettings();
+        settings.setJavaScriptEnabled(true);
+//        settings.setLoadWithOverviewMode(true);
+//        settings.setSupportZoom(true);
+//        settings.setDomStorageEnabled(true);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        settings.setAllowFileAccess(true);// 设置允许访问文件数据
+//        settings.setUseWideViewPort(true);
+//        settings.setSupportMultipleWindows(true);
+        settings.setBlockNetworkImage(false);//同步请求图片
+        wv.setVerticalScrollBarEnabled(true);
+//        wv.setHorizontalScrollBarEnabled(true);
+        wv.loadUrl(NetworkConfig.api_url+"apiInvitationController.do?invitationDetail&invitationid="+invitationId);
 //        Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
 //        top_edit.setBounds(0, 0, top_edit.getMinimumWidth(), top_edit.getMinimumHeight());
 //        titleBar.setRightDrawable(top_edit,null,null,null);

@@ -299,7 +299,18 @@ public class MessageHandlerTool {
 		}
 		return messageInfo;
 	}
+	/**
+	 * listview 刷新请求的返回处理，包括网络错误的提示
+	 * @param msg
+	 * @return type的对象
+	 */
+	@SuppressWarnings("rawtypes")
+	public MessageInfo handlerKV(Message msg,
+							   MyPullToRefreshBaseInterface contenxt, MyBaseAdapter adapter, Type type) {
 
+
+		return null;
+	}
 	/**
 	 * 请求结果提示
 	 */

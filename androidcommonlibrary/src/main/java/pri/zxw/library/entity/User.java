@@ -624,7 +624,7 @@ public class User extends BaseEntity implements Cloneable {
     /**
      * 方法: 取得java.lang.String
      *
-     * @return: java.lang.String  更信任姓名
+     * @return: java.lang.String  更新人姓名
      */
     public String getUpdateName() {
         return this.updateName;
@@ -633,13 +633,13 @@ public class User extends BaseEntity implements Cloneable {
     /**
      * 方法: 设置java.lang.String
      *
-     * @param: java.lang.String  更信任姓名
+     * @param: java.lang.String  更新人姓名
      */
     public void setUpdateName(String updateName) {
         this.updateName = updateName;
     }
 
-    public String pwdEncryption(String pwd)
+    public static String pwdEncryption(String pwd)
     {
         pwd=Base64Tools.getBase64(pwd);
         return pwd;

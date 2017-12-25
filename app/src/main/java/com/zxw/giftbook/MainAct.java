@@ -20,6 +20,7 @@ import android.widget.TextView;
 import pri.zxw.library.base.MyBaseActivity;
 import pri.zxw.library.entity.User;
 import pri.zxw.library.tool.AppConstantError;
+import pri.zxw.library.tool.MessageHandlerTool;
 import pri.zxw.library.tool.ProgressDialogTool;
 
 import com.zxw.giftbook.Activity.menu.FinancialFragment;
@@ -53,6 +54,7 @@ public class MainAct extends MyBaseActivity {
     public static final int USER_COLLECT_CODE = 1345;
     public static final int USER_PRAISE_CODE = 2345;
     public static final int TAB_MESSAGE_CODE=9362;
+    public static final int APP_CONFIG=1123;
     public static final int USER_NOREAD_MSG = 2000;
     /**
      * 推送后切换消息
@@ -86,6 +88,18 @@ public class MainAct extends MyBaseActivity {
                     {
 
                     }
+                    case APP_CONFIG:{
+                        MessageHandlerTool messageHandlerTool=new MessageHandlerTool(false);
+                        try {
+                            String ret=  messageHandlerTool.getDataParam(msg,"isShowCenter");
+                            if(ret.equals("1"))
+                            {
+                                isShowCenter=true;
+                            }
+                            initCenter();
+                        } catch (Exception e) {
+                        }
+                    }
                     break;
                     default:
                         loginUserInfoHandlerTool.messageHandler(msg);
@@ -93,7 +107,7 @@ public class MainAct extends MyBaseActivity {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                ProgressDialogTool.getInstance(mActivity).dismissDialog();
+                ProgressDialogTool.dismissDialog(mActivity);
             }
         }
     };
@@ -118,6 +132,8 @@ public class MainAct extends MyBaseActivity {
 
     private void initData() {
         radioCanelCheck(R.id.a_main_one_lay, R.mipmap.tab_gift_give_p);
+        Map<String, String> params = new HashMap<String, String>();
+        mServicesTool.doPostAndalysisData("apiAppConfigController.do?get", params,APP_CONFIG, APP_CONFIG+"");
     }
 
     /**
@@ -126,7 +142,16 @@ public class MainAct extends MyBaseActivity {
     private void loginVerifity() {
       //  loginUserInfoHandlerTool.loginVerifity(USER_VALIDATE_CODE,mHandler,MainAct.this,mServicesTool);
     }
-
+    boolean isShowCenter=false;
+    void initCenter()
+    {
+        if(!isShowCenter)
+        {
+            findViewById(R.id.a_main_center_lay).setVisibility(View.GONE);
+        }else{
+            findViewById(R.id.a_main_center_lay).setVisibility(View.VISIBLE);
+        }
+    }
     /**
      * 初始化组件
      */
@@ -135,6 +160,10 @@ public class MainAct extends MyBaseActivity {
         mContent = homeFragment;
         getFragmentManager().beginTransaction()
                 .replace(R.id.main_content, homeFragment).commit();
+//        sidekickerGroupFragment = new SidekickerGroup2Fragment();
+//        mContent = sidekickerGroupFragment;
+//        getFragmentManager().beginTransaction()
+//                .replace(R.id.main_content, sidekickerGroupFragment).commit();
 
         getTabItem((LinearLayout) findViewById(R.id.a_main_one_lay),"送礼");
         getTabItem((LinearLayout)findViewById(R.id.a_main_two_lay),"收礼");
@@ -142,6 +171,7 @@ public class MainAct extends MyBaseActivity {
        // getTabItemImage((LinearLayout) findViewById(R.id.a_main_center_lay));
         getTabItem((LinearLayout)findViewById(R.id.a_main_shree_lay),"亲友");
         getTabItem((LinearLayout)findViewById(R.id.a_main_four_lay),"我");
+        initCenter();
         //首页
         findViewById(R.id.a_main_one_lay).setOnClickListener(new OnClickListener()
         {

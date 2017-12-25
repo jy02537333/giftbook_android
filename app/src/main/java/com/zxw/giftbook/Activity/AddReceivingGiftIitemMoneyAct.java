@@ -39,7 +39,7 @@ import pri.zxw.library.tool.dialogTools.DropDownBoxTool;
 import pri.zxw.library.view.TitleBar;
 
 /**
- * 添加收礼信息
+ * 添加收礼信息 暂时未使用
  * Createdy 张相伟
  * 2017/6/4.
  */

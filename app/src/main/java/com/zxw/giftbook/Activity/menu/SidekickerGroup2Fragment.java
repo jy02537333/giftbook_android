@@ -1,7 +1,10 @@
 package com.zxw.giftbook.Activity.menu;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -113,6 +116,13 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
         initView();
         initTool();
         initListener();
+        initData();
+        listLoad(mHandler);
+        closePullUpToRefresh();
+        return view;
+    }
+    void initData()
+    {
         Gson gson=new Gson();
         JsonStrHistoryDao dao=new JsonStrHistoryDao();
         String str=dao.getCache("sidekickerGroup");
@@ -123,10 +133,7 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
         if(DataMapUtil.getGroupMember()!=null&&DataMapUtil.getGroupMember().size()>0)
         {
             setAdapterValue();
-        }else
-          listLoad(mHandler);
-        closePullUpToRefresh();
-        return view;
+        }
     }
 
     private void  initView()
@@ -141,6 +148,9 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
         adapter=new SidekickerGroup2Adapter(this);
         lv.setAdapter(adapter);
         this.initListener(lv,adapter);
+        IntentFilter myIntentFilter = new IntentFilter();
+        myIntentFilter.addAction(SidekickerGroupBroadcast.SIDEKICKERGROUP_UPDATE);
+        getActivity().registerReceiver(new  SidekickerGroupBroadcast(), myIntentFilter);
     }
     private void  initListener()
     {
@@ -385,5 +395,17 @@ public class SidekickerGroup2Fragment extends MyPullToRefreshBaseFragment {
        {
            listLoad(mHandler);
        }
+    }
+    public class SidekickerGroupBroadcast extends BroadcastReceiver
+    {
+        public static final String SIDEKICKERGROUP_UPDATE="SIDEKICKERGROUP_UPDATE";
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals(SIDEKICKERGROUP_UPDATE))
+            {
+                getWebData();
+            }
+
+        }
     }
 }

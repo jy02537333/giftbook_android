@@ -26,7 +26,7 @@ public class VGroupAndMemberEntity extends BaseEntity {
 	/**组名称*/
 	private String groupname;
 	/**创建时间*/
-	private Date createdate;
+	private Long createdate;
 	/**Id*/
 	private String id;
 	/**组成员姓名*/
@@ -121,7 +121,7 @@ public class VGroupAndMemberEntity extends BaseEntity {
 	 *方法: 取得java.util.Date
 	 *@return: java.util.Date  创建时间
 	 */
-	public Date getCreatedate(){
+	public Long getCreatedate(){
 		return this.createdate;
 	}
 
@@ -129,7 +129,7 @@ public class VGroupAndMemberEntity extends BaseEntity {
 	 *方法: 设置java.util.Date
 	 *@param: java.util.Date  创建时间
 	 */
-	public void setCreatedate(Date createdate){
+	public void setCreatedate(Long createdate){
 		this.createdate = createdate;
 	}
 	/**

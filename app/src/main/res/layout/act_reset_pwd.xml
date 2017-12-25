@@ -10,9 +10,12 @@
     android:orientation="vertical" >
 
     <pri.zxw.library.view.TitleBar
+        xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
         android:id="@+id/lay_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="@dimen/title_bar_h"
+        titleBarStyle:left_visibility="visible"
+        titleBarStyle:text="找回密码" />
     
  <!-- 分离 -->
        

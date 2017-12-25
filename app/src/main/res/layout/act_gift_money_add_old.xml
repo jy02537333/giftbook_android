@@ -21,30 +21,50 @@
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@android:drawable/edit_text">
         <TextView
-            android:id="@+id/act_gift_money_add_name_tv"
+            android:id="@+id/act_gift_money_add_name_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/edit_text"
-            android:layout_marginTop="15dp"
-            android:hint="收礼人"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="90dp"
             android:gravity="center_vertical"
+            android:textSize="18sp"
+            android:background="@null"
             android:textColorHint="@color/com_hint_font_gray_color"
             android:inputType="text"
+            android:hint="送礼人"
+            android:visibility="visible"
             android:maxLength="10" />
+            <TextView
+                android:id="@+id/act_gift_money_add_name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="90dp"
+                android:gravity="center_vertical"
+                android:textSize="18sp"
+                android:visibility="gone"
+                android:background="@null"
+                android:textColorHint="@color/com_hint_font_gray_color"
+                android:iconifiedByDefault="false"
+                android:queryHint="送礼人" />
+
             <TextView
                 android:id="@+id/act_gift_money_add_member_add_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:background="@drawable/shape_bg_app_btn"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
                 android:padding="3dp"
                 android:textColor="@color/com_base_btn_color"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:text="选择收礼人"/>
+
         </RelativeLayout>
         <EditText
             android:id="@+id/act_gift_money_add_money_edit"

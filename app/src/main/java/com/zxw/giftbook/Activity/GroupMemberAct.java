@@ -262,12 +262,14 @@ public class GroupMemberAct extends MyPullToRefreshBaseActivity {
     }
 
     /**
-     * 编辑分类
+     * 编辑亲友信息
      */
     private void showEditView(final String id, final String oldName) {
         GroupmemberEntity entity= mAdapter.getItem(mPosition);
         Intent intent=new Intent(this,GroupMemberEditAct.class);
         intent.putExtra("entity",entity);
+        intent.putExtra("id",id);
+        intent.putExtra("groupName",groupName);
         startActivityForResult(intent,EDIT_CODE);
     }
 

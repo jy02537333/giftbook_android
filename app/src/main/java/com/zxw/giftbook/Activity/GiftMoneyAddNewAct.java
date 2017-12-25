@@ -49,7 +49,7 @@ import pri.zxw.library.tool.dialogTools.DropDownBoxTool;
 import pri.zxw.library.view.TitleBar;
 
 /**
- * 礼金记录添加
+ * 礼金记录添加 暂停使用
  * Created by Administrator on 2016/11/8.
  */
 

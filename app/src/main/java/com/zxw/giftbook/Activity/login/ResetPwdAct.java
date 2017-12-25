@@ -5,9 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pri.zxw.library.entity.User;
+import pri.zxw.library.listener.TitleOnClickListener;
 import pri.zxw.library.tool.JsonParse;
 import pri.zxw.library.tool.ProgressDialogTool;
+import pri.zxw.library.tool.ServicesTool;
 import pri.zxw.library.tool.ToastShowTool;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,9 +27,11 @@ import pri.zxw.library.view.TitleBar;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.zxw.giftbook.MainAct;
 import com.zxw.giftbook.R;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.utils.AppServerTool;
+import com.zxw.giftbook.utils.LoginUserInfoHandlerTool;
 
 /**
  * 重置密码
@@ -53,17 +59,20 @@ public class ResetPwdAct extends MyBaseActivity {
 					}.getType();
 					String status = map.get(JsonParse.STATUS);
 					if (msg.arg1 == 1) {
-						if (status.equals("0")) {
+						if (status.equals("1")) {
 							User user = gson.fromJson(map.get(JsonParse.CONTEXT), type);
 							if (user != null) {
 								ToastShowTool.myToastShort(ResetPwdAct.this, "重置密码成功!");
-								setResult(1);
+								LoginUserInfoHandlerTool loginUserInfoHandlerTool=new LoginUserInfoHandlerTool(ResetPwdAct.this, mServicesTool);
+								user = loginUserInfoHandlerTool.loginedHandler(msg,pwd1Edit.getText().toString());
+								Intent intent = new Intent(ResetPwdAct.this, MainAct.class);
+								startActivity(intent);
 								finish();
 							}
 						}
-					} 
-					
-				} else 
+					}
+
+				} else
 					ToastShowTool.myToastShort(ResetPwdAct.this, "重置密码发生异常！");
 				ProgressDialogTool.getInstance(ResetPwdAct.this).dismissDialog();
 			} catch (Exception e) {
@@ -78,12 +87,12 @@ public class ResetPwdAct extends MyBaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.act_reset_pwd);
-		mobileStr = getIntent().getExtras().getString(FindPwdAct.RESET_PWD_KEY);
-		if (mobileStr == null || mobileStr.trim().length() == 0) {
-			ToastShowTool.myToastShort(ResetPwdAct.this, "您的账号异常！");
-			finish();
-			return;
-		}
+		mobileStr =getIntent().getStringExtra(FindPwdAct.RESET_PWD_KEY);
+//		if (mobileStr == null || mobileStr.trim().length() == 0) {
+//			ToastShowTool.myToastShort(ResetPwdAct.this, "您的账号异常！");
+//			finish();
+//			return;
+//		}
 		initView();
 		initTool();
 		initListener();
@@ -104,16 +113,21 @@ public class ResetPwdAct extends MyBaseActivity {
 	}
 
 	private void initListener() {
-		canelBtn.setOnClickListener(new MOnClickListener());
+		titleTv.setLeftClickListener(new TitleOnClickListener() {
+			@Override
+			public void onClick(View view) {
+				onBackPressed();
+			}
+		});
 		nextBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-			
+			    String pwd=pwd1Edit.getText().toString();
 //				else if (!pwdOld.getText().toString().equals(user.getPassword())) {
 //					ToastShowTool.myToastShort(UpdatePwdAct.this, "您输入的密码和原始密码不一样！");
 //					return;
 //				}
-				 if (pwd1Edit.getText().toString().trim().length() == 0) {
+				 if (pwd.trim().length() == 0) {
 					ToastShowTool.myToastShort(ResetPwdAct.this, "请输入新密码！");
 					return;
 				} else if (!pwd2Edit.getText().toString()
@@ -122,16 +136,15 @@ public class ResetPwdAct extends MyBaseActivity {
 							.myToastShort(ResetPwdAct.this, "两次输入的密码不一致！");
 					return;
 				}
-				ProgressDialogTool.getInstance(ResetPwdAct.this).showDialog(
-						"提交中...");
+				ProgressDialogTool.getInstance(ResetPwdAct.this).showDialog( "提交中...");
 				Map<String, String> params = new HashMap<String, String>();
-				params.put("mobile", mobileStr);
-				params.put("password",pwd1Edit.getText().toString());
-				params.put("confirm", pwd2Edit.getText().toString());
-
-
-				mServicesTool.doPostAndalysisData("/UserInfo/FindPassword", params,REGISTER_CODE, 
-						"EditPassword");
+				params.put("userphone", mobileStr);
+				params.put("loginname", mobileStr);
+				pwd= User.pwdEncryption(pwd);
+				params.put("loginpassword",pwd);
+				String code =getIntent().getStringExtra(FindPwdAct.REG_VERIFICATION_CODO_KEY);
+				params.put("code",code);
+				mServicesTool.doPostAndalysisData("apiSysUserCtrl.do?resetPwd", params,REGISTER_CODE, "EditPassword");
 			}
 		});
 	}

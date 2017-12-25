@@ -56,7 +56,6 @@ public class Welcome extends MyBaseActivity {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				ProgressDialogTool.getInstance(Welcome.this).dismissDialog();
 			}
 		};
 	};
@@ -79,7 +78,7 @@ public class Welcome extends MyBaseActivity {
 		if(FtpApplication.user==null||!FtpApplication.user.isLogin(this))
 		{
 		}else {
-			DataMapUtil.getAllTypeData(this);
+			DataMapUtil.getAllTypeData(this,false,false,null);
 		}
 		start_anima = new AlphaAnimation(0.3f, 1.0f);
 		start_anima.setDuration(2000);

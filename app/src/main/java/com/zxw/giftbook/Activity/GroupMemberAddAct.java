@@ -1,9 +1,13 @@
 package com.zxw.giftbook.Activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -64,7 +68,7 @@ public class GroupMemberAddAct extends MyBaseActivity {
     public static final int GET_GROUP_MEMBER_CODE=4444;
     /**到添加关联人界面*/
     public static final int ADD_AFFILIATED_PERSON=3333;
-
+    public final static int MY_PERMISSIONS_REQUEST_READ_CONTACTS=1082;
     /**到导入界面*/
     public static final int ADD_IMPORT_CODE=6767;
     TreeMap<String,String>  groupmembers=new TreeMap<>();
@@ -204,15 +208,74 @@ public class GroupMemberAddAct extends MyBaseActivity {
         importTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(GroupMemberAddAct.this,PhoneContactListSelectActivity.class);
-                intent.putExtra("isImport",true);
-                intent.putExtra("typeid",typeId);
-                intent.putExtra("typename",typeName);
-                startActivityForResult(intent,ADD_IMPORT_CODE);
-//                startActivity(intent);
-//                finish();
+                if(requestPermissionsContact())
+                {
+                    return ;
+                }
+//                Intent intent=new Intent(GroupMemberAddAct.this,PhoneContactListSelectActivity.class);
+//                intent.putExtra("isImport",true);
+//                intent.putExtra("typeid",typeId);
+//                intent.putExtra("typename",typeName);
+//                startActivityForResult(intent,ADD_IMPORT_CODE);
             }
         });
+    }
+    public boolean requestPermissionsContact() {
+        /**
+         * 判断是否获取到相机权限
+         */
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.CAMERA)) {//是否请求过该权限
+
+            }else {//没有则请求获取权限，示例权限是：相机权限和定位权限，需要其他权限请更改或者替换
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_CONTACTS},
+                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+            }
+        }else {		//如果已经获取到了权限则直接进行下一步操作
+            Intent intent=new Intent(GroupMemberAddAct.this,PhoneContactListSelectActivity.class);
+            intent.putExtra("isImport",true);
+            intent.putExtra("typeid",typeId);
+            intent.putExtra("typename",typeName);
+            startActivityForResult(intent,ADD_IMPORT_CODE);
+        }
+
+
+        // Here, thisActivity is the current activity
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+//            // Should we show an explanation?
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CONTACTS)) {
+//                ToastShowTool.myToastLong(this,"未授权访问联系人！");
+//                return true;
+//            } else {
+//                // No explanation needed, we can request the permission.
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS},MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+//                // app-defined int constant. The callback method gets the
+//                // result of the request.
+//            }
+//        }
+        return false;
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,  String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent=new Intent(GroupMemberAddAct.this,PhoneContactListSelectActivity.class);
+                    intent.putExtra("isImport",true);
+                    intent.putExtra("typeid",typeId);
+                    intent.putExtra("typename",typeName);
+                    startActivityForResult(intent,ADD_IMPORT_CODE);
+                } else {
+                    ToastShowTool.myToastLong(this,"未授权访问联系人！");
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
     public void submit()
     {
@@ -269,7 +332,7 @@ public class GroupMemberAddAct extends MyBaseActivity {
         if(obj!=null)
         {
             for (Map.Entry<String, SidekickergroupEntity> item:obj.entrySet()                 ) {
-                sidekickerGroups.put(item.getKey(),item.getValue().getGroupname()+"("+item.getValue().getGroupmembersnum()+")");
+                sidekickerGroups.put(item.getKey(),item.getValue().getGroupname());//+"("+item.getValue().getGroupmembersnum()+")");
             }
         }
     }

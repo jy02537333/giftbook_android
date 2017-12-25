@@ -66,7 +66,7 @@ public class ImgUrlUtil {
             return IMG_BASE_URL+"uploadImgs/icon_user.png";
         if(imgUrl.indexOf(IMG_BASE_URL)==-1)
             imgUrl=IMG_BASE_URL+imgUrl;
-        if(imgUrl.indexOf("http://")==-1)
+        if(imgUrl.indexOf("http://")==-1&&imgUrl.indexOf("https://")==-1)
             imgUrl="http://"+imgUrl;
         return imgUrl;
     }

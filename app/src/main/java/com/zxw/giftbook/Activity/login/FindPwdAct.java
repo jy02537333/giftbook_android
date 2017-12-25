@@ -31,7 +31,7 @@ import pri.zxw.library.view.TitleBar;
 
 
 /**
- * 注册
+ * 找回密码，获取验证码
  * 
  * @Author RA
  * @Blog http://blog.csdn.net/vipzjyno1
@@ -118,7 +118,7 @@ public class FindPwdAct extends MyBaseActivity {
 		codeEdit = (EditText) findViewById(R.id.a_find_pwd_barcode_edit);
 		nextBtn = (Button) findViewById(R.id.a_find_pwd_btn);
 		getCodeBtn = (Button) findViewById(R.id.a_find_pwd_get_code);
-		titleTv = (TitleBar) findViewById(R.id.lay_title_bar);
+		titleTv = (TitleBar) findViewById(R.id.a_find_pwd_title_bar);
 		titleTv.setTitle("找回密码");
 	}
 
@@ -144,12 +144,13 @@ onBackPressed();
 					runGetVerifaction();
 					return ;
 				}
-				 else if(!isVerifaction||
-						 !verificCode.equals(codeEdit.getText().toString().trim()))
-				{
-					ToastShowTool.myToastShort(FindPwdAct.this, "验证码不正确！");
-					return;
-				}
+//				 else if(!isVerifaction||
+//						 !verificCode.equals(codeEdit.getText().toString().trim()))
+//				{
+//					ToastShowTool.myToastShort(FindPwdAct.this, "验证码不正确！");
+//					return;
+//				}
+
 				Intent intent = new Intent(FindPwdAct.this,
 						ResetPwdAct.class);
 				intent.putExtra(RESET_PWD_KEY, account);
@@ -174,9 +175,9 @@ onBackPressed();
 		String account = getAccount();
 		if (account != null) {
 			HashMap<String, String> params=new HashMap<String, String>();
-			params.put("mobile", account);
+			params.put("phone", account);
 			mServicesTool.doPostAndalysisData(
-					"/UserInfo/FindPasswordCode",params, VERIFICATION_CODE,"getcode");
+					"apiSmsSendCtrl.do?sendSmsCode",params, VERIFICATION_CODE,"getcode");
 			setGetCodeBtnEnabled(false);
 		}
 	}

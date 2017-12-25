@@ -177,7 +177,11 @@ public class PersonalCenterFragment extends MyPullToRefreshBaseFragment implemen
         User user = FtpApplication.getInstance().getUser();
         if (user!=null) {
             MyImgLoadTool.loadNetHeadThumbnailImg(getActivity(),user.getPortrait(),userImg,80,80,"");
-            userNameTv.setText(user.getLoginname());
+            if(user.getUsername()==null||user.getUsername().length()==0)
+            {
+                userNameTv.setText(user.getLoginname());
+            }else
+                userNameTv.setText(user.getUsername());
             isLogined = true;
         }else {
             userNameTv.setText("登陆更多精彩");

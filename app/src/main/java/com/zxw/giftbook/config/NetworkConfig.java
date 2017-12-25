@@ -16,9 +16,9 @@ public class NetworkConfig extends BaseNetConfig {
  //   public static final String PORT=":8080";
     public static final String PROJECT_NAME="";
  //   public static final String PROJECT_NAME="/jeecg";
-//  public static  String api_url="https://"+IP+PORT+PROJECT_NAME+"/";
+  public static  String api_url="https://"+IP+PORT+PROJECT_NAME+"/";
 
-  public static  String api_url="http://192.168.0.128:8087/";
+//  public static  String api_url="http://192.168.3.114:8087/";
 
 
 }

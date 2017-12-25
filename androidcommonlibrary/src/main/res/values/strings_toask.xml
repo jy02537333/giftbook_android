@@ -15,5 +15,5 @@
     <string name="net_ok">操作成功！</string>
     <string name="paging_last_show_content">已经是最后一页了</string>
     <string name="paging_search_show_empty_content">没有查询到信息！</string>
-    <string name="not_connected_to_the_internet">连接超时！请设置网络！</string>
+    <string name="not_connected_to_the_internet">连接超时！请检查网络！</string>
 </resources>

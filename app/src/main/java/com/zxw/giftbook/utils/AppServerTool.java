@@ -23,6 +23,10 @@ public class AppServerTool extends ServicesTool {
      super.responseHandler( responseBody,requestCode);
     }
 
+    /**
+     * 验证用户token
+     * @param context
+     */
     @Override
     public void tokenVerifyCallback(Context context) {
         context.startActivity(new Intent(context, LoginAct.class));

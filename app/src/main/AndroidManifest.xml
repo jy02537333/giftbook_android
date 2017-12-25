@@ -61,6 +61,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--Activity.login.ResetPwdAct-->
+        <!--     <activity android:name=".Welcome" -->
         <activity android:name=".Welcome"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -81,6 +83,9 @@
         </activity>
 
         <activity android:name=".Activity.GiftMoneyAddAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.MemberSearchAct"
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".Activity.GiftMoneyAddNewAct"
@@ -144,7 +149,12 @@
         <activity android:name=".Activity.SendInvitationAct"
             android:screenOrientation="portrait">
         </activity>
-
+        <activity android:name=".Activity.login.FindPwdAct"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".Activity.login.ResetPwdAct"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".Activity.MySendInvitationAct"
             android:screenOrientation="portrait">
         </activity>

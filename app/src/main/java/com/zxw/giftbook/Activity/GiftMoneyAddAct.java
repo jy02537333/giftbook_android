@@ -1,36 +1,52 @@
 package com.zxw.giftbook.Activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zxw.giftbook.Activity.entitiy.GifttypeEntity;
 import com.zxw.giftbook.Activity.entitiy.GroupmemberEntity;
 import com.zxw.giftbook.Activity.entitiy.SidekickergroupEntity;
+import com.zxw.giftbook.Activity.entitiy.VGroupAndMemberEntity;
+import com.zxw.giftbook.Activity.menu.SidekickerGroup2Fragment;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
+import com.zxw.giftbook.adapter.GroupMemberSelectAdapter;
 import com.zxw.giftbook.config.NetworkConfig;
 import com.zxw.giftbook.myinterface.IDataMapUtilCallback;
 import com.zxw.giftbook.utils.AppServerTool;
 import com.zxw.giftbook.utils.ComParamsAddTool;
 import com.zxw.giftbook.utils.DataMapUtil;
+import com.zxw.giftbook.utils.contact.ClearEditText;
+import com.zxw.giftbook.view.SearchEditText;
 
 import org.json.JSONArray;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import pri.zxw.library.base.MyBaseActivity;
 import pri.zxw.library.base.MyPullToRefreshBaseFragment;
+import pri.zxw.library.entity.ComInfo;
 import pri.zxw.library.listener.TitleOnClickListener;
 import pri.zxw.library.listener.TxtLengthRestrictTool;
 import pri.zxw.library.tool.MessageHandlerTool;
@@ -42,7 +58,7 @@ import pri.zxw.library.tool.dialogTools.DropDownBoxTool;
 import pri.zxw.library.view.TitleBar;
 
 /**
- * 礼金记录添加
+ * 礼金记录添加  使用中
  * Created by Administrator on 2016/11/8.
  */
 
@@ -51,14 +67,18 @@ public class GiftMoneyAddAct extends MyBaseActivity {
     AppServerTool mServicesTool;
     TitleBar titleBar;
     public static final String ADD_URL="apiMembergiftmoneyCtrl.do?doAdd";
-
+    public static final String GM_URL="apiGroupmemberCtrl.do?getFullMember";
+    public static final int GM_CODE=9715;
+    GroupMemberSelectAdapter groupMemberSelectAdapter;
     TreeMap<String,String> giftTypeMap=new TreeMap<>();
     TreeMap<String,String> sidekickerGroups=new TreeMap<>();
     TreeMap<String,String>  groupmembers=new TreeMap<>();
     TreeMap<String,Integer> membersNum=new TreeMap<>();
+    List<VGroupAndMemberEntity> groupMemberList=new ArrayList<>();
     TextView
     /**组类型*/
     typeTv;
+    String memberId;
     TextView nameTv;
     EditText moneyEdit;
     TextView searchMemberTv;
@@ -75,6 +95,10 @@ public class GiftMoneyAddAct extends MyBaseActivity {
                 int ret=messageHandlerTool.handler(msg,GiftMoneyAddAct.this,"添加失败");
                 if(ret==1)
                 {
+                    if(memberId==null||memberId.length()==0)
+                    {
+                        DataMapUtil.getAllTypeData(new GiftMoneyAddAct(),false,true, null );
+                    }
                     ToastShowTool.myToastShort(GiftMoneyAddAct.this,"添加成功！");
                     setResult(1);
                     finish();
@@ -109,6 +133,21 @@ public class GiftMoneyAddAct extends MyBaseActivity {
                     }
                 }
             }
+            else if(msg.what==GM_CODE) {//获取数据用户亲友信息
+                MessageHandlerTool messageHandlerTool = new MessageHandlerTool();
+                String data = messageHandlerTool.handlerData(msg, GiftMoneyAddAct.this);
+                if (data.length() > 0) {
+                    try {
+                        Gson gson=new Gson();
+                        Type type=new TypeToken<List<VGroupAndMemberEntity> >(){}.getType();
+                        groupMemberList=gson.fromJson(data,type);
+                        initAdapter();
+                    }catch (Exception e)
+                    {
+                        e.getMessage();
+                    }
+                }
+            }
             else if(msg.what==MyPullToRefreshBaseFragment.ADD_CHILD_CODE){
                 MessageHandlerTool messageHandlerTool=new MessageHandlerTool();
                 Type type=new TypeToken<GifttypeEntity>(){}.getType();
@@ -118,7 +157,11 @@ public class GiftMoneyAddAct extends MyBaseActivity {
                     giftTypeMap.put(obj.getId(),obj.getTypename() );
                     typeTv.setText(obj.getTypename());
                     typeTv.setTag(obj.getId());
+                    typeId=obj.getId();
                     ToastShowTool.myToastShort(GiftMoneyAddAct.this,"添加成功！");
+                    Intent intent = new Intent();
+                    intent.setAction(SidekickerGroup2Fragment.SidekickerGroupBroadcast.SIDEKICKERGROUP_UPDATE);
+                    sendBroadcast(intent);
                 }else
                 {
                     ToastShowTool.myToastShort(GiftMoneyAddAct.this,"添加失败！");
@@ -153,12 +196,14 @@ public class GiftMoneyAddAct extends MyBaseActivity {
         initTool();
         initListener();
         getDropDownData();
+//        findFullMember();
     }
 
     public void initView()
     {
         titleBar=(TitleBar) findViewById(R.id.act_gift_money_add_title_bar);
-        nameTv=(TextView) findViewById(R.id.act_gift_money_add_name_tv);
+        nameTv=(TextView) findViewById(R.id.act_gift_money_add_name_edit);
+//        nameLv=(ListView) findViewById(R.id.act_gift_money_add_name_lv);
         searchMemberTv=(TextView) findViewById(R.id.act_gift_money_add_member_add_tv);
         moneyEdit=(EditText) findViewById(R.id.act_gift_money_add_money_edit);
         addGiftTypeTv=(TextView) findViewById(R.id.act_gift_money_add_type_add_tv);
@@ -170,7 +215,16 @@ public class GiftMoneyAddAct extends MyBaseActivity {
     void initTool()
     {
         mServicesTool=new AppServerTool(NetworkConfig.api_url,this,mHandler);
+         groupMemberSelectAdapter =new GroupMemberSelectAdapter(this);
+
     }
+    void initAdapter()
+    {
+        groupMemberSelectAdapter.addData(groupMemberList);
+        groupMemberSelectAdapter.getFilter().filter("");
+    }
+
+
     public void initListener()
     {
         titleBar.setLeftClickListener(new TitleOnClickListener() {
@@ -200,7 +254,8 @@ public class GiftMoneyAddAct extends MyBaseActivity {
         nameTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showGroup();
+                Intent intent=new Intent(GiftMoneyAddAct.this,MemberSearchAct.class);
+                startActivityForResult(intent,1111);
             }
         });
         submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +264,25 @@ public class GiftMoneyAddAct extends MyBaseActivity {
                 submit();
             }
         });
+        searchMemberTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showGroup();
+            }
+        });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1111&&resultCode==1)
+        {
+            memberId=data.getStringExtra("giftMoneyUserId");
+            nameTv.setText(data.getStringExtra("giftMoneyUserName"));
+        }
+
+    }
+
     public void submit()
     {
         if(nameTv.getText().toString().trim().length()==0)
@@ -228,7 +301,7 @@ public class GiftMoneyAddAct extends MyBaseActivity {
             return ;
         }
         Map<String,String > params= ComParamsAddTool.getParam();
-        params.put("gourpmemberid", nameTv.getTag().toString());
+        params.put("gourpmemberid", memberId);
         params.put("groupmember", nameTv.getText().toString());
         params.put("expendituretype", typeId);
         params.put("expendituretypename", typeName);
@@ -244,6 +317,7 @@ public class GiftMoneyAddAct extends MyBaseActivity {
         ProgressDialogTool.getInstance(GiftMoneyAddAct.this).showDialog("加载中...");
         mServicesTool.doPostAndalysisData(ADD_URL,params,MyPullToRefreshBaseFragment.GET_ADD_CODE);
     }
+
 
     public void getDropDownData()
     {
@@ -374,5 +448,4 @@ public class GiftMoneyAddAct extends MyBaseActivity {
                     }
                 });
     }
-
 }

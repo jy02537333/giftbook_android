@@ -64,6 +64,7 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
     String defaultMonth="0";
     HomeJournalAccountAdapter adapter;
     SwipeRecyclerView listView;
+    Double sumAmount=0d;
     public static final String ADD_URL="apiMembergiftmoneyCtrl.do?doAdd";
     public static final String GET_DATA_URL="apiMembergiftmoneyCtrl.do?getList";
     Handler mHandler=new Handler(){
@@ -83,19 +84,19 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
                 Type type=new TypeToken<List<MembergiftmoneyEntity>>(){}.getType();
                 MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,ReceivingGIftFragment.this,adapter,type);
                 String sum=  msgInfo.getRetMap().get("sumCount");
-                if(sum!=null)
-                {
-                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("合计："+sum+" 元");
-                    int color=  getResources().getColor(R.color.com_font_money_red);
-                    spannableStringBuilder.setSpan(new ForegroundColorSpan(color), 3, 3+sum.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    sumTv.setText(spannableStringBuilder);
-                }else
-                {
-                    SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("合计："+0+" 元");
-                    int color=  getResources().getColor(R.color.com_font_money_red);
-                    spannableStringBuilder.setSpan(new ForegroundColorSpan(color), 3, 3+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    sumTv.setText(spannableStringBuilder);
+                try{
+                    if(getUpfalg())
+                    {
+                        sumAmount=Double.parseDouble(sum);
+                    }else
+                        sumAmount=sumAmount+Double.parseDouble(sum);
+                }catch (Exception e){
+
                 }
+                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("合计："+sumAmount+" 元");
+                int color=  getResources().getColor(R.color.com_font_money_red);
+                spannableStringBuilder.setSpan(new ForegroundColorSpan(color), 3, 3+sumAmount.toString().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                sumTv.setText(spannableStringBuilder);
             }
             else if(msg.what==LOAD_CODE)
             {

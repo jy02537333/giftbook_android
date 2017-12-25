@@ -58,6 +58,7 @@
             <TextView
                 android:id="@+id/a_my_info_edit_account_tv"
                 style="@style/my_info_edit_right_font"
+                android:layout_width="match_parent"
                 android:text="帐号" />
         </LinearLayout>
     </LinearLayout>
@@ -83,7 +84,7 @@
             <TextView
                 android:id="@+id/a_my_info_edit_name_tv"
                 style="@style/my_info_edit_right_font"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:text="姓名" />
         </LinearLayout>
     </LinearLayout>

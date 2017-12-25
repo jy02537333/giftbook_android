@@ -15,8 +15,6 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -90,7 +88,7 @@ public class MyBaseActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		AppPropertyInfo.activityList.remove(this);
-		ProgressDialogTool.getInstance(this).dismissDialog();
+		ProgressDialogTool.dismissDialog(this);
 		super.onDestroy();
 	}
 }

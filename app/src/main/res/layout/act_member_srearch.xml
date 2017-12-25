@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/a_affair_edit_root_lay"
+    android:background="#ffffff"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:orientation="vertical">
+    <RelativeLayout
+    android:id="@+id/act_search_member_lay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp">
+
+    <com.zxw.giftbook.view.SearchEditText
+    android:id="@+id/act_search_member_set"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:layout_marginTop="5dp"
+        android:layout_marginRight="90dp"
+    android:gravity="center_vertical"
+    android:textSize="18sp"
+    android:background="@android:drawable/edit_text"
+    android:textColorHint="@color/com_hint_font_gray_color"
+    android:iconifiedByDefault="false"
+    android:hint="送礼人" />
+        <TextView
+            android:id="@+id/act_search_member_tv"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/shape_bg_app_btn"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:padding="3dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/com_base_btn_color"
+            android:visibility="visible"
+            android:text="确认"/>
+
+    </RelativeLayout>
+    <ListView
+    android:layout_below="@+id/act_search_member_lay"
+    android:id="@+id/act_search_member_lv"
+    android:visibility="visible"
+    android:layout_marginTop="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"  />
+    </RelativeLayout>
+
+    <pri.zxw.library.view.TitleBar
+        xmlns:titleBarStyle="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/act_search_member_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        titleBarStyle:left_visibility="visible"
+        titleBarStyle:text="查找亲友"
+        titleBarStyle:right_text="   " />
+
+</LinearLayout>

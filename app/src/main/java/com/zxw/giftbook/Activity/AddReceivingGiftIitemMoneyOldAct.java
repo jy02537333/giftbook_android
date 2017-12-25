@@ -1,6 +1,7 @@
 package com.zxw.giftbook.Activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -44,7 +45,7 @@ import pri.zxw.library.tool.dialogTools.DropDownBoxTool;
 import pri.zxw.library.view.TitleBar;
 
 /**
- * 添加收礼信息,旧格式
+ * 添加收礼信息,旧格式 使用中
  * Createdy 张相伟
  * 2017/6/4.
  */
@@ -205,6 +206,13 @@ public class AddReceivingGiftIitemMoneyOldAct extends MyBaseActivity {
         nameTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent=new Intent(AddReceivingGiftIitemMoneyOldAct.this,MemberSearchAct.class);
+                startActivityForResult(intent,1111);
+            }
+        });
+        searchMemberTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 showGroup();
             }
         });
@@ -248,6 +256,17 @@ public class AddReceivingGiftIitemMoneyOldAct extends MyBaseActivity {
         params.put("isexpenditure","0");
         ProgressDialogTool.getInstance(AddReceivingGiftIitemMoneyOldAct.this).showDialog("加载中...");
         mServicesTool.doPostAndalysisData(ADD_URL,params,MyPullToRefreshBaseFragment.GET_ADD_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1111&&resultCode==1)
+        {
+            nameTv.setTag(data.getStringExtra("giftMoneyUserId"));
+            nameTv.setText(data.getStringExtra("giftMoneyUserName"));
+        }
+
     }
 
     public void getDropDownData()

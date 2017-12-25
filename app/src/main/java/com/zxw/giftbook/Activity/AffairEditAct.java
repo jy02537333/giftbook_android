@@ -80,7 +80,8 @@ public class AffairEditAct extends MyBaseActivity {
     GridView a_affair_edit_noScrollgridview;
     ImgScrollGridTool noScrollGridTool;
     LinearLayout rootLay;
-    EditText a_affair_edit_tfDetails_edit,a_affair_edit_man_tv,a_affair_edit_woman_tv,invitationEdit;
+    EditText a_affair_edit_tfDetails_edit,a_affair_edit_man_tv,a_affair_edit_woman_tv,invitationEdit
+     ,a_affair_edit_feastaddress_edit,a_affair_edit_feast_hotel_edit;
     ImageView coverImg;
     RadioGroup typeRadio;
     TextView coverTv,a_affair_edit_date_tv,a_affair_edit_time_tv,selectTv;
@@ -203,6 +204,7 @@ public class AffairEditAct extends MyBaseActivity {
         typeRadio=(RadioGroup) findViewById(R.id.a_affair_edit_rbog);
         a_affair_edit_man_tv=(EditText) findViewById(R.id.a_affair_edit_man_edit);
         a_affair_edit_woman_tv=(EditText) findViewById(R.id.a_affair_edit_woman_edit);
+        a_affair_edit_feast_hotel_edit=(EditText) findViewById(R.id.a_affair_edit_feast_hotel_edit);
         invitationEdit=(EditText) findViewById(R.id.a_affair_edit_invitation_edit);
         manTv=(TextView) findViewById(R.id.a_affair_edit_man_tv);
         womanTv=(TextView) findViewById(R.id.a_affair_edit_woman_tv);
@@ -374,9 +376,11 @@ public class AffairEditAct extends MyBaseActivity {
     {
         String inviter=  invitationEdit.getText().toString();
         String address=a_affair_edit_tfDetails_edit.getText().toString();
+        String feastHotel=a_affair_edit_feast_hotel_edit.getText().toString();
         Map<String,String> param= ComParamsAddTool.getParam();
         param.put("inviterid", FtpApplication.getInstance().getUser().getId());
         param.put("inviterphone", FtpApplication.getInstance().getUser().getUserphone());
+        param.put("feasthotel",feastHotel);
         param.put("feastaddress",address);
         param.put("feastdate",a_affair_edit_date_tv.getText().toString()+" "+a_affair_edit_time_tv.getText().toString()+":00");
         param.put("feasttype",type+"");
