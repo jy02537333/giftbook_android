@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 
 import com.google.gson.Gson;
 
+import java.security.PublicKey;
+
 import pri.zxw.library.base.BaseApp;
 import pri.zxw.library.base.BaseEntity;
 import pri.zxw.library.db.JsonStrHistoryDao;
@@ -128,8 +130,8 @@ public class User extends BaseEntity implements Cloneable {
      * 更信任姓名
      */
     private String updateName;
-    private String timestamp;
-    private String decvices;
+    private String t;
+    private String d;
     /**
      * 登录类型
      */
@@ -167,20 +169,20 @@ public class User extends BaseEntity implements Cloneable {
         this.loginType = loginType;
     }
 
-    public String getTimestamp() {
-        return timestamp;
+    public String getT() {
+        return t;
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public void setT(String timestamp) {
+        this.t = timestamp;
     }
 
-    public String getDecvices() {
-        return decvices;
+    public String getD() {
+        return d;
     }
 
-    public void setDecvices(String decvices) {
-        this.decvices = decvices;
+    public void setD(String decvices) {
+        this.d = decvices;
     }
 
     public Integer getSex() {
@@ -646,26 +648,51 @@ public class User extends BaseEntity implements Cloneable {
     }
 
     public String toUpdateSignString(Context context,User newUser) {
-        MD5EncodeTool md5EncodeTool = new MD5EncodeTool();
         String signStr = null;
         try {
             // String pwdStr = md5EncodeTool.encryption(loginpassword, MD5EncodeTool.ENCRYPT_KEY);
             if(!isExists())
                 return null;
             String pwdStr = pwdEncryption(newUser.getLoginpassword());
-            StringBuilder sb = new StringBuilder("{\"loginname\":\"");
+            StringBuilder sb = new StringBuilder("{\"n\":\"");
             sb.append(newUser.getLoginname());
-            sb.append("\",\"loginpassword\":\"");
+            sb.append("\",\"p\":\"");
             sb.append(pwdStr);
-            sb.append("\",\"timestamp\":\"");
-            sb.append(System.currentTimeMillis());
-            sb.append("\",\"oldPwd\":\"");
+//            sb.append("\",\"t\":\"");
+//            sb.append(System.currentTimeMillis());
+            sb.append("\",\"o\":\"");
             sb.append(pwdEncryption(newUser.getOldPwd()));
-            sb.append("\",\"decvices\":\"");
+            sb.append("\",\"d\":\"");
             sb.append(DeviceTool.getDeviceId(context) + "\"}");
 
-            signStr=Base64Tools.getBase64(sb.toString());
+//            signStr=Base64Tools.getBase64(sb.toString());
+            PublicKey publicKey = MD5EncodeTool.keyStrToPublicKey(MD5EncodeTool.publicKeyStr);
+
+            signStr=MD5EncodeTool.encryptDataByPublicKey(sb.toString().getBytes(),publicKey);
             //   signStr = md5EncodeTool.encryption(signStr, MD5EncodeTool.LOGIN_ENCRYPT_KEY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return signStr;
+    }
+    public String userToSign(Context context,User newUser)
+    {
+        String signStr = null;
+        try {
+            if(!isExists())
+                return null;
+            String pwdStr = pwdEncryption( newUser.getLoginpassword());
+            StringBuilder sb = new StringBuilder("{\"n\":\"");
+            sb.append(  newUser.getLoginname() );
+            sb.append("\",\"p\":\"");
+            sb.append(pwdStr);
+//            sb.append("\",\"t\":\"");
+//            sb.append(System.currentTimeMillis());
+            sb.append("\",\"d\":\"");
+            sb.append(DeviceTool.getDeviceId(context) + "\"}");
+//            signStr=Base64Tools.getBase64(sb.toString());
+            PublicKey publicKey = MD5EncodeTool.keyStrToPublicKey(MD5EncodeTool.publicKeyStr);
+            signStr=MD5EncodeTool.encryptDataByPublicKey(sb.toString().getBytes(),publicKey);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -673,27 +700,28 @@ public class User extends BaseEntity implements Cloneable {
     }
 
     public String toSignString(Context context) {
-        MD5EncodeTool md5EncodeTool = new MD5EncodeTool();
-        String signStr = null;
-        try {
-           // String pwdStr = md5EncodeTool.encryption(loginpassword, MD5EncodeTool.ENCRYPT_KEY);
-            if(!isExists())
-                return null;
-            String pwdStr = pwdEncryption(loginpassword);
-            StringBuilder sb = new StringBuilder("{\"loginname\":\"");
-            sb.append(loginname);
-            sb.append("\",\"loginpassword\":\"");
-            sb.append(pwdStr);
-            sb.append("\",\"timestamp\":\"");
-            sb.append(System.currentTimeMillis());
-            sb.append("\",\"decvices\":\"");
-            sb.append(DeviceTool.getDeviceId(context) + "\"}");
-
-             signStr=Base64Tools.getBase64(sb.toString());
-         //   signStr = md5EncodeTool.encryption(signStr, MD5EncodeTool.LOGIN_ENCRYPT_KEY);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String signStr = userToSign(context,this);
+//        try {
+//           // String pwdStr = md5EncodeTool.encryption(loginpassword, MD5EncodeTool.ENCRYPT_KEY);
+//            if(!isExists())
+//                return null;
+//            String pwdStr = pwdEncryption(loginpassword);
+//            StringBuilder sb = new StringBuilder("{\"loginname\":\"");
+//            sb.append(loginname);
+//            sb.append("\",\"loginpassword\":\"");
+//            sb.append(pwdStr);
+//            sb.append("\",\"timestamp\":\"");
+//            sb.append(System.currentTimeMillis());
+//            sb.append("\",\"decvices\":\"");
+//            sb.append(DeviceTool.getDeviceId(context) + "\"}");
+//
+////             signStr=Base64Tools.getBase64(sb.toString());
+//            PublicKey publicKey = MD5EncodeTool.keyStrToPublicKey(MD5EncodeTool.publicKeyStr);
+//            signStr=MD5EncodeTool.encryptDataByPublicKey(sb.toString().getBytes(),publicKey);
+////            signStr = md5EncodeTool.encryption(signStr, MD5EncodeTool.LOGIN_ENCRYPT_KEY);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         return signStr;
     }
 

@@ -33,7 +33,7 @@ import pri.zxw.library.tool.ToastShowTool;
 import pri.zxw.library.view.TitleBar;
 
 /**
- * 重置密码
+ * 修改密码
  * @author 张相伟
  *
  */
