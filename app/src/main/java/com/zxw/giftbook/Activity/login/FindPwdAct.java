@@ -69,7 +69,7 @@ public class FindPwdAct extends MyBaseActivity {
 						Map<String, String> map=(Map<String, String>)msg.obj;
 						verificCode=map.get(JsonParse.CONTEXT);
 					}else {
-						handlerTool.requestResultPrompt(msg, FindPwdAct.this,null);
+						handlerTool.requestResultPrompt(msg, FindPwdAct.this,"正在发送验证码！");
 						handlerTool.getIsNetworkError();
 							timerCanel();
 					}
