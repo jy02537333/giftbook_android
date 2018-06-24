@@ -36,6 +36,9 @@ import pri.zxw.library.entity.User;
 import pri.zxw.library.refresh_tool.SwipeRecyclerView;
 import pri.zxw.library.tool.ImgLoad.MyImgLoadTool;
 
+/**
+ * 个人信息
+ */
 public class PersonalCenterFragment extends MyPullToRefreshBaseFragment implements
         AdapterView.OnItemClickListener, View.OnClickListener {
 

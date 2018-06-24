@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +24,7 @@ import pri.zxw.library.refresh_tool.SwipeRecyclerView;
 import com.zxw.giftbook.Activity.AddReceivingGiftIitemMoneyOldAct;
 import com.zxw.giftbook.Activity.AddReceivingGiftsAffair2Act;
 import com.zxw.giftbook.Activity.GiftMoneyAddAct;
+import com.zxw.giftbook.Activity.MemberSearchAct;
 import com.zxw.giftbook.Activity.entitiy.MembergiftmoneyEntity;
 import com.zxw.giftbook.Activity.entitiy.ReceivingGiftEntity;
 import com.zxw.giftbook.FtpApplication;
@@ -64,6 +67,7 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
     String defaultMonth="0";
     HomeJournalAccountAdapter adapter;
     SwipeRecyclerView listView;
+    EditText f_home_journal_account_search_name_edit;
     Double sumAmount=0d;
     public static final String ADD_URL="apiMembergiftmoneyCtrl.do?doAdd";
     public static final String GET_DATA_URL="apiMembergiftmoneyCtrl.do?getList";
@@ -126,6 +130,9 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
 
     public void initView()
     {
+        f_home_journal_account_search_name_edit
+                =(EditText) view.findViewById(R.id.f_home_journal_account_search_name_edit);
+        f_home_journal_account_search_name_edit.setInputType(InputType.TYPE_NULL);
         titleBar=(TitleBar) view.findViewById(R.id.f_home_journal_account_title_bar);
         listView=(SwipeRecyclerView)view.findViewById(R.id.f_home_journal_account_lv);
         Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
@@ -193,6 +200,13 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
                         });
             }
         });
+        f_home_journal_account_search_name_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),MemberSearchAct.class);
+                startActivityForResult(intent,1111);
+            }
+        });
     }
 
 
@@ -200,14 +214,15 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
     public void getWebData() {
         Map<String,String> params= ComParamsAddTool.getPageParam(this);
         params.put("isexpenditure","0");
-        if(!yearTv.getTag().toString().equals("0"))
-            params.put("year",yearTv.getTag().toString());
-        else
-            params.put("year","0");
-        if(!monthTv.getTag().toString().equals("0"))
-            params.put("month",monthTv.getTag().toString());
-        else
-            params.put("month","0");
+//        if(!yearTv.getTag().toString().equals("0"))
+//            params.put("year",yearTv.getTag().toString());
+//        else
+//            params.put("year","0");
+//        if(!monthTv.getTag().toString().equals("0"))
+//            params.put("month",monthTv.getTag().toString());
+//        else
+//            params.put("month","0");
+        params.put("name",f_home_journal_account_search_name_edit.getText().toString());
         params.put("createBy", FtpApplication.getInstance().getUser().getId());
         params.put("getCount","10");
         mServicesTool.doPostAndalysisData(GET_DATA_URL,params,GET_DATA_CODE);
@@ -218,6 +233,12 @@ public class ReceivingGIftFragment extends MyPullToRefreshBaseFragment {
         if(requestCode==GET_ADD_CODE&&resultCode==1)
         {
             listView.setRefreshing(true);
+        }
+        if(requestCode==1111&&resultCode==1)
+        {
+            // memberId=data.getStringExtra("giftMoneyUserId");
+            f_home_journal_account_search_name_edit.setText(data.getStringExtra("giftMoneyUserName"));
+            listLoad(mHandler);
         }
     }
 }

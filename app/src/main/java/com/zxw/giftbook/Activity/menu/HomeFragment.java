@@ -7,18 +7,21 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
 import pri.zxw.library.refresh_tool.SwipeRecyclerView;
 import com.zxw.giftbook.Activity.GiftMoneyAddAct;
 import com.zxw.giftbook.Activity.GiftMoneyAddNewAct;
+import com.zxw.giftbook.Activity.MemberSearchAct;
 import com.zxw.giftbook.Activity.entitiy.MembergiftmoneyEntity;
 import com.zxw.giftbook.FtpApplication;
 import com.zxw.giftbook.R;
@@ -57,6 +60,7 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
     TextView sumTv;
     String defaultYear="0";
     String defaultMonth="0";
+    EditText f_home_journal_account_search_name_edit;
     HomeJournalAccountAdapter adapter;
     SwipeRecyclerView listView;
     Double sumAmount=0d;
@@ -80,11 +84,11 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
                 MessageHandlerTool.MessageInfo msgInfo = messageHandlerTool.handler(msg,HomeFragment.this,adapter,type);
                String sum=  msgInfo.getRetMap().get("sumCount");
                 try{
-                    if(getUpfalg())
-                    {
+//                    if(getUpfalg())
+//                    {
                         sumAmount=Double.parseDouble(sum);
-                    }else
-                        sumAmount=sumAmount+Double.parseDouble(sum);
+//                    }else
+//                        sumAmount=sumAmount+Double.parseDouble(sum);
                 }catch (Exception e){
 
                 }
@@ -135,6 +139,9 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
 
     public void initView()
     {
+        f_home_journal_account_search_name_edit
+                =(EditText) view.findViewById(R.id.f_home_journal_account_search_name_edit);
+        f_home_journal_account_search_name_edit.setInputType(InputType.TYPE_NULL);
         titleBar=(TitleBar) view.findViewById(R.id.f_home_journal_account_title_bar);
         listView=(SwipeRecyclerView)view.findViewById(R.id.f_home_journal_account_lv);
         Drawable top_edit=getResources().getDrawable(R.mipmap.top_edit);
@@ -200,6 +207,13 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
                         });
             }
         });
+        f_home_journal_account_search_name_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),MemberSearchAct.class);
+                startActivityForResult(intent,1111);
+            }
+        });
     }
 
 
@@ -207,14 +221,15 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
     public void getWebData() {
         Map<String,String> params= ComParamsAddTool.getPageParam(this);
         params.put("isexpenditure","1");
-        if(!yearTv.getTag().toString().equals("0"))
-            params.put("year",yearTv.getTag().toString());
-        else
-            params.put("year","0");
-        if(!monthTv.getTag().toString().equals("0"))
-            params.put("month",monthTv.getTag().toString());
-        else
-            params.put("month","0");
+//        if(!yearTv.getTag().toString().equals("0"))
+//            params.put("year",yearTv.getTag().toString());
+//        else
+//            params.put("year","0");
+//        if(!monthTv.getTag().toString().equals("0"))
+//            params.put("month",monthTv.getTag().toString());
+//        else
+//            params.put("month","0");
+        params.put("name",f_home_journal_account_search_name_edit.getText().toString());
         params.put("createBy", FtpApplication.getInstance().getUser().getId());
         params.put("getCount","10");
         if(isSub)
@@ -228,6 +243,12 @@ public class HomeFragment  extends MyPullToRefreshBaseFragment {
         if(requestCode==GET_ADD_CODE&&resultCode==1)
         {
             listView.setRefreshing(true);
+        }
+        if(requestCode==1111&&resultCode==1)
+        {
+           // memberId=data.getStringExtra("giftMoneyUserId");
+            f_home_journal_account_search_name_edit.setText(data.getStringExtra("giftMoneyUserName"));
+            listLoad(mHandler);
         }
     }
 }
